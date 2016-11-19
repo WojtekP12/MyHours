@@ -84,6 +84,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="SPECIALITY_MAJOR_ASSIGNMENT">
+      <EntityTypeMapping TypeName="TAM_DBModel.SPECIALITY_MAJOR_ASSIGNMENT">
+        <MappingFragment StoreEntitySet="SPECIALITY_MAJOR_ASSIGNMENT">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="MajorID" ColumnName="MajorID" />
+          <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="STUDENT_GROUP">
       <EntityTypeMapping TypeName="TAM_DBModel.STUDENT_GROUP">
         <MappingFragment StoreEntitySet="STUDENT_GROUP">
@@ -101,6 +110,22 @@
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Language" ColumnName="Language" />
           <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SUBJECT_ASSIGNMENT">
+      <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT">
+        <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Hours" ColumnName="Hours" />
+          <ScalarProperty Name="Semester" ColumnName="Semester" />
+          <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+          <ScalarProperty Name="IsSubstitute" ColumnName="IsSubstitute" />
+          <ScalarProperty Name="IsSubstituteDescription" ColumnName="IsSubstituteDescription" />
+          <ScalarProperty Name="StudentGroupID" ColumnName="StudentGroupID" />
+          <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+          <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
+          <ScalarProperty Name="StudiesType" ColumnName="StudiesType" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -158,18 +183,11 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="SUBJECT_ASSIGNMENT">
-      <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT">
-        <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT">
-          <ScalarProperty Name="StudiesType" ColumnName="StudiesType" />
-          <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
-          <ScalarProperty Name="Semester" ColumnName="Semester" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-          <ScalarProperty Name="Hours" ColumnName="Hours" />
-          <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
-          <ScalarProperty Name="IsSubstitute" ColumnName="IsSubstitute" />
-          <ScalarProperty Name="IsSubstituteDescription" ColumnName="IsSubstituteDescription" />
-          <ScalarProperty Name="StudentGroupID" ColumnName="StudentGroupID" />
+    <EntitySetMapping Name="STUDIES_TYPE">
+      <EntityTypeMapping TypeName="TAM_DBModel.STUDIES_TYPE">
+        <MappingFragment StoreEntitySet="STUDIES_TYPE">
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
         </MappingFragment>
       </EntityTypeMapping>

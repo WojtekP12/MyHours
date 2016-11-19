@@ -4,23 +4,25 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="7a737ad2e5c34197bac4a3ad18c5a45c" Name="Diagram1" ZoomLevel="81">
-        <EntityTypeShape EntityType="TAM_DBModel.AspNetRoles" Width="2.375" PointX="27.125" PointY="10.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.AspNetUserClaims" Width="2.375" PointX="25.875" PointY="4.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.AspNetUserLogins" Width="2.375" PointX="25.875" PointY="6.875" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.AspNetUsers" Width="2.375" PointX="22.75" PointY="5.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.FACULTY" Width="2.5" PointX="4" PointY="0.5" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.FACULTY_ASSIGNMENT" Width="2.375" PointX="13" PointY="3.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.MAJOR" Width="2.5" PointX="4" PointY="3" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.SPECIALITY" Width="2.5" PointX="4" PointY="5.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.STUDENT_GROUP" Width="2.375" PointX="13" PointY="12.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.SUBJECT" Width="2.5" PointX="4" PointY="8.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.SUBJECT_TYPE_DICT" Width="2.375" PointX="10.25" PointY="18.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.sysdiagrams" Width="1.5" PointX="0.5" PointY="0.5" IsExpanded="false" />
-        <EntityTypeShape EntityType="TAM_DBModel.TEACHER" Width="2.375" PointX="17" PointY="7.375" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.USER" Width="2.375" PointX="22.75" PointY="1.25" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.USER_TYPE" Width="2.375" PointX="25.875" PointY="1.625" IsExpanded="true" />
-        <EntityTypeShape EntityType="TAM_DBModel.SUBJECT_ASSIGNMENT" Width="2.375" PointX="7.375" PointY="15" IsExpanded="true" />
+      <Diagram DiagramId="b8eee0c2f44d43dda4e1f82c947c91aa" Name="Diagram1" ZoomLevel="40">
+        <EntityTypeShape EntityType="TAM_DBModel.AspNetRoles" Width="1.5" PointX="40.5" PointY="8.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.AspNetUserClaims" Width="1.5" PointX="40.5" PointY="6.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.AspNetUserLogins" Width="1.5" PointX="40.5" PointY="4.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.AspNetUsers" Width="2.5" PointX="35.625" PointY="4.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.FACULTY" Width="2.5" PointX="16.5" PointY="0.625" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.FACULTY_ASSIGNMENT" Width="2.5" PointX="26.625" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.MAJOR" Width="2.5" PointX="16.5" PointY="3.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.SPECIALITY" Width="2.5" PointX="16.5" PointY="6.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.SPECIALITY_MAJOR_ASSIGNMENT" Width="2.25" PointX="12.875" PointY="3.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.STUDENT_GROUP" Width="2.5" PointX="26.5" PointY="8.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.SUBJECT" Width="2.5" PointX="16.5" PointY="9" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.SUBJECT_ASSIGNMENT" Width="2.5" PointX="20.375" PointY="12.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.SUBJECT_TYPE_DICT" Width="2.5" PointX="23.875" PointY="15.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.sysdiagrams" Width="1.5" PointX="5.75" PointY="2.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.TEACHER" Width="2.5" PointX="30.25" PointY="5.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.USER" Width="2.5" PointX="35.625" PointY="0.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.USER_TYPE" Width="2.5" PointX="39.625" PointY="1.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="TAM_DBModel.STUDIES_TYPE" Width="1.5" PointX="7.75" PointY="2.25" IsExpanded="true" />
         <AssociationConnector Association="TAM_DBModel.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="TAM_DBModel.FK_dbo_AspNetUserLogins_dbo_AspNetUsers_UserId" ManuallyRouted="false" />
         <AssociationConnector Association="TAM_DBModel.FK_USER_AspNetUsers" ManuallyRouted="false" />
@@ -29,14 +31,21 @@
         <AssociationConnector Association="TAM_DBModel.FK_FACULTY_ASSIGNMENT_STUDENT_GROUP" ManuallyRouted="false" />
         <AssociationConnector Association="TAM_DBModel.FK_FACULTY_ASSIGNMENT_TEACHER" ManuallyRouted="false" />
         <AssociationConnector Association="TAM_DBModel.FK_SPECIALITY_MAJOR" ManuallyRouted="false" />
+        <AssociationConnector Association="TAM_DBModel.FK_SPECIALITY_MAJOR_ASSIGNMENT_MAJOR" ManuallyRouted="false" />
         <AssociationConnector Association="TAM_DBModel.FK_SUBJECT_SPECIALITY" ManuallyRouted="false" />
         <AssociationConnector Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP" ManuallyRouted="false" />
         <AssociationConnector Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_SUBJECT" ManuallyRouted="false" />
-        <AssociationConnector Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEACHER" ManuallyRouted="false" ></AssociationConnector>
+        <AssociationConnector Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" ManuallyRouted="false" />
+        <AssociationConnector Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEACHER" ManuallyRouted="true" >
+          <ConnectorPoint PointX="31.5" PointY="7.6148893229166665" />
+          <ConnectorPoint PointX="31.5" PointY="13.484372500000006" />
+          <ConnectorPoint PointX="27.833333333333332" PointY="13.484372500000006" />
+          <ConnectorPoint PointX="27.666666666666668" PointY="13.484372500000006" />
+          <ConnectorPoint PointX="22.875" PointY="13.484372500000006" />
+        </AssociationConnector>
         <AssociationConnector Association="TAM_DBModel.FK_USER_TEACHER" ManuallyRouted="false" />
         <AssociationConnector Association="TAM_DBModel.FK_USER_USER_TYPE" ManuallyRouted="false" />
-        <AssociationConnector ManuallyRouted="false" Association="TAM_DBModel.AspNetUserRoles" />
-        <AssociationConnector Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" />
+        <AssociationConnector Association="TAM_DBModel.AspNetUserRoles" ManuallyRouted="false" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

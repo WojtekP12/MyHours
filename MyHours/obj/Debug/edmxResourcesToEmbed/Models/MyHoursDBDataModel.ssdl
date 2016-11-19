@@ -66,7 +66,7 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="FacultyID" Type="int" Nullable="false" />
     <Property Name="StudentGroupID" Type="int" Nullable="false" />
-    <Property Name="TeacherID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+    <Property Name="TeacherID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="MAJOR">
     <Key>
@@ -85,6 +85,14 @@
     <Property Name="Description" Type="varchar" MaxLength="500" Nullable="false" />
     <Property Name="MajorID" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="SPECIALITY_MAJOR_ASSIGNMENT">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="MajorID" Type="int" Nullable="false" />
+    <Property Name="SpecialityID" Type="int" Nullable="false" />
+  </EntityType>
   <EntityType Name="STUDENT_GROUP">
     <Key>
       <PropertyRef Name="ID" />
@@ -92,6 +100,18 @@
     <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Description" Type="varchar" MaxLength="500" Nullable="false" />
+  </EntityType>
+  <!--Errors Found During Generation:
+warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+  <EntityType Name="STUDIES_TYPE">
+    <Key>
+      <PropertyRef Name="Name" />
+      <PropertyRef Name="Description" />
+      <PropertyRef Name="SubjectID" />
+    </Key>
+    <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="SubjectID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SUBJECT">
     <Key>
@@ -283,6 +303,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SPECIALITY_MAJOR_ASSIGNMENT_MAJOR">
+    <End Role="MAJOR" Type="Self.MAJOR" Multiplicity="1" />
+    <End Role="SPECIALITY_MAJOR_ASSIGNMENT" Type="Self.SPECIALITY_MAJOR_ASSIGNMENT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="MAJOR">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SPECIALITY_MAJOR_ASSIGNMENT">
+        <PropertyRef Name="MajorID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP">
     <End Role="STUDENT_GROUP" Type="Self.STUDENT_GROUP" Multiplicity="1" />
     <End Role="SUBJECT_ASSIGNMENT" Type="Self.SUBJECT_ASSIGNMENT" Multiplicity="*" />
@@ -389,6 +421,7 @@
     <EntitySet Name="FACULTY_ASSIGNMENT" EntityType="Self.FACULTY_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MAJOR" EntityType="Self.MAJOR" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SPECIALITY" EntityType="Self.SPECIALITY" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="SPECIALITY_MAJOR_ASSIGNMENT" EntityType="Self.SPECIALITY_MAJOR_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="STUDENT_GROUP" EntityType="Self.STUDENT_GROUP" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SUBJECT" EntityType="Self.SUBJECT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SUBJECT_ASSIGNMENT" EntityType="Self.SUBJECT_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
@@ -397,6 +430,13 @@
     <EntitySet Name="TEACHER" EntityType="Self.TEACHER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="USER" EntityType="Self.USER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="USER_TYPE" EntityType="Self.USER_TYPE" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="STUDIES_TYPE" EntityType="Self.STUDIES_TYPE" store:Type="Tables" store:Schema="dbo">
+      <DefiningQuery>SELECT 
+    [STUDIES_TYPE].[Name] AS [Name], 
+    [STUDIES_TYPE].[Description] AS [Description], 
+    [STUDIES_TYPE].[SubjectID] AS [SubjectID]
+    FROM [dbo].[STUDIES_TYPE] AS [STUDIES_TYPE]</DefiningQuery>
+    </EntitySet>
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -432,6 +472,10 @@
     <AssociationSet Name="FK_SPECIALITY_MAJOR" Association="Self.FK_SPECIALITY_MAJOR">
       <End Role="MAJOR" EntitySet="MAJOR" />
       <End Role="SPECIALITY" EntitySet="SPECIALITY" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SPECIALITY_MAJOR_ASSIGNMENT_MAJOR" Association="Self.FK_SPECIALITY_MAJOR_ASSIGNMENT_MAJOR">
+      <End Role="MAJOR" EntitySet="MAJOR" />
+      <End Role="SPECIALITY_MAJOR_ASSIGNMENT" EntitySet="SPECIALITY_MAJOR_ASSIGNMENT" />
     </AssociationSet>
     <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP" Association="Self.FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP">
       <End Role="STUDENT_GROUP" EntitySet="STUDENT_GROUP" />

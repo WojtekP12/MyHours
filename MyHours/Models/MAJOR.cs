@@ -18,6 +18,7 @@ namespace MyHours.Models
         public MAJOR()
         {
             this.SPECIALITY = new HashSet<SPECIALITY>();
+            this.SPECIALITY_MAJOR_ASSIGNMENT = new HashSet<SPECIALITY_MAJOR_ASSIGNMENT>();
         }
     
         public int ID { get; set; }
@@ -27,5 +28,7 @@ namespace MyHours.Models
         public virtual FACULTY FACULTY { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SPECIALITY> SPECIALITY { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SPECIALITY_MAJOR_ASSIGNMENT> SPECIALITY_MAJOR_ASSIGNMENT { get; set; }
     }
 }

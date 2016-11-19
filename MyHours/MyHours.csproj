@@ -251,7 +251,13 @@
     <Compile Include="Models\SPECIALITY.cs">
       <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\SPECIALITY_MAJOR_ASSIGNMENT.cs">
+      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\STUDENT_GROUP.cs">
+      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\STUDIES_TYPE.cs">
       <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SUBJECT.cs">

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="TAM_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="TAM_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -71,7 +71,7 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="FacultyID" Type="int" Nullable="false" />
           <Property Name="StudentGroupID" Type="int" Nullable="false" />
-          <Property Name="TeacherID" Type="int" Nullable="false" StoreGeneratedPattern="Identity" />
+          <Property Name="TeacherID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="MAJOR">
           <Key>
@@ -90,6 +90,14 @@
           <Property Name="Description" Type="varchar" MaxLength="500" Nullable="false" />
           <Property Name="MajorID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="SPECIALITY_MAJOR_ASSIGNMENT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="MajorID" Type="int" Nullable="false" />
+          <Property Name="SpecialityID" Type="int" Nullable="false" />
+        </EntityType>
         <EntityType Name="STUDENT_GROUP">
           <Key>
             <PropertyRef Name="ID" />
@@ -97,6 +105,18 @@
           <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="500" Nullable="false" />
+        </EntityType>
+        <!--Errors Found During Generation:
+warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
+        <EntityType Name="STUDIES_TYPE">
+          <Key>
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
+            <PropertyRef Name="SubjectID" />
+          </Key>
+          <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="SubjectID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SUBJECT">
           <Key>
@@ -288,6 +308,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SPECIALITY_MAJOR_ASSIGNMENT_MAJOR">
+          <End Role="MAJOR" Type="Self.MAJOR" Multiplicity="1" />
+          <End Role="SPECIALITY_MAJOR_ASSIGNMENT" Type="Self.SPECIALITY_MAJOR_ASSIGNMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MAJOR">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SPECIALITY_MAJOR_ASSIGNMENT">
+              <PropertyRef Name="MajorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP">
           <End Role="STUDENT_GROUP" Type="Self.STUDENT_GROUP" Multiplicity="1" />
           <End Role="SUBJECT_ASSIGNMENT" Type="Self.SUBJECT_ASSIGNMENT" Multiplicity="*" />
@@ -394,6 +426,7 @@
           <EntitySet Name="FACULTY_ASSIGNMENT" EntityType="Self.FACULTY_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAJOR" EntityType="Self.MAJOR" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SPECIALITY" EntityType="Self.SPECIALITY" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SPECIALITY_MAJOR_ASSIGNMENT" EntityType="Self.SPECIALITY_MAJOR_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STUDENT_GROUP" EntityType="Self.STUDENT_GROUP" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SUBJECT" EntityType="Self.SUBJECT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SUBJECT_ASSIGNMENT" EntityType="Self.SUBJECT_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
@@ -402,6 +435,13 @@
           <EntitySet Name="TEACHER" EntityType="Self.TEACHER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER" EntityType="Self.USER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER_TYPE" EntityType="Self.USER_TYPE" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="STUDIES_TYPE" EntityType="Self.STUDIES_TYPE" store:Type="Tables" store:Schema="dbo">
+            <DefiningQuery>SELECT 
+    [STUDIES_TYPE].[Name] AS [Name], 
+    [STUDIES_TYPE].[Description] AS [Description], 
+    [STUDIES_TYPE].[SubjectID] AS [SubjectID]
+    FROM [dbo].[STUDIES_TYPE] AS [STUDIES_TYPE]</DefiningQuery>
+          </EntitySet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -438,6 +478,10 @@
             <End Role="MAJOR" EntitySet="MAJOR" />
             <End Role="SPECIALITY" EntitySet="SPECIALITY" />
           </AssociationSet>
+          <AssociationSet Name="FK_SPECIALITY_MAJOR_ASSIGNMENT_MAJOR" Association="Self.FK_SPECIALITY_MAJOR_ASSIGNMENT_MAJOR">
+            <End Role="MAJOR" EntitySet="MAJOR" />
+            <End Role="SPECIALITY_MAJOR_ASSIGNMENT" EntitySet="SPECIALITY_MAJOR_ASSIGNMENT" />
+          </AssociationSet>
           <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP" Association="Self.FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP">
             <End Role="STUDENT_GROUP" EntitySet="STUDENT_GROUP" />
             <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
@@ -471,7 +515,8 @@
             <End Role="USER" EntitySet="USER" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TAM_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -539,10 +584,10 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="FacultyID" Type="Int32" Nullable="false" />
           <Property Name="StudentGroupID" Type="Int32" Nullable="false" />
-          <Property Name="TeacherID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="TeacherID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FACULTY" Relationship="Self.FK_FACULTY_ASSIGNMENT_FACULTY" FromRole="FACULTY_ASSIGNMENT" ToRole="FACULTY" />
           <NavigationProperty Name="STUDENT_GROUP" Relationship="Self.FK_FACULTY_ASSIGNMENT_STUDENT_GROUP" FromRole="FACULTY_ASSIGNMENT" ToRole="STUDENT_GROUP" />
           <NavigationProperty Name="TEACHER" Relationship="Self.FK_FACULTY_ASSIGNMENT_TEACHER" FromRole="FACULTY_ASSIGNMENT" ToRole="TEACHER" />
@@ -556,6 +601,7 @@
           <Property Name="FacultyID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FACULTY" Relationship="Self.FK_MAJOR_FACULTY" FromRole="MAJOR" ToRole="FACULTY" />
           <NavigationProperty Name="SPECIALITY" Relationship="Self.FK_SPECIALITY_MAJOR" FromRole="MAJOR" ToRole="SPECIALITY" />
+          <NavigationProperty Name="SPECIALITY_MAJOR_ASSIGNMENT" Relationship="Self.FK_SPECIALITY_MAJOR_ASSIGNMENT_MAJOR" FromRole="MAJOR" ToRole="SPECIALITY_MAJOR_ASSIGNMENT" />
         </EntityType>
         <EntityType Name="SPECIALITY">
           <Key>
@@ -567,6 +613,15 @@
           <Property Name="MajorID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="MAJOR" Relationship="Self.FK_SPECIALITY_MAJOR" FromRole="SPECIALITY" ToRole="MAJOR" />
           <NavigationProperty Name="SUBJECT" Relationship="Self.FK_SUBJECT_SPECIALITY" FromRole="SPECIALITY" ToRole="SUBJECT" />
+        </EntityType>
+        <EntityType Name="SPECIALITY_MAJOR_ASSIGNMENT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="MajorID" Type="Int32" Nullable="false" />
+          <Property Name="SpecialityID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="MAJOR" Relationship="Self.FK_SPECIALITY_MAJOR_ASSIGNMENT_MAJOR" FromRole="SPECIALITY_MAJOR_ASSIGNMENT" ToRole="MAJOR" />
         </EntityType>
         <EntityType Name="STUDENT_GROUP">
           <Key>
@@ -590,6 +645,25 @@
           <NavigationProperty Name="SPECIALITY" Relationship="Self.FK_SUBJECT_SPECIALITY" FromRole="SUBJECT" ToRole="SPECIALITY" />
           <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT" FromRole="SUBJECT" ToRole="SUBJECT_ASSIGNMENT" />
         </EntityType>
+        <EntityType Name="SUBJECT_ASSIGNMENT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Hours" Type="Int32" Nullable="false" />
+          <Property Name="Semester" Type="Int32" Nullable="false" />
+          <Property Name="TeacherID" Type="Int32" Nullable="false" />
+          <Property Name="IsSubstitute" Type="Boolean" Nullable="false" />
+          <Property Name="IsSubstituteDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="StudentGroupID" Type="Int32" Nullable="false" />
+          <Property Name="SubjectID" Type="Int32" Nullable="false" />
+          <Property Name="SubjectTypeID" Type="Int32" Nullable="false" />
+          <Property Name="StudiesType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="STUDENT_GROUP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP" FromRole="SUBJECT_ASSIGNMENT" ToRole="STUDENT_GROUP" />
+          <NavigationProperty Name="SUBJECT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT" />
+          <NavigationProperty Name="SUBJECT_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT_TYPE_DICT" />
+          <NavigationProperty Name="TEACHER" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEACHER" FromRole="SUBJECT_ASSIGNMENT" ToRole="TEACHER" />
+        </EntityType>
         <EntityType Name="SUBJECT_TYPE_DICT">
           <Key>
             <PropertyRef Name="ID" />
@@ -597,7 +671,7 @@
           <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" FromRole="SUBJECT_TYPE_DICT" ToRole="SUBJECT_ASSIGNMENT" />
+          <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" FromRole="SUBJECT_TYPE_DICT" ToRole="SUBJECT_ASSIGNMENT" />
         </EntityType>
         <EntityType Name="sysdiagrams">
           <Key>
@@ -625,7 +699,7 @@
           <Key>
             <PropertyRef Name="ID" />
           </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
           <Property Name="Name" Type="String" MaxLength="300" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="SecondName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
@@ -647,30 +721,15 @@
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="USER" Relationship="Self.FK_USER_USER_TYPE" FromRole="USER_TYPE" ToRole="USER" />
         </EntityType>
-        <EntityType Name="SUBJECT_ASSIGNMENT">
+        <EntityType Name="STUDIES_TYPE">
           <Key>
-            <PropertyRef Name="Hours" />
-            <PropertyRef Name="TeacherID" />
-            <PropertyRef Name="IsSubstitute" />
-            <PropertyRef Name="StudentGroupID" />
+            <PropertyRef Name="Name" />
+            <PropertyRef Name="Description" />
             <PropertyRef Name="SubjectID" />
-            <PropertyRef Name="ID" />
-            <PropertyRef Name="SubjectTypeID" />
           </Key>
-          <Property Name="Hours" Type="Int32" Nullable="false" />
-          <Property Name="TeacherID" Type="Int32" Nullable="false" />
-          <Property Name="IsSubstitute" Type="Boolean" Nullable="false" />
-          <Property Name="IsSubstituteDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
-          <Property Name="StudentGroupID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="SubjectID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="STUDENT_GROUP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP" FromRole="SUBJECT_ASSIGNMENT" ToRole="STUDENT_GROUP" />
-          <NavigationProperty Name="SUBJECT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT" />
-          <NavigationProperty Name="TEACHER" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEACHER" FromRole="SUBJECT_ASSIGNMENT" ToRole="TEACHER" />
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Semester" Type="Int32" Nullable="false" />
-          <Property Name="SubjectTypeID" Type="Int32" Nullable="false" />
-          <Property Name="StudiesType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <NavigationProperty Name="SUBJECT_TYPE_DICT" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT_TYPE_DICT" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -772,6 +831,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SPECIALITY_MAJOR_ASSIGNMENT_MAJOR">
+          <End Role="MAJOR" Type="Self.MAJOR" Multiplicity="1" />
+          <End Role="SPECIALITY_MAJOR_ASSIGNMENT" Type="Self.SPECIALITY_MAJOR_ASSIGNMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="MAJOR">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SPECIALITY_MAJOR_ASSIGNMENT">
+              <PropertyRef Name="MajorID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SUBJECT_SPECIALITY">
           <End Role="SPECIALITY" Type="Self.SPECIALITY" Multiplicity="1" />
           <End Role="SUBJECT" Type="Self.SUBJECT" Multiplicity="*" />
@@ -805,6 +876,18 @@
             </Principal>
             <Dependent Role="SUBJECT_ASSIGNMENT">
               <PropertyRef Name="SubjectID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT">
+          <End Role="SUBJECT_TYPE_DICT" Type="Self.SUBJECT_TYPE_DICT" Multiplicity="1" />
+          <End Role="SUBJECT_ASSIGNMENT" Type="Self.SUBJECT_ASSIGNMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="SUBJECT_TYPE_DICT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SUBJECT_ASSIGNMENT">
+              <PropertyRef Name="SubjectTypeID" />
             </Dependent>
           </ReferentialConstraint>
         </Association>
@@ -845,8 +928,8 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="AspNetUserRoles">
-          <End Type="Self.AspNetRoles" Multiplicity="*" Role="AspNetRoles" />
-          <End Type="Self.AspNetUsers" Multiplicity="*" Role="AspNetUsers" />
+          <End Role="AspNetRoles" Type="Self.AspNetRoles" Multiplicity="*" />
+          <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="*" />
         </Association>
         <EntityContainer Name="TAM_DBEntities" annotation:LazyLoadingEnabled="true">
           <EntitySet Name="AspNetRoles" EntityType="Self.AspNetRoles" />
@@ -857,14 +940,16 @@
           <EntitySet Name="FACULTY_ASSIGNMENT" EntityType="Self.FACULTY_ASSIGNMENT" />
           <EntitySet Name="MAJOR" EntityType="Self.MAJOR" />
           <EntitySet Name="SPECIALITY" EntityType="Self.SPECIALITY" />
+          <EntitySet Name="SPECIALITY_MAJOR_ASSIGNMENT" EntityType="Self.SPECIALITY_MAJOR_ASSIGNMENT" />
           <EntitySet Name="STUDENT_GROUP" EntityType="Self.STUDENT_GROUP" />
           <EntitySet Name="SUBJECT" EntityType="Self.SUBJECT" />
+          <EntitySet Name="SUBJECT_ASSIGNMENT" EntityType="Self.SUBJECT_ASSIGNMENT" />
           <EntitySet Name="SUBJECT_TYPE_DICT" EntityType="Self.SUBJECT_TYPE_DICT" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TEACHER" EntityType="Self.TEACHER" />
           <EntitySet Name="USER" EntityType="Self.USER" />
           <EntitySet Name="USER_TYPE" EntityType="Self.USER_TYPE" />
-          <EntitySet Name="SUBJECT_ASSIGNMENT" EntityType="Self.SUBJECT_ASSIGNMENT" />
+          <EntitySet Name="STUDIES_TYPE" EntityType="Self.STUDIES_TYPE" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -897,6 +982,10 @@
             <End Role="MAJOR" EntitySet="MAJOR" />
             <End Role="SPECIALITY" EntitySet="SPECIALITY" />
           </AssociationSet>
+          <AssociationSet Name="FK_SPECIALITY_MAJOR_ASSIGNMENT_MAJOR" Association="Self.FK_SPECIALITY_MAJOR_ASSIGNMENT_MAJOR">
+            <End Role="MAJOR" EntitySet="MAJOR" />
+            <End Role="SPECIALITY_MAJOR_ASSIGNMENT" EntitySet="SPECIALITY_MAJOR_ASSIGNMENT" />
+          </AssociationSet>
           <AssociationSet Name="FK_SUBJECT_SPECIALITY" Association="Self.FK_SUBJECT_SPECIALITY">
             <End Role="SPECIALITY" EntitySet="SPECIALITY" />
             <End Role="SUBJECT" EntitySet="SUBJECT" />
@@ -907,6 +996,10 @@
           </AssociationSet>
           <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_SUBJECT" Association="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT">
             <End Role="SUBJECT" EntitySet="SUBJECT" />
+            <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
+          </AssociationSet>
+          <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" Association="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT">
+            <End Role="SUBJECT_TYPE_DICT" EntitySet="SUBJECT_TYPE_DICT" />
             <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
           </AssociationSet>
           <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_TEACHER" Association="Self.FK_SUBJECT_ASSIGNMENT_TEACHER">
@@ -922,26 +1015,10 @@
             <End Role="USER" EntitySet="USER" />
           </AssociationSet>
           <AssociationSet Name="AspNetUserRoles" Association="Self.AspNetUserRoles">
-            <End EntitySet="AspNetRoles" Role="AspNetRoles" />
-            <End EntitySet="AspNetUsers" Role="AspNetUsers" />
-          </AssociationSet>
-          <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT">
-            <End Role="SUBJECT_TYPE_DICT" EntitySet="SUBJECT_TYPE_DICT" />
-            <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
+            <End Role="AspNetRoles" EntitySet="AspNetRoles" />
+            <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
         </EntityContainer>
-        <Association Name="FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT">
-          <End Type="TAM_DBModel.SUBJECT_TYPE_DICT" Role="SUBJECT_TYPE_DICT" Multiplicity="1" />
-          <End Type="TAM_DBModel.SUBJECT_ASSIGNMENT" Role="SUBJECT_ASSIGNMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="SUBJECT_TYPE_DICT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SUBJECT_ASSIGNMENT">
-              <PropertyRef Name="SubjectTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1031,6 +1108,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="SPECIALITY_MAJOR_ASSIGNMENT">
+            <EntityTypeMapping TypeName="TAM_DBModel.SPECIALITY_MAJOR_ASSIGNMENT">
+              <MappingFragment StoreEntitySet="SPECIALITY_MAJOR_ASSIGNMENT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="MajorID" ColumnName="MajorID" />
+                <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="STUDENT_GROUP">
             <EntityTypeMapping TypeName="TAM_DBModel.STUDENT_GROUP">
               <MappingFragment StoreEntitySet="STUDENT_GROUP">
@@ -1048,6 +1134,22 @@
                 <ScalarProperty Name="Name" ColumnName="Name" />
                 <ScalarProperty Name="Language" ColumnName="Language" />
                 <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SUBJECT_ASSIGNMENT">
+            <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT">
+              <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Hours" ColumnName="Hours" />
+                <ScalarProperty Name="Semester" ColumnName="Semester" />
+                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+                <ScalarProperty Name="IsSubstitute" ColumnName="IsSubstitute" />
+                <ScalarProperty Name="IsSubstituteDescription" ColumnName="IsSubstituteDescription" />
+                <ScalarProperty Name="StudentGroupID" ColumnName="StudentGroupID" />
+                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+                <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
+                <ScalarProperty Name="StudiesType" ColumnName="StudiesType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1105,18 +1207,11 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="SUBJECT_ASSIGNMENT">
-            <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT">
-              <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT">
-                <ScalarProperty Name="StudiesType" ColumnName="StudiesType" />
-                <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
-                <ScalarProperty Name="Semester" ColumnName="Semester" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-                <ScalarProperty Name="Hours" ColumnName="Hours" />
-                <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
-                <ScalarProperty Name="IsSubstitute" ColumnName="IsSubstitute" />
-                <ScalarProperty Name="IsSubstituteDescription" ColumnName="IsSubstituteDescription" />
-                <ScalarProperty Name="StudentGroupID" ColumnName="StudentGroupID" />
+          <EntitySetMapping Name="STUDIES_TYPE">
+            <EntityTypeMapping TypeName="TAM_DBModel.STUDIES_TYPE">
+              <MappingFragment StoreEntitySet="STUDIES_TYPE">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
               </MappingFragment>
             </EntityTypeMapping>

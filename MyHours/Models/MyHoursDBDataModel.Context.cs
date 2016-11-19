@@ -33,13 +33,15 @@ namespace MyHours.Models
         public virtual DbSet<FACULTY_ASSIGNMENT> FACULTY_ASSIGNMENT { get; set; }
         public virtual DbSet<MAJOR> MAJOR { get; set; }
         public virtual DbSet<SPECIALITY> SPECIALITY { get; set; }
+        public virtual DbSet<SPECIALITY_MAJOR_ASSIGNMENT> SPECIALITY_MAJOR_ASSIGNMENT { get; set; }
         public virtual DbSet<STUDENT_GROUP> STUDENT_GROUP { get; set; }
         public virtual DbSet<SUBJECT> SUBJECT { get; set; }
+        public virtual DbSet<SUBJECT_ASSIGNMENT> SUBJECT_ASSIGNMENT { get; set; }
         public virtual DbSet<SUBJECT_TYPE_DICT> SUBJECT_TYPE_DICT { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TEACHER> TEACHER { get; set; }
         public virtual DbSet<USER> USER { get; set; }
         public virtual DbSet<USER_TYPE> USER_TYPE { get; set; }
-        public virtual DbSet<SUBJECT_ASSIGNMENT> SUBJECT_ASSIGNMENT { get; set; }
+        public virtual DbSet<STUDIES_TYPE> STUDIES_TYPE { get; set; }
     }
 }
