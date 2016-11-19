@@ -1,0 +1,82 @@
+﻿@model IEnumerable<MyHours.Models.SUBJECT_ASSIGNMENT>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT.SubjectCode)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT_TYPE_DICT.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Semester)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT.Language)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.STUDENT_GROUP.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT.SPECIALITY.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT.SPECIALITY.MAJOR.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <th>
+            @Html.DisplayFor(modelItem => item.SUBJECT.SubjectCode)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.SUBJECT.Name)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.SUBJECT.Name)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.Semester)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.SUBJECT.Language)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.STUDENT_GROUP.Name)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.SUBJECT.SPECIALITY.Name)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.SUBJECT.SPECIALITY.MAJOR.Name)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
+        </th>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>

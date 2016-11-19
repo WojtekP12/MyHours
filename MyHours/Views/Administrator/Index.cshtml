@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MyHours.Models.SUBJECT_ASSIGNMENT>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.TEACHER.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TEACHER.SecondName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TEACHER.TeacherStatus)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.TEACHER.SUBJECT_ASSIGNMENT.FirstOrDefault().SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
+        </th>
+        <th>Number of Subjects</th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.TEACHER.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TEACHER.SecondName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TEACHER.TeacherStatus)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TEACHER.SUBJECT_ASSIGNMENT.FirstOrDefault().SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.TEACHER.SUBJECT_ASSIGNMENT.Count)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Details", "Details", new { /* id=item.PrimaryKey */ }) |
+            @Html.ActionLink("Delete", "Delete", new { /* id=item.PrimaryKey */ })
+        </td>
+    </tr>
+}
+
+</table>
