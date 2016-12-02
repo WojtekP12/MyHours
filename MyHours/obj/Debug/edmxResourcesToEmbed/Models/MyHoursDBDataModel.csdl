@@ -133,16 +133,17 @@
     <Property Name="Hours" Type="Int32" Nullable="false" />
     <Property Name="Semester" Type="Int32" Nullable="false" />
     <Property Name="TeacherID" Type="Int32" Nullable="false" />
-    <Property Name="IsSubstitute" Type="Boolean" Nullable="false" />
-    <Property Name="IsSubstituteDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+    <Property Name="IsSubstitute" Type="Boolean" />
+    <Property Name="IsSubstituteDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="StudentGroupID" Type="Int32" Nullable="false" />
     <Property Name="SubjectID" Type="Int32" Nullable="false" />
     <Property Name="SubjectTypeID" Type="Int32" Nullable="false" />
-    <Property Name="StudiesType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="STUDENT_GROUP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP" FromRole="SUBJECT_ASSIGNMENT" ToRole="STUDENT_GROUP" />
     <NavigationProperty Name="SUBJECT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT" />
     <NavigationProperty Name="SUBJECT_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT_TYPE_DICT" />
     <NavigationProperty Name="TEACHER" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEACHER" FromRole="SUBJECT_ASSIGNMENT" ToRole="TEACHER" />
+    <Property Name="StudiesTypeID" Type="Int32" Nullable="false" />
+    <NavigationProperty Name="STUDIES_TYPE_DICT" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="STUDIES_TYPE_DICT" />
   </EntityType>
   <EntityType Name="SUBJECT_TYPE_DICT">
     <Key>
@@ -174,6 +175,7 @@
     <NavigationProperty Name="FACULTY_ASSIGNMENT" Relationship="Self.FK_FACULTY_ASSIGNMENT_TEACHER" FromRole="TEACHER" ToRole="FACULTY_ASSIGNMENT" />
     <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEACHER" FromRole="TEACHER" ToRole="SUBJECT_ASSIGNMENT" />
     <NavigationProperty Name="USER" Relationship="Self.FK_USER_TEACHER" FromRole="TEACHER" ToRole="USER" />
+    <Property Name="AssignedHours" Type="Int32" Nullable="false" />
   </EntityType>
   <EntityType Name="USER">
     <Key>
@@ -184,7 +186,6 @@
     <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="SecondName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-    <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
     <Property Name="UserTypeID" Type="Int32" Nullable="false" />
     <Property Name="TeacherID" Type="Int32" Nullable="false" />
     <Property Name="AspNetUserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
@@ -200,16 +201,6 @@
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="USER" Relationship="Self.FK_USER_USER_TYPE" FromRole="USER_TYPE" ToRole="USER" />
-  </EntityType>
-  <EntityType Name="STUDIES_TYPE">
-    <Key>
-      <PropertyRef Name="Name" />
-      <PropertyRef Name="Description" />
-      <PropertyRef Name="SubjectID" />
-    </Key>
-    <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <Property Name="SubjectID" Type="Int32" Nullable="false" />
   </EntityType>
   <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -429,7 +420,6 @@
     <EntitySet Name="TEACHER" EntityType="Self.TEACHER" />
     <EntitySet Name="USER" EntityType="Self.USER" />
     <EntitySet Name="USER_TYPE" EntityType="Self.USER_TYPE" />
-    <EntitySet Name="STUDIES_TYPE" EntityType="Self.STUDIES_TYPE" />
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -498,5 +488,31 @@
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
     </AssociationSet>
+    <EntitySet Name="STUDIES_TYPE_DICT" EntityType="TAM_DBModel.STUDIES_TYPE_DICT" />
+    <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
+      <End Role="STUDIES_TYPE_DICT" EntitySet="STUDIES_TYPE_DICT" />
+      <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
+    </AssociationSet>
   </EntityContainer>
+  <EntityType Name="STUDIES_TYPE_DICT">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" />
+    <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" FromRole="STUDIES_TYPE_DICT" ToRole="SUBJECT_ASSIGNMENT" />
+  </EntityType>
+  <Association Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
+    <End Type="TAM_DBModel.STUDIES_TYPE_DICT" Role="STUDIES_TYPE_DICT" Multiplicity="1" />
+    <End Type="TAM_DBModel.SUBJECT_ASSIGNMENT" Role="SUBJECT_ASSIGNMENT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STUDIES_TYPE_DICT">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SUBJECT_ASSIGNMENT">
+        <PropertyRef Name="StudiesTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

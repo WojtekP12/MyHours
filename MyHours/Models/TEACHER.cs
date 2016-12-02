@@ -26,6 +26,7 @@ namespace MyHours.Models
         public string FirstName { get; set; }
         public string SecondName { get; set; }
         public string TeacherStatus { get; set; }
+        public int AssignedHours { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FACULTY_ASSIGNMENT> FACULTY_ASSIGNMENT { get; set; }

@@ -163,3 +163,4 @@ C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\Microsoft.Owin.Security.Micr
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\obj\Debug\MyHours.csprojResolveAssemblyReference.cache
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\obj\Debug\MyHours.dll
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\obj\Debug\MyHours.pdb
+C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\WebActivatorEx.dll

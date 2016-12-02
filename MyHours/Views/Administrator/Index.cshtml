@@ -45,10 +45,10 @@
             @Html.DisplayFor(modelItem => item.TEACHER.SUBJECT_ASSIGNMENT.Count)
         </td>
         <td>
-            <p><a href="@Url.Action("Edit","Teacher",new { id=item.ID })" class="btn btn-default">Edit</a></p>
+            <p><a href="@Url.Action("Edit","Administrator",new { id=item.ID })" class="btn btn-default">Edit</a></p>
         </td>
         <td>
-            <p><a href="@Url.Action("Delete","Teacher",new { id=item.ID })" class="btn btn-default">Delete</a></p>
+            <p><a href="@Url.Action("Delete","Administrator",new { id=item.ID })" class="btn btn-default">Delete</a></p>
         </td>
     </tr>
 }

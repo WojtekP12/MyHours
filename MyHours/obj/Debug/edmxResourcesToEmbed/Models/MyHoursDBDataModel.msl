@@ -116,6 +116,7 @@
     <EntitySetMapping Name="SUBJECT_ASSIGNMENT">
       <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT">
         <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT">
+          <ScalarProperty Name="StudiesTypeID" ColumnName="StudiesTypeID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Hours" ColumnName="Hours" />
           <ScalarProperty Name="Semester" ColumnName="Semester" />
@@ -125,7 +126,6 @@
           <ScalarProperty Name="StudentGroupID" ColumnName="StudentGroupID" />
           <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
           <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
-          <ScalarProperty Name="StudiesType" ColumnName="StudiesType" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -152,6 +152,7 @@
     <EntitySetMapping Name="TEACHER">
       <EntityTypeMapping TypeName="TAM_DBModel.TEACHER">
         <MappingFragment StoreEntitySet="TEACHER">
+          <ScalarProperty Name="AssignedHours" ColumnName="AssignedHours" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="SecondName" ColumnName="SecondName" />
@@ -167,7 +168,6 @@
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="SecondName" ColumnName="SecondName" />
           <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-          <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
           <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
           <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
           <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
@@ -183,15 +183,6 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
-    <EntitySetMapping Name="STUDIES_TYPE">
-      <EntityTypeMapping TypeName="TAM_DBModel.STUDIES_TYPE">
-        <MappingFragment StoreEntitySet="STUDIES_TYPE">
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
     <AssociationSetMapping Name="AspNetUserRoles" TypeName="TAM_DBModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
       <EndProperty Name="AspNetRoles">
         <ScalarProperty Name="Id" ColumnName="RoleId" />
@@ -200,5 +191,14 @@
         <ScalarProperty Name="Id" ColumnName="UserId" />
       </EndProperty>
     </AssociationSetMapping>
+    <EntitySetMapping Name="STUDIES_TYPE_DICT">
+      <EntityTypeMapping TypeName="TAM_DBModel.STUDIES_TYPE_DICT">
+        <MappingFragment StoreEntitySet="STUDIES_TYPE_DICT">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

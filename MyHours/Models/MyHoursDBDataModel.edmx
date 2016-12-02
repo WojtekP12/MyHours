@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TAM_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TAM_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -106,17 +106,13 @@
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="500" Nullable="false" />
         </EntityType>
-        <!--Errors Found During Generation:
-warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-        <EntityType Name="STUDIES_TYPE">
+        <EntityType Name="STUDIES_TYPE_DICT">
           <Key>
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="SubjectID" />
+            <PropertyRef Name="ID" />
           </Key>
+          <Property Name="ID" Type="int" Nullable="false" />
           <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
-          <Property Name="SubjectID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SUBJECT">
           <Key>
@@ -136,12 +132,12 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
           <Property Name="Hours" Type="int" Nullable="false" />
           <Property Name="Semester" Type="int" Nullable="false" />
           <Property Name="TeacherID" Type="int" Nullable="false" />
-          <Property Name="IsSubstitute" Type="bit" Nullable="false" />
-          <Property Name="IsSubstituteDescription" Type="varchar" MaxLength="200" />
+          <Property Name="IsSubstitute" Type="bit" />
+          <Property Name="IsSubstituteDescription" Type="varchar(max)" />
           <Property Name="StudentGroupID" Type="int" Nullable="false" />
           <Property Name="SubjectID" Type="int" Nullable="false" />
           <Property Name="SubjectTypeID" Type="int" Nullable="false" />
-          <Property Name="StudiesType" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="StudiesTypeID" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="SUBJECT_TYPE_DICT">
           <Key>
@@ -169,6 +165,7 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
           <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="SecondName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="TeacherStatus" Type="varchar" MaxLength="50" Nullable="false" />
+          <Property Name="AssignedHours" Type="int" Nullable="false" />
         </EntityType>
         <EntityType Name="USER">
           <Key>
@@ -179,7 +176,6 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
           <Property Name="FirstName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="SecondName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="PhoneNumber" Type="varchar" MaxLength="50" />
-          <Property Name="IsAdmin" Type="bit" Nullable="false" />
           <Property Name="UserTypeID" Type="int" Nullable="false" />
           <Property Name="TeacherID" Type="int" Nullable="false" />
           <Property Name="AspNetUserID" Type="nvarchar" MaxLength="128" Nullable="false" />
@@ -332,6 +328,18 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
+          <End Role="STUDIES_TYPE_DICT" Type="Self.STUDIES_TYPE_DICT" Multiplicity="1" />
+          <End Role="SUBJECT_ASSIGNMENT" Type="Self.SUBJECT_ASSIGNMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDIES_TYPE_DICT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SUBJECT_ASSIGNMENT">
+              <PropertyRef Name="StudiesTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SUBJECT_ASSIGNMENT_SUBJECT">
           <End Role="SUBJECT" Type="Self.SUBJECT" Multiplicity="1" />
           <End Role="SUBJECT_ASSIGNMENT" Type="Self.SUBJECT_ASSIGNMENT" Multiplicity="*" />
@@ -428,6 +436,7 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
           <EntitySet Name="SPECIALITY" EntityType="Self.SPECIALITY" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SPECIALITY_MAJOR_ASSIGNMENT" EntityType="Self.SPECIALITY_MAJOR_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STUDENT_GROUP" EntityType="Self.STUDENT_GROUP" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="STUDIES_TYPE_DICT" EntityType="Self.STUDIES_TYPE_DICT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SUBJECT" EntityType="Self.SUBJECT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SUBJECT_ASSIGNMENT" EntityType="Self.SUBJECT_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SUBJECT_TYPE_DICT" EntityType="Self.SUBJECT_TYPE_DICT" Schema="dbo" store:Type="Tables" />
@@ -435,13 +444,6 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
           <EntitySet Name="TEACHER" EntityType="Self.TEACHER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER" EntityType="Self.USER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER_TYPE" EntityType="Self.USER_TYPE" Schema="dbo" store:Type="Tables" />
-          <EntitySet Name="STUDIES_TYPE" EntityType="Self.STUDIES_TYPE" store:Type="Tables" store:Schema="dbo">
-            <DefiningQuery>SELECT 
-    [STUDIES_TYPE].[Name] AS [Name], 
-    [STUDIES_TYPE].[Description] AS [Description], 
-    [STUDIES_TYPE].[SubjectID] AS [SubjectID]
-    FROM [dbo].[STUDIES_TYPE] AS [STUDIES_TYPE]</DefiningQuery>
-          </EntitySet>
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -486,6 +488,10 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
             <End Role="STUDENT_GROUP" EntitySet="STUDENT_GROUP" />
             <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
           </AssociationSet>
+          <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" Association="Self.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
+            <End Role="STUDIES_TYPE_DICT" EntitySet="STUDIES_TYPE_DICT" />
+            <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
+          </AssociationSet>
           <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_SUBJECT" Association="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT">
             <End Role="SUBJECT" EntitySet="SUBJECT" />
             <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
@@ -515,8 +521,7 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
             <End Role="USER" EntitySet="USER" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TAM_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -653,16 +658,17 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
           <Property Name="Hours" Type="Int32" Nullable="false" />
           <Property Name="Semester" Type="Int32" Nullable="false" />
           <Property Name="TeacherID" Type="Int32" Nullable="false" />
-          <Property Name="IsSubstitute" Type="Boolean" Nullable="false" />
-          <Property Name="IsSubstituteDescription" Type="String" MaxLength="200" FixedLength="false" Unicode="false" />
+          <Property Name="IsSubstitute" Type="Boolean" />
+          <Property Name="IsSubstituteDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
           <Property Name="StudentGroupID" Type="Int32" Nullable="false" />
           <Property Name="SubjectID" Type="Int32" Nullable="false" />
           <Property Name="SubjectTypeID" Type="Int32" Nullable="false" />
-          <Property Name="StudiesType" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="STUDENT_GROUP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP" FromRole="SUBJECT_ASSIGNMENT" ToRole="STUDENT_GROUP" />
           <NavigationProperty Name="SUBJECT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT" />
           <NavigationProperty Name="SUBJECT_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT_TYPE_DICT" />
           <NavigationProperty Name="TEACHER" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEACHER" FromRole="SUBJECT_ASSIGNMENT" ToRole="TEACHER" />
+          <Property Name="StudiesTypeID" Type="Int32" Nullable="false" />
+          <NavigationProperty Name="STUDIES_TYPE_DICT" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="STUDIES_TYPE_DICT" />
         </EntityType>
         <EntityType Name="SUBJECT_TYPE_DICT">
           <Key>
@@ -694,6 +700,7 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
           <NavigationProperty Name="FACULTY_ASSIGNMENT" Relationship="Self.FK_FACULTY_ASSIGNMENT_TEACHER" FromRole="TEACHER" ToRole="FACULTY_ASSIGNMENT" />
           <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEACHER" FromRole="TEACHER" ToRole="SUBJECT_ASSIGNMENT" />
           <NavigationProperty Name="USER" Relationship="Self.FK_USER_TEACHER" FromRole="TEACHER" ToRole="USER" />
+          <Property Name="AssignedHours" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="USER">
           <Key>
@@ -704,7 +711,6 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
           <Property Name="FirstName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="SecondName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="IsAdmin" Type="Boolean" Nullable="false" />
           <Property Name="UserTypeID" Type="Int32" Nullable="false" />
           <Property Name="TeacherID" Type="Int32" Nullable="false" />
           <Property Name="AspNetUserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
@@ -720,16 +726,6 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
           <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <NavigationProperty Name="USER" Relationship="Self.FK_USER_USER_TYPE" FromRole="USER_TYPE" ToRole="USER" />
-        </EntityType>
-        <EntityType Name="STUDIES_TYPE">
-          <Key>
-            <PropertyRef Name="Name" />
-            <PropertyRef Name="Description" />
-            <PropertyRef Name="SubjectID" />
-          </Key>
-          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-          <Property Name="SubjectID" Type="Int32" Nullable="false" />
         </EntityType>
         <Association Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
           <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1">
@@ -949,7 +945,6 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
           <EntitySet Name="TEACHER" EntityType="Self.TEACHER" />
           <EntitySet Name="USER" EntityType="Self.USER" />
           <EntitySet Name="USER_TYPE" EntityType="Self.USER_TYPE" />
-          <EntitySet Name="STUDIES_TYPE" EntityType="Self.STUDIES_TYPE" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
             <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -1018,7 +1013,33 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
+          <EntitySet Name="STUDIES_TYPE_DICT" EntityType="TAM_DBModel.STUDIES_TYPE_DICT" />
+          <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
+            <End Role="STUDIES_TYPE_DICT" EntitySet="STUDIES_TYPE_DICT" />
+            <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
+          </AssociationSet>
         </EntityContainer>
+        <EntityType Name="STUDIES_TYPE_DICT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" FromRole="STUDIES_TYPE_DICT" ToRole="SUBJECT_ASSIGNMENT" />
+        </EntityType>
+        <Association Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
+          <End Type="TAM_DBModel.STUDIES_TYPE_DICT" Role="STUDIES_TYPE_DICT" Multiplicity="1" />
+          <End Type="TAM_DBModel.SUBJECT_ASSIGNMENT" Role="SUBJECT_ASSIGNMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDIES_TYPE_DICT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SUBJECT_ASSIGNMENT">
+              <PropertyRef Name="StudiesTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1140,6 +1161,7 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
           <EntitySetMapping Name="SUBJECT_ASSIGNMENT">
             <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT">
               <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT">
+                <ScalarProperty Name="StudiesTypeID" ColumnName="StudiesTypeID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Hours" ColumnName="Hours" />
                 <ScalarProperty Name="Semester" ColumnName="Semester" />
@@ -1149,7 +1171,6 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
                 <ScalarProperty Name="StudentGroupID" ColumnName="StudentGroupID" />
                 <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
                 <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
-                <ScalarProperty Name="StudiesType" ColumnName="StudiesType" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1176,6 +1197,7 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
           <EntitySetMapping Name="TEACHER">
             <EntityTypeMapping TypeName="TAM_DBModel.TEACHER">
               <MappingFragment StoreEntitySet="TEACHER">
+                <ScalarProperty Name="AssignedHours" ColumnName="AssignedHours" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="SecondName" ColumnName="SecondName" />
@@ -1191,7 +1213,6 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="SecondName" ColumnName="SecondName" />
                 <ScalarProperty Name="PhoneNumber" ColumnName="PhoneNumber" />
-                <ScalarProperty Name="IsAdmin" ColumnName="IsAdmin" />
                 <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
                 <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
                 <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
@@ -1207,15 +1228,6 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
-          <EntitySetMapping Name="STUDIES_TYPE">
-            <EntityTypeMapping TypeName="TAM_DBModel.STUDIES_TYPE">
-              <MappingFragment StoreEntitySet="STUDIES_TYPE">
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
           <AssociationSetMapping Name="AspNetUserRoles" TypeName="TAM_DBModel.AspNetUserRoles" StoreEntitySet="AspNetUserRoles">
             <EndProperty Name="AspNetRoles">
               <ScalarProperty Name="Id" ColumnName="RoleId" />
@@ -1224,6 +1236,15 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
+          <EntitySetMapping Name="STUDIES_TYPE_DICT">
+            <EntityTypeMapping TypeName="TAM_DBModel.STUDIES_TYPE_DICT">
+              <MappingFragment StoreEntitySet="STUDIES_TYPE_DICT">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

@@ -101,17 +101,13 @@
     <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Description" Type="varchar" MaxLength="500" Nullable="false" />
   </EntityType>
-  <!--Errors Found During Generation:
-warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary key defined. The key has been inferred and the definition was created as a read-only table/view.-->
-  <EntityType Name="STUDIES_TYPE">
+  <EntityType Name="STUDIES_TYPE_DICT">
     <Key>
-      <PropertyRef Name="Name" />
-      <PropertyRef Name="Description" />
-      <PropertyRef Name="SubjectID" />
+      <PropertyRef Name="ID" />
     </Key>
+    <Property Name="ID" Type="int" Nullable="false" />
     <Property Name="Name" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
-    <Property Name="SubjectID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SUBJECT">
     <Key>
@@ -131,12 +127,12 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
     <Property Name="Hours" Type="int" Nullable="false" />
     <Property Name="Semester" Type="int" Nullable="false" />
     <Property Name="TeacherID" Type="int" Nullable="false" />
-    <Property Name="IsSubstitute" Type="bit" Nullable="false" />
-    <Property Name="IsSubstituteDescription" Type="varchar" MaxLength="200" />
+    <Property Name="IsSubstitute" Type="bit" />
+    <Property Name="IsSubstituteDescription" Type="varchar(max)" />
     <Property Name="StudentGroupID" Type="int" Nullable="false" />
     <Property Name="SubjectID" Type="int" Nullable="false" />
     <Property Name="SubjectTypeID" Type="int" Nullable="false" />
-    <Property Name="StudiesType" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="StudiesTypeID" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="SUBJECT_TYPE_DICT">
     <Key>
@@ -164,6 +160,7 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
     <Property Name="FirstName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="SecondName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="TeacherStatus" Type="varchar" MaxLength="50" Nullable="false" />
+    <Property Name="AssignedHours" Type="int" Nullable="false" />
   </EntityType>
   <EntityType Name="USER">
     <Key>
@@ -174,7 +171,6 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
     <Property Name="FirstName" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="SecondName" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="PhoneNumber" Type="varchar" MaxLength="50" />
-    <Property Name="IsAdmin" Type="bit" Nullable="false" />
     <Property Name="UserTypeID" Type="int" Nullable="false" />
     <Property Name="TeacherID" Type="int" Nullable="false" />
     <Property Name="AspNetUserID" Type="nvarchar" MaxLength="128" Nullable="false" />
@@ -327,6 +323,18 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
+    <End Role="STUDIES_TYPE_DICT" Type="Self.STUDIES_TYPE_DICT" Multiplicity="1" />
+    <End Role="SUBJECT_ASSIGNMENT" Type="Self.SUBJECT_ASSIGNMENT" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STUDIES_TYPE_DICT">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SUBJECT_ASSIGNMENT">
+        <PropertyRef Name="StudiesTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SUBJECT_ASSIGNMENT_SUBJECT">
     <End Role="SUBJECT" Type="Self.SUBJECT" Multiplicity="1" />
     <End Role="SUBJECT_ASSIGNMENT" Type="Self.SUBJECT_ASSIGNMENT" Multiplicity="*" />
@@ -423,6 +431,7 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
     <EntitySet Name="SPECIALITY" EntityType="Self.SPECIALITY" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SPECIALITY_MAJOR_ASSIGNMENT" EntityType="Self.SPECIALITY_MAJOR_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="STUDENT_GROUP" EntityType="Self.STUDENT_GROUP" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="STUDIES_TYPE_DICT" EntityType="Self.STUDIES_TYPE_DICT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SUBJECT" EntityType="Self.SUBJECT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SUBJECT_ASSIGNMENT" EntityType="Self.SUBJECT_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SUBJECT_TYPE_DICT" EntityType="Self.SUBJECT_TYPE_DICT" Schema="dbo" store:Type="Tables" />
@@ -430,13 +439,6 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
     <EntitySet Name="TEACHER" EntityType="Self.TEACHER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="USER" EntityType="Self.USER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="USER_TYPE" EntityType="Self.USER_TYPE" Schema="dbo" store:Type="Tables" />
-    <EntitySet Name="STUDIES_TYPE" EntityType="Self.STUDIES_TYPE" store:Type="Tables" store:Schema="dbo">
-      <DefiningQuery>SELECT 
-    [STUDIES_TYPE].[Name] AS [Name], 
-    [STUDIES_TYPE].[Description] AS [Description], 
-    [STUDIES_TYPE].[SubjectID] AS [SubjectID]
-    FROM [dbo].[STUDIES_TYPE] AS [STUDIES_TYPE]</DefiningQuery>
-    </EntitySet>
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
       <End Role="AspNetUserClaims" EntitySet="AspNetUserClaims" />
@@ -479,6 +481,10 @@ warning 6002: The table/view 'TAM_DB.dbo.STUDIES_TYPE' does not have a primary k
     </AssociationSet>
     <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP" Association="Self.FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP">
       <End Role="STUDENT_GROUP" EntitySet="STUDENT_GROUP" />
+      <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" Association="Self.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
+      <End Role="STUDIES_TYPE_DICT" EntitySet="STUDIES_TYPE_DICT" />
       <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
     </AssociationSet>
     <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_SUBJECT" Association="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT">

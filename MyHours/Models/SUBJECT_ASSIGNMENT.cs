@@ -18,16 +18,17 @@ namespace MyHours.Models
         public int Hours { get; set; }
         public int Semester { get; set; }
         public int TeacherID { get; set; }
-        public bool IsSubstitute { get; set; }
+        public Nullable<bool> IsSubstitute { get; set; }
         public string IsSubstituteDescription { get; set; }
         public int StudentGroupID { get; set; }
         public int SubjectID { get; set; }
         public int SubjectTypeID { get; set; }
-        public string StudiesType { get; set; }
+        public int StudiesTypeID { get; set; }
     
         public virtual STUDENT_GROUP STUDENT_GROUP { get; set; }
         public virtual SUBJECT SUBJECT { get; set; }
         public virtual SUBJECT_TYPE_DICT SUBJECT_TYPE_DICT { get; set; }
         public virtual TEACHER TEACHER { get; set; }
+        public virtual STUDIES_TYPE_DICT STUDIES_TYPE_DICT { get; set; }
     }
 }

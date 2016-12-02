@@ -1,18 +1,61 @@
-﻿@model IEnumerable<MyHours.Models.SUBJECT_ASSIGNMENT>
+﻿@* STYLES *@
+<link href="~/Content/TeacherPage/TeacherIndexStyle.css" rel="stylesheet" />
+
+@model IEnumerable<MyHours.Models.SUBJECT_ASSIGNMENT>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-<h2>Index</h2>
+<h2>Subjects</h2>
 
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
+<table class="hours">
+    <tr>
+        <th class="hours">Total Time</th>
+        <th class="hours">Used Time</th>
+        <th class="hours">Free Time</th>
+    </tr>
+    <tr>
+        <td class="hours">
+            @{
+                <font color="blue"><b>@ViewBag.TotalTime</b></font>
+            }
+        </td>
+
+        <td class="hours">
+            @{
+                if (ViewBag.UsedTime == ViewBag.TotalTime)
+                {
+                    <font color="black"><b>@ViewBag.UsedTime</b></font>
+                }
+                else
+                {
+                    <font color="green"><b>@ViewBag.UsedTime</b></font>
+                }
+            }
+        </td>
+
+        <td class="hours">
+            @{
+                if (ViewBag.FreeTime > 0)
+                {
+                    <font color="green"><b>@ViewBag.FreeTime</b></font>
+                }
+                else
+                {
+                    <font color="black"><b>@ViewBag.FreeTime</b></font>
+                }
+            }
+        </td>
+    </tr>
+</table>
+
 <table class="table" align="center">
     <tr>
-        <th>
-            @Html.DisplayNameFor(model => model.SUBJECT.SubjectCode)
+        <th class="tableContent">
+            <div class="tableContent">
+                @Html.DisplayNameFor(model => model.SUBJECT.SubjectCode)
+            </div>
         </th>
         <th>
             @Html.DisplayNameFor(model => model.SUBJECT.Name)
@@ -24,7 +67,7 @@
             @Html.DisplayNameFor(model => model.Hours)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.StudiesType)
+            @Html.DisplayNameFor(model => model.STUDIES_TYPE_DICT.Name)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Semester)
@@ -55,31 +98,31 @@
         <td>
             @Html.DisplayFor(modelItem => item.SUBJECT.Name)
         </td>
-        <td>
+        <td class="tableContent">
             @Html.DisplayFor(modelItem => item.SUBJECT_TYPE_DICT.Name)
         </td>
-        <td>
+        <td class="tableContent">
             @Html.DisplayFor(modelItem => item.Hours)
         </td>
-        <td>
-            @Html.DisplayFor(modelItem => item.StudiesType)
+        <td class="tableContent">
+            @Html.DisplayFor(modelItem => item.STUDIES_TYPE_DICT.Name)
         </td>
-        <td>
+        <td class="tableContent">
             @Html.DisplayFor(modelItem => item.Semester)
         </td>
-        <td>
+        <td class="tableContent">
             @Html.DisplayFor(modelItem => item.SUBJECT.Language)
         </td>
-        <td>
+        <td class="tableContent">
             @Html.DisplayFor(modelItem => item.STUDENT_GROUP.Name)
         </td>
-        <td>
+        <td class="tableContent">
             @Html.DisplayFor(modelItem => item.SUBJECT.SPECIALITY.Name)
         </td>
-        <td>
+        <td class="tableContent">
             @Html.DisplayFor(modelItem => item.SUBJECT.SPECIALITY.MAJOR.Name)
         </td>
-        <td>
+        <td class="tableContent">
             @Html.DisplayFor(modelItem => item.SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
         </td>
         <td>
@@ -92,3 +135,7 @@
 }
 
 </table>
+
+<p>
+    <a href="@Url.Action("Create","Teacher")" class="btn btn-primary btn-lg">Add &#43;</a>
+</p>

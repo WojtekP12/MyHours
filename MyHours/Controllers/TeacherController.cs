@@ -7,6 +7,8 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MyHours.Models;
+using Microsoft.AspNet.Identity;
+using System.Security.Claims;
 
 namespace MyHours.Controllers
 {
@@ -18,8 +20,23 @@ namespace MyHours.Controllers
         // GET: Teacher
         public ActionResult Index()
         {
-            var sUBJECT_ASSIGNMENT = db.SUBJECT_ASSIGNMENT.Include(s => s.STUDENT_GROUP).Include(s => s.SUBJECT).Include(s => s.TEACHER).Include(s=>s.SUBJECT_TYPE_DICT);
-            return View(sUBJECT_ASSIGNMENT.ToList());
+            string id = getCurrentUserId();
+            int totalTime;
+            int usedTime;
+            int freeTime;
+
+            var sUBJECT_ASSIGNMENT = db.SUBJECT_ASSIGNMENT.Include(s => s.STUDENT_GROUP).Include(s => s.SUBJECT).Include(s => s.TEACHER).Include(s=>s.SUBJECT_TYPE_DICT).Include(s=>s.STUDIES_TYPE_DICT);
+            var teacherId = db.USER.Where(x => x.AspNetUserID == id).FirstOrDefault().TeacherID;
+
+            totalTime = db.TEACHER.Where(x => x.ID == teacherId).FirstOrDefault().AssignedHours;
+            usedTime = sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherId).Sum(x => x.Hours);
+            freeTime = totalTime - usedTime;
+
+            ViewBag.TotalTime = totalTime;
+            ViewBag.UsedTime = usedTime;
+            ViewBag.FreeTime = freeTime;
+
+            return View(sUBJECT_ASSIGNMENT.Where(x=>x.TeacherID== teacherId).ToList());
         }
 
         // GET: Teacher/Details/5
@@ -81,6 +98,8 @@ namespace MyHours.Controllers
             ViewBag.StudentGroupID = new SelectList(db.STUDENT_GROUP, "ID", "Name", sUBJECT_ASSIGNMENT.StudentGroupID);
             ViewBag.SubjectID = new SelectList(db.SUBJECT, "ID", "SubjectCode", sUBJECT_ASSIGNMENT.SubjectID);
             ViewBag.TeacherID = new SelectList(db.TEACHER, "ID", "FirstName", sUBJECT_ASSIGNMENT.TeacherID);
+            ViewBag.SubjectTypeID = new SelectList(db.SUBJECT_TYPE_DICT, "ID", "Description", sUBJECT_ASSIGNMENT.SubjectTypeID);
+            ViewBag.StudiesTypeID = new SelectList(db.STUDIES_TYPE_DICT, "ID", "Description", sUBJECT_ASSIGNMENT.StudiesTypeID);
             return View(sUBJECT_ASSIGNMENT);
         }
 
@@ -89,7 +108,7 @@ namespace MyHours.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Hours,TeacherID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
+        public ActionResult Edit([Bind(Include = "ID, Hours,TeacherID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID,SubjectTypeID, StudiesTypeID, Semester")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
         {
             if (ModelState.IsValid)
             {
@@ -100,6 +119,8 @@ namespace MyHours.Controllers
             ViewBag.StudentGroupID = new SelectList(db.STUDENT_GROUP, "ID", "Name", sUBJECT_ASSIGNMENT.StudentGroupID);
             ViewBag.SubjectID = new SelectList(db.SUBJECT, "ID", "SubjectCode", sUBJECT_ASSIGNMENT.SubjectID);
             ViewBag.TeacherID = new SelectList(db.TEACHER, "ID", "FirstName", sUBJECT_ASSIGNMENT.TeacherID);
+            ViewBag.SubjectTypeID = new SelectList(db.SUBJECT_TYPE_DICT, "ID", "Description", sUBJECT_ASSIGNMENT.SubjectTypeID);
+            ViewBag.StudiesTypeID = new SelectList(db.STUDIES_TYPE_DICT, "ID", "Description", sUBJECT_ASSIGNMENT.StudiesTypeID);
             return View(sUBJECT_ASSIGNMENT);
         }
 
@@ -136,6 +157,26 @@ namespace MyHours.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        protected string getCurrentUserId()
+        {
+            string id = string.Empty;
+            var claimsIdentity = User.Identity as ClaimsIdentity;
+            if (claimsIdentity != null)
+            {
+                // the principal identity is a claims identity.
+                // now we need to find the NameIdentifier claim
+                var userIdClaim = claimsIdentity.Claims
+                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+
+                if (userIdClaim != null)
+                {
+                    id = userIdClaim.Value;
+                }
+            }
+
+            return id;
         }
     }
 }
