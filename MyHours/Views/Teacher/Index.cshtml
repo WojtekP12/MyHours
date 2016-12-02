@@ -26,7 +26,11 @@
             @{
                 if (ViewBag.UsedTime == ViewBag.TotalTime)
                 {
-                    <font color="black"><b>@ViewBag.UsedTime</b></font>
+                    <font color="blue"><b>@ViewBag.UsedTime</b></font>
+                }
+                else if(ViewBag.UsedTime > ViewBag.TotalTime)
+                {
+                    <font color="red"><b>@ViewBag.UsedTime</b></font>
                 }
                 else
                 {
@@ -43,7 +47,7 @@
                 }
                 else
                 {
-                    <font color="black"><b>@ViewBag.FreeTime</b></font>
+                    <font color="red"><b>@ViewBag.FreeTime</b></font>
                 }
             }
         </td>

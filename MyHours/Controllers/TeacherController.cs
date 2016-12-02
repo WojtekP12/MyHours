@@ -31,6 +31,10 @@ namespace MyHours.Controllers
             totalTime = db.TEACHER.Where(x => x.ID == teacherId).FirstOrDefault().AssignedHours;
             usedTime = sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherId).Sum(x => x.Hours);
             freeTime = totalTime - usedTime;
+            if(freeTime<0)
+            {
+                freeTime = 0;
+            }
 
             ViewBag.TotalTime = totalTime;
             ViewBag.UsedTime = usedTime;
@@ -108,7 +112,7 @@ namespace MyHours.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID, Hours,TeacherID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID,SubjectTypeID, StudiesTypeID, Semester")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
+        public ActionResult Edit([Bind(Include = "ID,TeacherID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID,SubjectTypeID, StudiesTypeID, Semester, Hours")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
         {
             if (ModelState.IsValid)
             {
