@@ -1,51 +1,148 @@
-﻿@model MyHours.Models.SUBJECT_ASSIGNMENT
+﻿@* STYLES *@
+<link href="~/Content/TeacherPage/TeacherIndexStyle.css" rel="stylesheet" />
+
+@model IEnumerable<MyHours.Models.SUBJECT_ASSIGNMENT>
 
 @{
     ViewBag.Title = "Edit";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Edit</h2>
+<h2>@ViewBag.Teacher</h2>
+<p style="height:35px;"></p>
 
+<table class="hours">
+    <tr>
+        <th class="hours">Total Time</th>
+        <th class="hours">Used Time</th>
+        <th class="hours">Free Time</th>
+    </tr>
+    <tr>
+        <td class="hours">
+            @{
+                <font color="blue"><b>@ViewBag.TotalTime</b></font>
+            }
+        </td>
 
-@using (Html.BeginForm())
-{
-    @Html.AntiForgeryToken()
-    
-    <div class="form-horizontal">
-        <h4>SUBJECT_ASSIGNMENT</h4>
-        <hr />
-        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-        @Html.HiddenFor(model => model.Hours)
+        <td class="hours">
+            @{
+                if (ViewBag.UsedTime == ViewBag.TotalTime)
+                {
+                    <font color="blue"><b>@ViewBag.UsedTime</b></font>
+                }
+                else if (ViewBag.UsedTime > ViewBag.TotalTime)
+                {
+                    <font color="red"><b>@ViewBag.UsedTime</b></font>
+                }
+                else
+                {
+                    <font color="green"><b>@ViewBag.UsedTime</b></font>
+                }
+            }
+        </td>
 
-        @Html.HiddenFor(model => model.TeacherID)
+        <td class="hours">
+            @{
+                if (ViewBag.FreeTime > 0)
+                {
+                    <font color="green"><b>@ViewBag.FreeTime</b></font>
+                }
+                else
+                {
+                    <font color="red"><b>@ViewBag.FreeTime</b></font>
+                }
+            }
+        </td>
+    </tr>
+</table>
 
-        @Html.HiddenFor(model => model.IsSubstitute)
-
-        <div class="form-group">
-            @Html.LabelFor(model => model.IsSubstituteDescription, htmlAttributes: new { @class = "control-label col-md-2" })
-            <div class="col-md-10">
-                @Html.EditorFor(model => model.IsSubstituteDescription, new { htmlAttributes = new { @class = "form-control" } })
-                @Html.ValidationMessageFor(model => model.IsSubstituteDescription, "", new { @class = "text-danger" })
+<table class="table" align="center">
+    <tr>
+        <th class="tableContent">
+            <div class="tableContent">
+                @Html.DisplayNameFor(model => model.SUBJECT.SubjectCode)
             </div>
-        </div>
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT_TYPE_DICT.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Hours)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.STUDIES_TYPE_DICT.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Semester)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT.Language)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.STUDENT_GROUP.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT.SPECIALITY.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT.SPECIALITY.MAJOR.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
+        </th>
+        <th></th>
+    </tr>
 
-        @Html.HiddenFor(model => model.StudentGroupID)
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.SUBJECT.SubjectCode)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SUBJECT.Name)
+            </td>
+            <td class="tableContent">
+                @Html.DisplayFor(modelItem => item.SUBJECT_TYPE_DICT.Name)
+            </td>
+            <td class="tableContent">
+                @Html.DisplayFor(modelItem => item.Hours)
+            </td>
+            <td class="tableContent">
+                @Html.DisplayFor(modelItem => item.STUDIES_TYPE_DICT.Name)
+            </td>
+            <td class="tableContent">
+                @Html.DisplayFor(modelItem => item.Semester)
+            </td>
+            <td class="tableContent">
+                @Html.DisplayFor(modelItem => item.SUBJECT.Language)
+            </td>
+            <td class="tableContent">
+                @Html.DisplayFor(modelItem => item.STUDENT_GROUP.Name)
+            </td>
+            <td class="tableContent">
+                @Html.DisplayFor(modelItem => item.SUBJECT.SPECIALITY.Name)
+            </td>
+            <td class="tableContent">
+                @Html.DisplayFor(modelItem => item.SUBJECT.SPECIALITY.MAJOR.Name)
+            </td>
+            <td class="tableContent">
+                @Html.DisplayFor(modelItem => item.SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
+            </td>
+            <td>
+                <p><a href="@Url.Action("Edit","Teacher",new { id=item.ID })" class="btn btn-default">Edit</a></p>
+            </td>
+            <td>
+                <p><a href="@Url.Action("Delete","Teacher",new { id=item.ID })" class="btn btn-default">Delete</a></p>
+            </td>
+        </tr>
+    }
 
-        @Html.HiddenFor(model => model.SubjectID)
+</table>
 
-        <div class="form-group">
-            <div class="col-md-offset-2 col-md-10">
-                <input type="submit" value="Save" class="btn btn-default" />
-            </div>
-        </div>
-    </div>
-}
-
-<div>
-    @Html.ActionLink("Back to List", "Index")
-</div>
-
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+<p>
+    <a href="@Url.Action("Create","Teacher")" class="btn btn-primary btn-lg">Add &#43;</a>
+</p>

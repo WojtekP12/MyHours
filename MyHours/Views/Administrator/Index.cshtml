@@ -1,16 +1,16 @@
-﻿@model IEnumerable<MyHours.Models.SUBJECT_ASSIGNMENT>
+﻿@* STYLES *@
+<link href="~/Content/TeacherPage/TeacherIndexStyle.css" rel="stylesheet" />
+
+@model IEnumerable<MyHours.Models.SUBJECT_ASSIGNMENT>
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Index</h2>
-
-<p>
-    @Html.ActionLink("Create New", "Create")
-</p>
-<table class="table">
+<h2>Teachers</h2>
+<p style="height:35px;"></p>
+<table class="table" align="center">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.TEACHER.FirstName)
@@ -25,6 +25,9 @@
             @Html.DisplayNameFor(model => model.TEACHER.SUBJECT_ASSIGNMENT.FirstOrDefault().SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
         </th>
         <th>Number of Subjects</th>
+        <th>Assigned Hours</th>
+        <th>Used Hours</th>
+        <th>Free Hours</th>
     </tr>
 
 @foreach (var item in Model) {
@@ -45,12 +48,62 @@
             @Html.DisplayFor(modelItem => item.TEACHER.SUBJECT_ASSIGNMENT.Count)
         </td>
         <td>
+            @{
+                <font color="blue"><b>@item.TEACHER.AssignedHours</b></font>
+            }
+        </td>
+        <td>
+            @{
+                var t1 = item.TEACHER.SUBJECT_ASSIGNMENT.Sum(x => x.Hours);
+                if (t1 > item.TEACHER.AssignedHours)
+                {
+                    <font color="red"><b>@t1</b></font>
+                }
+                else if (t1 == item.TEACHER.AssignedHours)
+                {
+                    <font color="blue"><b>@t1</b></font>
+                }
+                else
+                {
+                    <font color="green"><b>@t1</b></font>
+                }
+
+            }
+    </td>
+
+        <td>
+            @{
+                var t = item.TEACHER.AssignedHours - item.TEACHER.SUBJECT_ASSIGNMENT.Sum(x => x.Hours);
+                if (t > 0)
+                {
+                    <font color="green"><b>@t</b></font>
+                }
+                else
+                {
+                    <font color="red"><b>@t</b></font>
+                }
+            }
+        </td>
+
+        <td>
             <p><a href="@Url.Action("Edit","Administrator",new { id=item.ID })" class="btn btn-default">Edit</a></p>
         </td>
         <td>
             <p><a href="@Url.Action("Delete","Administrator",new { id=item.ID })" class="btn btn-default">Delete</a></p>
         </td>
+        <td>
+            <p><a href="@Url.Action("Edit","Administrator",new { id=item.ID })" class="btn btn-default">Report</a></p>
+        </td>
     </tr>
 }
 
 </table>
+<div>
+    <p>
+        <a href="@Url.Action("Create","Teacher")" class="btn btn-primary btn-lg">Add &#43;</a>
+    </p>
+
+    <p>
+        <a href="@Url.Action("Create","Teacher")" class="btn btn-primary btn-lg">General Report &#43;</a>
+    </p>
+</div>

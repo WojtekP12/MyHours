@@ -18,6 +18,7 @@ namespace MyHours.Controllers
         public ActionResult Index()
         {
             var sUBJECT_ASSIGNMENT = db.SUBJECT_ASSIGNMENT.Include(s => s.STUDENT_GROUP).Include(s => s.SUBJECT).Include(s => s.TEACHER).GroupBy(s=>s.TeacherID).Select(s => s.FirstOrDefault());
+
             return View(sUBJECT_ASSIGNMENT.ToList());
         }
 
@@ -68,38 +69,27 @@ namespace MyHours.Controllers
         // GET: Administrator/Edit/5
         public ActionResult Edit(int? id)
         {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT = db.SUBJECT_ASSIGNMENT.Find(id);
-            if (sUBJECT_ASSIGNMENT == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.StudentGroupID = new SelectList(db.STUDENT_GROUP, "ID", "Name", sUBJECT_ASSIGNMENT.StudentGroupID);
-            ViewBag.SubjectID = new SelectList(db.SUBJECT, "ID", "SubjectCode", sUBJECT_ASSIGNMENT.SubjectID);
-            ViewBag.TeacherID = new SelectList(db.TEACHER, "ID", "FirstName", sUBJECT_ASSIGNMENT.TeacherID);
-            return View(sUBJECT_ASSIGNMENT);
-        }
+            int totalTime;
+            int usedTime;
+            int freeTime;
 
-        // POST: Administrator/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "Hours,TeacherID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
-        {
-            if (ModelState.IsValid)
+            var sUBJECT_ASSIGNMENT = db.SUBJECT_ASSIGNMENT.Include(s => s.STUDENT_GROUP).Include(s => s.SUBJECT).Include(s => s.TEACHER).Include(s => s.SUBJECT_TYPE_DICT).Include(s => s.STUDIES_TYPE_DICT);
+
+            totalTime = db.TEACHER.Where(x => x.ID == id).FirstOrDefault().AssignedHours;
+            usedTime = sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == id).Sum(x => x.Hours);
+            freeTime = totalTime - usedTime;
+
+            if (freeTime < 0)
             {
-                db.Entry(sUBJECT_ASSIGNMENT).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
+                freeTime = 0;
             }
-            ViewBag.StudentGroupID = new SelectList(db.STUDENT_GROUP, "ID", "Name", sUBJECT_ASSIGNMENT.StudentGroupID);
-            ViewBag.SubjectID = new SelectList(db.SUBJECT, "ID", "SubjectCode", sUBJECT_ASSIGNMENT.SubjectID);
-            ViewBag.TeacherID = new SelectList(db.TEACHER, "ID", "FirstName", sUBJECT_ASSIGNMENT.TeacherID);
-            return View(sUBJECT_ASSIGNMENT);
+
+            ViewBag.TotalTime = totalTime;
+            ViewBag.UsedTime = usedTime;
+            ViewBag.FreeTime = freeTime;
+            ViewBag.Teacher = db.TEACHER.Where(x => x.ID == id).FirstOrDefault().TeacherStatus + " " + db.TEACHER.Where(x => x.ID == id).FirstOrDefault().FirstName + " " + db.TEACHER.Where(x => x.ID == id).FirstOrDefault().SecondName;
+
+            return View(sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == id).ToList());
         }
 
         // GET: Administrator/Delete/5
