@@ -43,5 +43,7 @@ namespace MyHours.Models
         public virtual DbSet<USER> USER { get; set; }
         public virtual DbSet<USER_TYPE> USER_TYPE { get; set; }
         public virtual DbSet<STUDIES_TYPE_DICT> STUDIES_TYPE_DICT { get; set; }
+        public virtual DbSet<NOTIFICATION_STATUS> NOTIFICATION_STATUS { get; set; }
+        public virtual DbSet<USER_NOTIFICATION> USER_NOTIFICATION { get; set; }
     }
 }

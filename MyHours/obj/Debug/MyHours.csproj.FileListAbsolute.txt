@@ -164,3 +164,7 @@ C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\obj\Debug\MyHours.csprojResolveA
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\obj\Debug\MyHours.dll
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\obj\Debug\MyHours.pdb
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\WebActivatorEx.dll
+C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\Microsoft.AspNet.SignalR.Core.dll
+C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
+C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\Microsoft.AspNet.SignalR.Core.xml
+C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\Microsoft.AspNet.SignalR.SystemWeb.xml

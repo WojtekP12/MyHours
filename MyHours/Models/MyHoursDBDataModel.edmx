@@ -81,6 +81,14 @@
           <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
           <Property Name="FacultyID" Type="int" Nullable="false" />
         </EntityType>
+        <EntityType Name="NOTIFICATION_STATUS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+          <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+        </EntityType>
         <EntityType Name="SPECIALITY">
           <Key>
             <PropertyRef Name="ID" />
@@ -179,6 +187,18 @@
           <Property Name="UserTypeID" Type="int" Nullable="false" />
           <Property Name="TeacherID" Type="int" Nullable="false" />
           <Property Name="AspNetUserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+        </EntityType>
+        <EntityType Name="USER_NOTIFICATION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="SenderID" Type="int" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="Name" Type="nchar" MaxLength="200" Nullable="false" />
+          <Property Name="Description" Type="nchar" MaxLength="500" Nullable="false" />
+          <Property Name="StatusID" Type="int" Nullable="false" />
+          <Property Name="Date" Type="date" Nullable="false" />
         </EntityType>
         <EntityType Name="USER_TYPE">
           <Key>
@@ -433,6 +453,7 @@
           <EntitySet Name="FACULTY" EntityType="Self.FACULTY" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="FACULTY_ASSIGNMENT" EntityType="Self.FACULTY_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="MAJOR" EntityType="Self.MAJOR" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="NOTIFICATION_STATUS" EntityType="Self.NOTIFICATION_STATUS" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SPECIALITY" EntityType="Self.SPECIALITY" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="SPECIALITY_MAJOR_ASSIGNMENT" EntityType="Self.SPECIALITY_MAJOR_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="STUDENT_GROUP" EntityType="Self.STUDENT_GROUP" Schema="dbo" store:Type="Tables" />
@@ -443,6 +464,7 @@
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="TEACHER" EntityType="Self.TEACHER" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER" EntityType="Self.USER" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="USER_NOTIFICATION" EntityType="Self.USER_NOTIFICATION" Schema="dbo" store:Type="Tables" />
           <EntitySet Name="USER_TYPE" EntityType="Self.USER_TYPE" Schema="dbo" store:Type="Tables" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -1018,6 +1040,8 @@
             <End Role="STUDIES_TYPE_DICT" EntitySet="STUDIES_TYPE_DICT" />
             <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
           </AssociationSet>
+          <EntitySet Name="NOTIFICATION_STATUS" EntityType="TAM_DBModel.NOTIFICATION_STATUS" />
+          <EntitySet Name="USER_NOTIFICATION" EntityType="TAM_DBModel.USER_NOTIFICATION" />
         </EntityContainer>
         <EntityType Name="STUDIES_TYPE_DICT">
           <Key>
@@ -1040,6 +1064,26 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <EntityType Name="NOTIFICATION_STATUS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
+        </EntityType>
+        <EntityType Name="USER_NOTIFICATION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SenderID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="true" Unicode="true" />
+          <Property Name="Description" Type="String" Nullable="false" MaxLength="500" FixedLength="true" Unicode="true" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
+        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1241,6 +1285,28 @@
               <MappingFragment StoreEntitySet="STUDIES_TYPE_DICT">
                 <ScalarProperty Name="Description" ColumnName="Description" />
                 <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="NOTIFICATION_STATUS">
+            <EntityTypeMapping TypeName="TAM_DBModel.NOTIFICATION_STATUS">
+              <MappingFragment StoreEntitySet="NOTIFICATION_STATUS">
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="ID" ColumnName="ID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USER_NOTIFICATION">
+            <EntityTypeMapping TypeName="TAM_DBModel.USER_NOTIFICATION">
+              <MappingFragment StoreEntitySet="USER_NOTIFICATION">
+                <ScalarProperty Name="Date" ColumnName="Date" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="SenderID" ColumnName="SenderID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
               </MappingFragment>
             </EntityTypeMapping>

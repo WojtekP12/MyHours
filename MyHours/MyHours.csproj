@@ -72,6 +72,14 @@
       <HintPath>..\packages\Microsoft.ApplicationInsights.2.1.0\lib\net45\Microsoft.ApplicationInsights.dll</HintPath>
       <Private>True</Private>
     </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.Core, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.Core.2.2.1\lib\net45\Microsoft.AspNet.SignalR.Core.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
+    <Reference Include="Microsoft.AspNet.SignalR.SystemWeb, Version=2.2.1.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <HintPath>..\packages\Microsoft.AspNet.SignalR.SystemWeb.2.2.1\lib\net45\Microsoft.AspNet.SignalR.SystemWeb.dll</HintPath>
+      <Private>True</Private>
+    </Reference>
     <Reference Include="Microsoft.CodeDom.Providers.DotNetCompilerPlatform, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
       <HintPath>..\packages\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.1.0.0\lib\net45\Microsoft.CodeDom.Providers.DotNetCompilerPlatform.dll</HintPath>
       <Private>True</Private>
@@ -253,6 +261,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>MyHoursDBDataModel.edmx</DependentUpon>
     </Compile>
+    <Compile Include="Models\NOTIFICATION_STATUS.cs">
+      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\SPECIALITY.cs">
       <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
     </Compile>
@@ -283,9 +294,14 @@
     <Compile Include="Models\USER.cs">
       <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="Models\USER_NOTIFICATION.cs">
+      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+    </Compile>
     <Compile Include="Models\USER_TYPE.cs">
       <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
     </Compile>
+    <Compile Include="NotificationComponent.cs" />
+    <Compile Include="NotificationHub.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Startup.cs" />
   </ItemGroup>
@@ -330,6 +346,8 @@
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.js" />
+    <Content Include="Scripts\jquery.signalR-2.2.1.min.js" />
     <Content Include="Scripts\jquery.validate.js" />
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />

@@ -76,6 +76,14 @@
     <Property Name="Name" Type="varchar" MaxLength="200" Nullable="false" />
     <Property Name="FacultyID" Type="int" Nullable="false" />
   </EntityType>
+  <EntityType Name="NOTIFICATION_STATUS">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="Name" Type="varchar" MaxLength="20" Nullable="false" />
+    <Property Name="Description" Type="varchar" MaxLength="50" Nullable="false" />
+  </EntityType>
   <EntityType Name="SPECIALITY">
     <Key>
       <PropertyRef Name="ID" />
@@ -174,6 +182,18 @@
     <Property Name="UserTypeID" Type="int" Nullable="false" />
     <Property Name="TeacherID" Type="int" Nullable="false" />
     <Property Name="AspNetUserID" Type="nvarchar" MaxLength="128" Nullable="false" />
+  </EntityType>
+  <EntityType Name="USER_NOTIFICATION">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="SenderID" Type="int" Nullable="false" />
+    <Property Name="UserID" Type="int" Nullable="false" />
+    <Property Name="Name" Type="nchar" MaxLength="200" Nullable="false" />
+    <Property Name="Description" Type="nchar" MaxLength="500" Nullable="false" />
+    <Property Name="StatusID" Type="int" Nullable="false" />
+    <Property Name="Date" Type="date" Nullable="false" />
   </EntityType>
   <EntityType Name="USER_TYPE">
     <Key>
@@ -428,6 +448,7 @@
     <EntitySet Name="FACULTY" EntityType="Self.FACULTY" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="FACULTY_ASSIGNMENT" EntityType="Self.FACULTY_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="MAJOR" EntityType="Self.MAJOR" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="NOTIFICATION_STATUS" EntityType="Self.NOTIFICATION_STATUS" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SPECIALITY" EntityType="Self.SPECIALITY" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="SPECIALITY_MAJOR_ASSIGNMENT" EntityType="Self.SPECIALITY_MAJOR_ASSIGNMENT" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="STUDENT_GROUP" EntityType="Self.STUDENT_GROUP" Schema="dbo" store:Type="Tables" />
@@ -438,6 +459,7 @@
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="TEACHER" EntityType="Self.TEACHER" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="USER" EntityType="Self.USER" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="USER_NOTIFICATION" EntityType="Self.USER_NOTIFICATION" Schema="dbo" store:Type="Tables" />
     <EntitySet Name="USER_TYPE" EntityType="Self.USER_TYPE" Schema="dbo" store:Type="Tables" />
     <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />

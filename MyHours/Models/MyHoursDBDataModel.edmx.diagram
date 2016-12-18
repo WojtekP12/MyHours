@@ -4,7 +4,7 @@
   <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
     <!-- Diagram content (shape and connector positions) -->
     <edmx:Diagrams>
-      <Diagram DiagramId="b8eee0c2f44d43dda4e1f82c947c91aa" Name="Diagram1" ZoomLevel="47">
+      <Diagram DiagramId="b8eee0c2f44d43dda4e1f82c947c91aa" Name="Diagram1" ZoomLevel="48">
         <EntityTypeShape EntityType="TAM_DBModel.AspNetRoles" Width="1.5" PointX="40.5" PointY="8.875" IsExpanded="true" />
         <EntityTypeShape EntityType="TAM_DBModel.AspNetUserClaims" Width="1.5" PointX="40.5" PointY="6.375" IsExpanded="true" />
         <EntityTypeShape EntityType="TAM_DBModel.AspNetUserLogins" Width="1.5" PointX="40.5" PointY="4.25" IsExpanded="true" />
@@ -47,6 +47,8 @@
         <AssociationConnector Association="TAM_DBModel.AspNetUserRoles" ManuallyRouted="false" />
         <EntityTypeShape EntityType="TAM_DBModel.STUDIES_TYPE_DICT" Width="1.5" PointX="20.875" PointY="18" />
         <AssociationConnector Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" />
+        <EntityTypeShape EntityType="TAM_DBModel.NOTIFICATION_STATUS" Width="1.5" PointX="36.125" PointY="14" />
+        <EntityTypeShape EntityType="TAM_DBModel.USER_NOTIFICATION" Width="1.5" PointX="38.125" PointY="14" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

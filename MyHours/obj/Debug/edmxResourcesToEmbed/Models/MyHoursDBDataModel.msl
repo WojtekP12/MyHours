@@ -200,5 +200,27 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="NOTIFICATION_STATUS">
+      <EntityTypeMapping TypeName="TAM_DBModel.NOTIFICATION_STATUS">
+        <MappingFragment StoreEntitySet="NOTIFICATION_STATUS">
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="USER_NOTIFICATION">
+      <EntityTypeMapping TypeName="TAM_DBModel.USER_NOTIFICATION">
+        <MappingFragment StoreEntitySet="USER_NOTIFICATION">
+          <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="SenderID" ColumnName="SenderID" />
+          <ScalarProperty Name="ID" ColumnName="ID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
