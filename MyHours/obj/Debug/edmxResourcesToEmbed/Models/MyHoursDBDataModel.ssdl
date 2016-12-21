@@ -180,7 +180,7 @@
     <Property Name="SecondName" Type="varchar" MaxLength="100" Nullable="false" />
     <Property Name="PhoneNumber" Type="varchar" MaxLength="50" />
     <Property Name="UserTypeID" Type="int" Nullable="false" />
-    <Property Name="TeacherID" Type="int" Nullable="false" />
+    <Property Name="TeacherID" Type="int" />
     <Property Name="AspNetUserID" Type="nvarchar" MaxLength="128" Nullable="false" />
   </EntityType>
   <EntityType Name="USER_NOTIFICATION">
@@ -416,7 +416,7 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_USER_TEACHER">
-    <End Role="TEACHER" Type="Self.TEACHER" Multiplicity="1" />
+    <End Role="TEACHER" Type="Self.TEACHER" Multiplicity="0..1" />
     <End Role="USER" Type="Self.USER" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="TEACHER">

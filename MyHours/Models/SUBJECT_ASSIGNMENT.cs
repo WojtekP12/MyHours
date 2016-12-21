@@ -26,9 +26,9 @@ namespace MyHours.Models
         public int StudiesTypeID { get; set; }
     
         public virtual STUDENT_GROUP STUDENT_GROUP { get; set; }
+        public virtual STUDIES_TYPE_DICT STUDIES_TYPE_DICT { get; set; }
         public virtual SUBJECT SUBJECT { get; set; }
         public virtual SUBJECT_TYPE_DICT SUBJECT_TYPE_DICT { get; set; }
         public virtual TEACHER TEACHER { get; set; }
-        public virtual STUDIES_TYPE_DICT STUDIES_TYPE_DICT { get; set; }
     }
 }

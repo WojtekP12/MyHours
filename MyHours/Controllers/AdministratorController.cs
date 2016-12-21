@@ -10,6 +10,7 @@ using MyHours.Models;
 
 namespace MyHours.Controllers
 {
+    [Authorize(Roles = "Administrator")]
     public class AdministratorController : Controller
     {
         private TAM_DBEntities db = new TAM_DBEntities();

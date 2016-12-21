@@ -12,7 +12,7 @@ using System.Security.Claims;
 
 namespace MyHours.Controllers
 {
-    [Authorize(Roles = "Teacher")]
+    [Authorize(Roles = "Teacher, Administrator")]
     public class TeacherController : Controller
     {
         private TAM_DBEntities db = new TAM_DBEntities();

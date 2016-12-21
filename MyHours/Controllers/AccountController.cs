@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using MyHours.Models;
+using System.Collections.Generic;
+using Microsoft.AspNet.Identity.EntityFramework;
 
 namespace MyHours.Controllers
 {
@@ -17,6 +19,7 @@ namespace MyHours.Controllers
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private TAM_DBEntities db = new TAM_DBEntities();
 
         public AccountController()
         {
@@ -141,6 +144,7 @@ namespace MyHours.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.UserTypeID = new SelectList(db.USER_TYPE, "ID", "Description");
             return View();
         }
 
@@ -153,24 +157,44 @@ namespace MyHours.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
-                {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
-                    // Send an email with this link
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
+                var aspUser = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var result = await UserManager.CreateAsync(aspUser, model.Password);
 
-                    return RedirectToAction("Index", "Home");
-                }
-                AddErrors(result);
+                if(result.Succeeded)
+                {
+                    var userType = db.USER_TYPE.Where(x => x.ID == model.UserTypeID).FirstOrDefault().Description;
+
+                    using (var context = new ApplicationDbContext())
+                    {
+                        var roleStore = new RoleStore<IdentityRole>(context);
+
+                        var roleManager = new RoleManager<IdentityRole>(roleStore);
+
+                        var userStore = new UserStore<ApplicationUser>(context);
+                        var userManager = new UserManager<ApplicationUser>(userStore);
+                        userManager.AddToRole(aspUser.Id, userType);
+                        if(userType == "Teacher")
+                        {
+                            var teacher = new TEACHER { FirstName = model.FirstName, SecondName = model.SecondName, TeacherStatus = model.Status, AssignedHours = model.AssignedHours };
+                            db.TEACHER.Add(teacher);
+                            db.SaveChanges();
+
+                            USER user = new USER { Name = model.Login, FirstName = model.FirstName, SecondName = model.SecondName, PhoneNumber = model.Phone, UserTypeID = model.UserTypeID, TeacherID = teacher.ID, AspNetUserID = aspUser.Id };
+                            db.USER.Add(user);
+                            db.SaveChanges();
+                        }
+                        else
+                        {
+                            USER user = new USER { Name = model.Login, FirstName = model.FirstName, SecondName = model.SecondName, PhoneNumber = model.Phone, UserTypeID = model.UserTypeID, AspNetUserID = aspUser.Id };
+                            db.USER.Add(user);
+                            db.SaveChanges();
+                        }
+                    }
+                }              
             }
 
-            // If we got this far, something failed, redisplay form
+            ViewBag.UserTypeID = new SelectList(db.USER_TYPE, "ID", "Description");
+
             return View(model);
         }
 

@@ -20,7 +20,7 @@ namespace MyHours.Models
         public string SecondName { get; set; }
         public string PhoneNumber { get; set; }
         public int UserTypeID { get; set; }
-        public int TeacherID { get; set; }
+        public Nullable<int> TeacherID { get; set; }
         public string AspNetUserID { get; set; }
     
         public virtual AspNetUsers AspNetUsers { get; set; }

@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-    <Schema Namespace="TAM_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+      <Schema Namespace="TAM_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -185,7 +185,7 @@
           <Property Name="SecondName" Type="varchar" MaxLength="100" Nullable="false" />
           <Property Name="PhoneNumber" Type="varchar" MaxLength="50" />
           <Property Name="UserTypeID" Type="int" Nullable="false" />
-          <Property Name="TeacherID" Type="int" Nullable="false" />
+          <Property Name="TeacherID" Type="int" />
           <Property Name="AspNetUserID" Type="nvarchar" MaxLength="128" Nullable="false" />
         </EntityType>
         <EntityType Name="USER_NOTIFICATION">
@@ -421,7 +421,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_USER_TEACHER">
-          <End Role="TEACHER" Type="Self.TEACHER" Multiplicity="1" />
+          <End Role="TEACHER" Type="Self.TEACHER" Multiplicity="0..1" />
           <End Role="USER" Type="Self.USER" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TEACHER">
@@ -543,7 +543,8 @@
             <End Role="USER" EntitySet="USER" />
           </AssociationSet>
         </EntityContainer>
-      </Schema></edmx:StorageModels>
+      </Schema>
+    </edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TAM_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -630,6 +631,14 @@
           <NavigationProperty Name="SPECIALITY" Relationship="Self.FK_SPECIALITY_MAJOR" FromRole="MAJOR" ToRole="SPECIALITY" />
           <NavigationProperty Name="SPECIALITY_MAJOR_ASSIGNMENT" Relationship="Self.FK_SPECIALITY_MAJOR_ASSIGNMENT_MAJOR" FromRole="MAJOR" ToRole="SPECIALITY_MAJOR_ASSIGNMENT" />
         </EntityType>
+        <EntityType Name="NOTIFICATION_STATUS">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+        </EntityType>
         <EntityType Name="SPECIALITY">
           <Key>
             <PropertyRef Name="ID" />
@@ -660,6 +669,15 @@
           <NavigationProperty Name="FACULTY_ASSIGNMENT" Relationship="Self.FK_FACULTY_ASSIGNMENT_STUDENT_GROUP" FromRole="STUDENT_GROUP" ToRole="FACULTY_ASSIGNMENT" />
           <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP" FromRole="STUDENT_GROUP" ToRole="SUBJECT_ASSIGNMENT" />
         </EntityType>
+        <EntityType Name="STUDIES_TYPE_DICT">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" FromRole="STUDIES_TYPE_DICT" ToRole="SUBJECT_ASSIGNMENT" />
+        </EntityType>
         <EntityType Name="SUBJECT">
           <Key>
             <PropertyRef Name="ID" />
@@ -685,12 +703,12 @@
           <Property Name="StudentGroupID" Type="Int32" Nullable="false" />
           <Property Name="SubjectID" Type="Int32" Nullable="false" />
           <Property Name="SubjectTypeID" Type="Int32" Nullable="false" />
+          <Property Name="StudiesTypeID" Type="Int32" Nullable="false" />
           <NavigationProperty Name="STUDENT_GROUP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP" FromRole="SUBJECT_ASSIGNMENT" ToRole="STUDENT_GROUP" />
+          <NavigationProperty Name="STUDIES_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="STUDIES_TYPE_DICT" />
           <NavigationProperty Name="SUBJECT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT" />
           <NavigationProperty Name="SUBJECT_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT_TYPE_DICT" />
           <NavigationProperty Name="TEACHER" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEACHER" FromRole="SUBJECT_ASSIGNMENT" ToRole="TEACHER" />
-          <Property Name="StudiesTypeID" Type="Int32" Nullable="false" />
-          <NavigationProperty Name="STUDIES_TYPE_DICT" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="STUDIES_TYPE_DICT" />
         </EntityType>
         <EntityType Name="SUBJECT_TYPE_DICT">
           <Key>
@@ -719,10 +737,10 @@
           <Property Name="FirstName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="SecondName" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="TeacherStatus" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="AssignedHours" Type="Int32" Nullable="false" />
           <NavigationProperty Name="FACULTY_ASSIGNMENT" Relationship="Self.FK_FACULTY_ASSIGNMENT_TEACHER" FromRole="TEACHER" ToRole="FACULTY_ASSIGNMENT" />
           <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEACHER" FromRole="TEACHER" ToRole="SUBJECT_ASSIGNMENT" />
           <NavigationProperty Name="USER" Relationship="Self.FK_USER_TEACHER" FromRole="TEACHER" ToRole="USER" />
-          <Property Name="AssignedHours" Type="Int32" Nullable="false" />
         </EntityType>
         <EntityType Name="USER">
           <Key>
@@ -734,11 +752,23 @@
           <Property Name="SecondName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
           <Property Name="PhoneNumber" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
           <Property Name="UserTypeID" Type="Int32" Nullable="false" />
-          <Property Name="TeacherID" Type="Int32" Nullable="false" />
+          <Property Name="TeacherID" Type="Int32" />
           <Property Name="AspNetUserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
           <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_USER_AspNetUsers" FromRole="USER" ToRole="AspNetUsers" />
           <NavigationProperty Name="TEACHER" Relationship="Self.FK_USER_TEACHER" FromRole="USER" ToRole="TEACHER" />
           <NavigationProperty Name="USER_TYPE" Relationship="Self.FK_USER_USER_TYPE" FromRole="USER" ToRole="USER_TYPE" />
+        </EntityType>
+        <EntityType Name="USER_NOTIFICATION">
+          <Key>
+            <PropertyRef Name="ID" />
+          </Key>
+          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="SenderID" Type="Int32" Nullable="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="200" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="Description" Type="String" MaxLength="500" FixedLength="true" Unicode="true" Nullable="false" />
+          <Property Name="StatusID" Type="Int32" Nullable="false" />
+          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
         </EntityType>
         <EntityType Name="USER_TYPE">
           <Key>
@@ -885,6 +915,18 @@
             </Dependent>
           </ReferentialConstraint>
         </Association>
+        <Association Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
+          <End Role="STUDIES_TYPE_DICT" Type="Self.STUDIES_TYPE_DICT" Multiplicity="1" />
+          <End Role="SUBJECT_ASSIGNMENT" Type="Self.SUBJECT_ASSIGNMENT" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="STUDIES_TYPE_DICT">
+              <PropertyRef Name="ID" />
+            </Principal>
+            <Dependent Role="SUBJECT_ASSIGNMENT">
+              <PropertyRef Name="StudiesTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
         <Association Name="FK_SUBJECT_ASSIGNMENT_SUBJECT">
           <End Role="SUBJECT" Type="Self.SUBJECT" Multiplicity="1" />
           <End Role="SUBJECT_ASSIGNMENT" Type="Self.SUBJECT_ASSIGNMENT" Multiplicity="*" />
@@ -922,7 +964,7 @@
           </ReferentialConstraint>
         </Association>
         <Association Name="FK_USER_TEACHER">
-          <End Role="TEACHER" Type="Self.TEACHER" Multiplicity="1" />
+          <End Role="TEACHER" Type="Self.TEACHER" Multiplicity="0..1" />
           <End Role="USER" Type="Self.USER" Multiplicity="*" />
           <ReferentialConstraint>
             <Principal Role="TEACHER">
@@ -957,15 +999,18 @@
           <EntitySet Name="FACULTY" EntityType="Self.FACULTY" />
           <EntitySet Name="FACULTY_ASSIGNMENT" EntityType="Self.FACULTY_ASSIGNMENT" />
           <EntitySet Name="MAJOR" EntityType="Self.MAJOR" />
+          <EntitySet Name="NOTIFICATION_STATUS" EntityType="Self.NOTIFICATION_STATUS" />
           <EntitySet Name="SPECIALITY" EntityType="Self.SPECIALITY" />
           <EntitySet Name="SPECIALITY_MAJOR_ASSIGNMENT" EntityType="Self.SPECIALITY_MAJOR_ASSIGNMENT" />
           <EntitySet Name="STUDENT_GROUP" EntityType="Self.STUDENT_GROUP" />
+          <EntitySet Name="STUDIES_TYPE_DICT" EntityType="Self.STUDIES_TYPE_DICT" />
           <EntitySet Name="SUBJECT" EntityType="Self.SUBJECT" />
           <EntitySet Name="SUBJECT_ASSIGNMENT" EntityType="Self.SUBJECT_ASSIGNMENT" />
           <EntitySet Name="SUBJECT_TYPE_DICT" EntityType="Self.SUBJECT_TYPE_DICT" />
           <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
           <EntitySet Name="TEACHER" EntityType="Self.TEACHER" />
           <EntitySet Name="USER" EntityType="Self.USER" />
+          <EntitySet Name="USER_NOTIFICATION" EntityType="Self.USER_NOTIFICATION" />
           <EntitySet Name="USER_TYPE" EntityType="Self.USER_TYPE" />
           <AssociationSet Name="FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId" Association="Self.FK_dbo_AspNetUserClaims_dbo_AspNetUsers_UserId">
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
@@ -1011,6 +1056,10 @@
             <End Role="STUDENT_GROUP" EntitySet="STUDENT_GROUP" />
             <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
           </AssociationSet>
+          <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" Association="Self.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
+            <End Role="STUDIES_TYPE_DICT" EntitySet="STUDIES_TYPE_DICT" />
+            <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
+          </AssociationSet>
           <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_SUBJECT" Association="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT">
             <End Role="SUBJECT" EntitySet="SUBJECT" />
             <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
@@ -1035,55 +1084,7 @@
             <End Role="AspNetRoles" EntitySet="AspNetRoles" />
             <End Role="AspNetUsers" EntitySet="AspNetUsers" />
           </AssociationSet>
-          <EntitySet Name="STUDIES_TYPE_DICT" EntityType="TAM_DBModel.STUDIES_TYPE_DICT" />
-          <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
-            <End Role="STUDIES_TYPE_DICT" EntitySet="STUDIES_TYPE_DICT" />
-            <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
-          </AssociationSet>
-          <EntitySet Name="NOTIFICATION_STATUS" EntityType="TAM_DBModel.NOTIFICATION_STATUS" />
-          <EntitySet Name="USER_NOTIFICATION" EntityType="TAM_DBModel.USER_NOTIFICATION" />
         </EntityContainer>
-        <EntityType Name="STUDIES_TYPE_DICT">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-          <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" FromRole="STUDIES_TYPE_DICT" ToRole="SUBJECT_ASSIGNMENT" />
-        </EntityType>
-        <Association Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
-          <End Type="TAM_DBModel.STUDIES_TYPE_DICT" Role="STUDIES_TYPE_DICT" Multiplicity="1" />
-          <End Type="TAM_DBModel.SUBJECT_ASSIGNMENT" Role="SUBJECT_ASSIGNMENT" Multiplicity="*" />
-          <ReferentialConstraint>
-            <Principal Role="STUDIES_TYPE_DICT">
-              <PropertyRef Name="ID" />
-            </Principal>
-            <Dependent Role="SUBJECT_ASSIGNMENT">
-              <PropertyRef Name="StudiesTypeID" />
-            </Dependent>
-          </ReferentialConstraint>
-        </Association>
-        <EntityType Name="NOTIFICATION_STATUS">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="20" FixedLength="false" Unicode="false" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="50" FixedLength="false" Unicode="false" />
-        </EntityType>
-        <EntityType Name="USER_NOTIFICATION">
-          <Key>
-            <PropertyRef Name="ID" />
-          </Key>
-          <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-          <Property Name="SenderID" Type="Int32" Nullable="false" />
-          <Property Name="UserID" Type="Int32" Nullable="false" />
-          <Property Name="Name" Type="String" Nullable="false" MaxLength="200" FixedLength="true" Unicode="true" />
-          <Property Name="Description" Type="String" Nullable="false" MaxLength="500" FixedLength="true" Unicode="true" />
-          <Property Name="StatusID" Type="Int32" Nullable="false" />
-          <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-        </EntityType>
       </Schema>
     </edmx:ConceptualModels>
     <!-- C-S mapping content -->
@@ -1163,6 +1164,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="NOTIFICATION_STATUS">
+            <EntityTypeMapping TypeName="TAM_DBModel.NOTIFICATION_STATUS">
+              <MappingFragment StoreEntitySet="NOTIFICATION_STATUS">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SPECIALITY">
             <EntityTypeMapping TypeName="TAM_DBModel.SPECIALITY">
               <MappingFragment StoreEntitySet="SPECIALITY">
@@ -1191,6 +1201,15 @@
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
+          <EntitySetMapping Name="STUDIES_TYPE_DICT">
+            <EntityTypeMapping TypeName="TAM_DBModel.STUDIES_TYPE_DICT">
+              <MappingFragment StoreEntitySet="STUDIES_TYPE_DICT">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
           <EntitySetMapping Name="SUBJECT">
             <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT">
               <MappingFragment StoreEntitySet="SUBJECT">
@@ -1205,7 +1224,6 @@
           <EntitySetMapping Name="SUBJECT_ASSIGNMENT">
             <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT">
               <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT">
-                <ScalarProperty Name="StudiesTypeID" ColumnName="StudiesTypeID" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Hours" ColumnName="Hours" />
                 <ScalarProperty Name="Semester" ColumnName="Semester" />
@@ -1215,6 +1233,7 @@
                 <ScalarProperty Name="StudentGroupID" ColumnName="StudentGroupID" />
                 <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
                 <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
+                <ScalarProperty Name="StudiesTypeID" ColumnName="StudiesTypeID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1241,11 +1260,11 @@
           <EntitySetMapping Name="TEACHER">
             <EntityTypeMapping TypeName="TAM_DBModel.TEACHER">
               <MappingFragment StoreEntitySet="TEACHER">
-                <ScalarProperty Name="AssignedHours" ColumnName="AssignedHours" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="SecondName" ColumnName="SecondName" />
                 <ScalarProperty Name="TeacherStatus" ColumnName="TeacherStatus" />
+                <ScalarProperty Name="AssignedHours" ColumnName="AssignedHours" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1260,6 +1279,19 @@
                 <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
                 <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
                 <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="USER_NOTIFICATION">
+            <EntityTypeMapping TypeName="TAM_DBModel.USER_NOTIFICATION">
+              <MappingFragment StoreEntitySet="USER_NOTIFICATION">
+                <ScalarProperty Name="ID" ColumnName="ID" />
+                <ScalarProperty Name="SenderID" ColumnName="SenderID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+                <ScalarProperty Name="Date" ColumnName="Date" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1280,37 +1312,6 @@
               <ScalarProperty Name="Id" ColumnName="UserId" />
             </EndProperty>
           </AssociationSetMapping>
-          <EntitySetMapping Name="STUDIES_TYPE_DICT">
-            <EntityTypeMapping TypeName="TAM_DBModel.STUDIES_TYPE_DICT">
-              <MappingFragment StoreEntitySet="STUDIES_TYPE_DICT">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="NOTIFICATION_STATUS">
-            <EntityTypeMapping TypeName="TAM_DBModel.NOTIFICATION_STATUS">
-              <MappingFragment StoreEntitySet="NOTIFICATION_STATUS">
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
-          <EntitySetMapping Name="USER_NOTIFICATION">
-            <EntityTypeMapping TypeName="TAM_DBModel.USER_NOTIFICATION">
-              <MappingFragment StoreEntitySet="USER_NOTIFICATION">
-                <ScalarProperty Name="Date" ColumnName="Date" />
-                <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-                <ScalarProperty Name="Description" ColumnName="Description" />
-                <ScalarProperty Name="Name" ColumnName="Name" />
-                <ScalarProperty Name="UserID" ColumnName="UserID" />
-                <ScalarProperty Name="SenderID" ColumnName="SenderID" />
-                <ScalarProperty Name="ID" ColumnName="ID" />
-              </MappingFragment>
-            </EntityTypeMapping>
-          </EntitySetMapping>
         </EntityContainerMapping>
       </Mapping>
     </edmx:Mappings>

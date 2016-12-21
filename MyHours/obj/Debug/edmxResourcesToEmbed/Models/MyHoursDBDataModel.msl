@@ -74,6 +74,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="NOTIFICATION_STATUS">
+      <EntityTypeMapping TypeName="TAM_DBModel.NOTIFICATION_STATUS">
+        <MappingFragment StoreEntitySet="NOTIFICATION_STATUS">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="SPECIALITY">
       <EntityTypeMapping TypeName="TAM_DBModel.SPECIALITY">
         <MappingFragment StoreEntitySet="SPECIALITY">
@@ -102,6 +111,15 @@
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
+    <EntitySetMapping Name="STUDIES_TYPE_DICT">
+      <EntityTypeMapping TypeName="TAM_DBModel.STUDIES_TYPE_DICT">
+        <MappingFragment StoreEntitySet="STUDIES_TYPE_DICT">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
     <EntitySetMapping Name="SUBJECT">
       <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT">
         <MappingFragment StoreEntitySet="SUBJECT">
@@ -116,7 +134,6 @@
     <EntitySetMapping Name="SUBJECT_ASSIGNMENT">
       <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT">
         <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT">
-          <ScalarProperty Name="StudiesTypeID" ColumnName="StudiesTypeID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Hours" ColumnName="Hours" />
           <ScalarProperty Name="Semester" ColumnName="Semester" />
@@ -126,6 +143,7 @@
           <ScalarProperty Name="StudentGroupID" ColumnName="StudentGroupID" />
           <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
           <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
+          <ScalarProperty Name="StudiesTypeID" ColumnName="StudiesTypeID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -152,11 +170,11 @@
     <EntitySetMapping Name="TEACHER">
       <EntityTypeMapping TypeName="TAM_DBModel.TEACHER">
         <MappingFragment StoreEntitySet="TEACHER">
-          <ScalarProperty Name="AssignedHours" ColumnName="AssignedHours" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="SecondName" ColumnName="SecondName" />
           <ScalarProperty Name="TeacherStatus" ColumnName="TeacherStatus" />
+          <ScalarProperty Name="AssignedHours" ColumnName="AssignedHours" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -171,6 +189,19 @@
           <ScalarProperty Name="UserTypeID" ColumnName="UserTypeID" />
           <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
           <ScalarProperty Name="AspNetUserID" ColumnName="AspNetUserID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="USER_NOTIFICATION">
+      <EntityTypeMapping TypeName="TAM_DBModel.USER_NOTIFICATION">
+        <MappingFragment StoreEntitySet="USER_NOTIFICATION">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="SenderID" ColumnName="SenderID" />
+          <ScalarProperty Name="UserID" ColumnName="UserID" />
+          <ScalarProperty Name="Name" ColumnName="Name" />
+          <ScalarProperty Name="Description" ColumnName="Description" />
+          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
+          <ScalarProperty Name="Date" ColumnName="Date" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -191,36 +222,5 @@
         <ScalarProperty Name="Id" ColumnName="UserId" />
       </EndProperty>
     </AssociationSetMapping>
-    <EntitySetMapping Name="STUDIES_TYPE_DICT">
-      <EntityTypeMapping TypeName="TAM_DBModel.STUDIES_TYPE_DICT">
-        <MappingFragment StoreEntitySet="STUDIES_TYPE_DICT">
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="NOTIFICATION_STATUS">
-      <EntityTypeMapping TypeName="TAM_DBModel.NOTIFICATION_STATUS">
-        <MappingFragment StoreEntitySet="NOTIFICATION_STATUS">
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
-    <EntitySetMapping Name="USER_NOTIFICATION">
-      <EntityTypeMapping TypeName="TAM_DBModel.USER_NOTIFICATION">
-        <MappingFragment StoreEntitySet="USER_NOTIFICATION">
-          <ScalarProperty Name="Date" ColumnName="Date" />
-          <ScalarProperty Name="StatusID" ColumnName="StatusID" />
-          <ScalarProperty Name="Description" ColumnName="Description" />
-          <ScalarProperty Name="Name" ColumnName="Name" />
-          <ScalarProperty Name="UserID" ColumnName="UserID" />
-          <ScalarProperty Name="SenderID" ColumnName="SenderID" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>
