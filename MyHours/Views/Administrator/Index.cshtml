@@ -1,7 +1,7 @@
 ﻿@* STYLES *@
 <link href="~/Content/TeacherPage/TeacherIndexStyle.css" rel="stylesheet" />
 
-@model IEnumerable<MyHours.Models.SUBJECT_ASSIGNMENT>
+@model IEnumerable<MyHours.Models.USER>
 
 @{
     ViewBag.Title = "Index";
@@ -13,16 +13,16 @@
 <table class="table" align="center">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.TEACHER.FirstName)
+            @Html.DisplayNameFor(model => model.FirstName)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TEACHER.SecondName)
+            @Html.DisplayNameFor(model => model.SecondName)
         </th>
         <th>
             @Html.DisplayNameFor(model => model.TEACHER.TeacherStatus)
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TEACHER.SUBJECT_ASSIGNMENT.FirstOrDefault().SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
+            @Html.DisplayNameFor(model => model.TEACHER.FACULTY_ASSIGNMENT.Where(x=>x.TeacherID == model.TEACHER.ID).FirstOrDefault().FACULTY.Name)
         </th>
         <th>Number of Subjects</th>
         <th>Assigned Hours</th>
@@ -33,16 +33,16 @@
 @foreach (var item in Model) {
     <tr>
         <td>
-            @Html.DisplayFor(modelItem => item.TEACHER.FirstName)
+            @Html.DisplayFor(modelItem => item.FirstName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TEACHER.SecondName)
+            @Html.DisplayFor(modelItem => item.SecondName)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TEACHER.TeacherStatus)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TEACHER.SUBJECT_ASSIGNMENT.FirstOrDefault().SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
+            @Html.DisplayFor(modelItem => item.TEACHER.FACULTY_ASSIGNMENT.Where(x => x.TeacherID == item.TEACHER.ID).FirstOrDefault().FACULTY.Name)
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.TEACHER.SUBJECT_ASSIGNMENT.Count)
@@ -90,7 +90,7 @@
             <p><a href="@Url.Action("Edit","Administrator",new { id=item.ID })" class="btn btn-default">Edit</a></p>
         </td>
         <td>
-            <p><a href="@Url.Action("Delete","Administrator",new { id=item.ID })" class="btn btn-default">Delete</a></p>
+            <p><a id="deleteButton" href="@Url.Action("Delete","Administrator",new { id=item.ID })" onclick = "return confirm('Are you sure you wish to delete this user?');" class="btn btn-default">Delete</a></p>
         </td>
         <td>
             <p><a href="@Url.Action("Edit","Administrator",new { id=item.ID })" class="btn btn-default">Report</a></p>

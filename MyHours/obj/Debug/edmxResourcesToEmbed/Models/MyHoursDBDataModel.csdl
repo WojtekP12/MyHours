@@ -150,7 +150,7 @@
     <Property Name="Hours" Type="Int32" Nullable="false" />
     <Property Name="Semester" Type="Int32" Nullable="false" />
     <Property Name="TeacherID" Type="Int32" Nullable="false" />
-    <Property Name="IsSubstitute" Type="Boolean" />
+    <Property Name="IsSubstitute" Type="Boolean" Nullable="false" />
     <Property Name="IsSubstituteDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
     <Property Name="StudentGroupID" Type="Int32" Nullable="false" />
     <Property Name="SubjectID" Type="Int32" Nullable="false" />

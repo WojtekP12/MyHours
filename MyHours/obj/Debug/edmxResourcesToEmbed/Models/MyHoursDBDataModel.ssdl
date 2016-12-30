@@ -135,7 +135,7 @@
     <Property Name="Hours" Type="int" Nullable="false" />
     <Property Name="Semester" Type="int" Nullable="false" />
     <Property Name="TeacherID" Type="int" Nullable="false" />
-    <Property Name="IsSubstitute" Type="bit" />
+    <Property Name="IsSubstitute" Type="bit" Nullable="false" />
     <Property Name="IsSubstituteDescription" Type="varchar(max)" />
     <Property Name="StudentGroupID" Type="int" Nullable="false" />
     <Property Name="SubjectID" Type="int" Nullable="false" />

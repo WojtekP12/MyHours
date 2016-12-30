@@ -133,7 +133,7 @@
             <p><a href="@Url.Action("Edit","Teacher",new { id=item.ID })" class="btn btn-default">Edit</a></p>
         </td>
         <td>
-            <p><a href="@Url.Action("Delete","Teacher",new { id=item.ID })" class="btn btn-default">Delete</a></p>
+            <p><a href="@Html.ActionLink("Delete","Teacher",new { id=item.ID }) )" class="btn btn-default">Delete</a></p>
         </td>
     </tr>
 }

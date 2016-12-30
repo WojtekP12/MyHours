@@ -11,14 +11,17 @@ namespace MyHours.Models
 {
     using System;
     using System.Collections.Generic;
-    
+    using System.ComponentModel.DataAnnotations;
+
     public partial class SUBJECT_ASSIGNMENT
     {
         public int ID { get; set; }
+        [Range(0,100)]
         public int Hours { get; set; }
+        [Range(0,10)]
         public int Semester { get; set; }
         public int TeacherID { get; set; }
-        public Nullable<bool> IsSubstitute { get; set; }
+        public bool IsSubstitute { get; set; }
         public string IsSubstituteDescription { get; set; }
         public int StudentGroupID { get; set; }
         public int SubjectID { get; set; }

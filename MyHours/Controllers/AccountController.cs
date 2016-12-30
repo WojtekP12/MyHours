@@ -166,10 +166,6 @@ namespace MyHours.Controllers
 
                     using (var context = new ApplicationDbContext())
                     {
-                        var roleStore = new RoleStore<IdentityRole>(context);
-
-                        var roleManager = new RoleManager<IdentityRole>(roleStore);
-
                         var userStore = new UserStore<ApplicationUser>(context);
                         var userManager = new UserManager<ApplicationUser>(userStore);
                         userManager.AddToRole(aspUser.Id, userType);
@@ -189,8 +185,16 @@ namespace MyHours.Controllers
                             db.USER.Add(user);
                             db.SaveChanges();
                         }
+                        
                     }
-                }              
+                    ViewBag.Success = "true";
+                    ViewBag.Response = "User added";
+                }
+                else
+                {
+                    ViewBag.Success = "false";
+                    ViewBag.Response = result.Errors.FirstOrDefault();
+                }  
             }
 
             ViewBag.UserTypeID = new SelectList(db.USER_TYPE, "ID", "Description");
