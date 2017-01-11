@@ -39,9 +39,20 @@
                             <li><a href="@Url.Action("Index","Administrator",routeValues: null)"><i class="fa fa-key"><font face="Arial">  Administrator Panel</font></i></a></li>
                         }
                     }
-                    <li>
-                        <a href="@Url.Action("Index","Home",routeValues: null)"><i class="fa fa-bell" style="font-size:20px; margin-top:1px"><span class="count">&nbsp;</span></i></a>
-                    </li>
+                    @if (User.Identity.IsAuthenticated)
+                    {
+                        <li>
+                            @if (ViewBag.NotificationsCount != 0)
+                            {
+                                <a href="@Url.Action("Index","Home",routeValues: null)"><i class="fa fa-bell" style="font-size:20px; margin-top:1px"><span class="count">@ViewBag.NotificationCount</span></i></a>
+                            }
+                            else
+                            {
+                                <a href="@Url.Action("Index","Home",routeValues: null)"><i class="fa fa-bell" style="font-size:20px; margin-top:1px"><span class="count">&nbsp;</span></i></a>
+                            }
+
+                        </li>
+                    }
                     
                 </ul>
                 @Html.Partial("_LoginPartial")
@@ -167,7 +178,16 @@
             {
                 var count = 0;
                 count = parseInt($('span.count').html()) || 0;
-                count+=1;
+                count++;
+
+                var val = { value: count };
+
+                $.ajax({
+                    url: '/Base/SetNotificationCount',
+                    type: 'POST',
+                    data: val
+                });
+
                 $('span.count').html(count);
             }
 

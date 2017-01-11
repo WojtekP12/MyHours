@@ -13,7 +13,7 @@ using System.Security.Claims;
 namespace MyHours.Controllers
 {
     [Authorize(Roles = "Teacher, Administrator")]
-    public class TeacherController : Controller
+    public class TeacherController : BaseController
     {
         private TAM_DBEntities db = new TAM_DBEntities();
         // GET: Teacher

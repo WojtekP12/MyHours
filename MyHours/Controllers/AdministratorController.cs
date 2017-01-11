@@ -13,9 +13,9 @@ using Microsoft.AspNet.Identity;
 namespace MyHours.Controllers
 {
     [Authorize(Roles = "Administrator")]
-    public class AdministratorController : Controller
+    public class AdministratorController : BaseController
     {
-        private TAM_DBEntities db = new TAM_DBEntities();
+        
 
         // GET: Administrator
         public ActionResult Index()
