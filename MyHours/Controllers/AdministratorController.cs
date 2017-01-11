@@ -24,6 +24,9 @@ namespace MyHours.Controllers
 
             var user = db.USER.Include(s => s.TEACHER);
 
+            var u = User.IsInRole("Administrator");
+            var u2 = User.IsInRole("Teacher");
+
             return View(user.Where(x=>x.UserTypeID==1).ToList());
         }
 

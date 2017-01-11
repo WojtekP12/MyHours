@@ -65,6 +65,11 @@ namespace MyHours.Models
     public class RegisterViewModel
     {
         [Required]
+        [Display(Name = "Faculty")]
+        public int FacultyID { get; set; }
+
+
+        [Required]
         [StringLength(300, ErrorMessage = "The length of the Login field must be 2-300", MinimumLength = 2)]
         [Display(Name = "Login")]
         public string Login { get; set; }

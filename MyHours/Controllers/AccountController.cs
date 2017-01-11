@@ -145,6 +145,7 @@ namespace MyHours.Controllers
         public ActionResult Register()
         {
             ViewBag.UserTypeID = new SelectList(db.USER_TYPE, "ID", "Description");
+            ViewBag.FacultyID = new SelectList(db.FACULTY, "ID", "Name");
             return View();
         }
 

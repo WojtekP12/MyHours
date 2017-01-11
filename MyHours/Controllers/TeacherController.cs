@@ -16,7 +16,6 @@ namespace MyHours.Controllers
     public class TeacherController : Controller
     {
         private TAM_DBEntities db = new TAM_DBEntities();
-        
         // GET: Teacher
         public ActionResult Index()
         {
@@ -62,9 +61,12 @@ namespace MyHours.Controllers
         public ActionResult Create()
         {
             ViewBag.StudentGroupID = new SelectList(db.STUDENT_GROUP, "ID", "Name");
-            ViewBag.SubjectID = new SelectList(db.SUBJECT, "ID", "SubjectCode");
+            ViewBag.SubjectID = new SelectList(db.SUBJECT, "ID", "Name");
             ViewBag.TeacherID = new SelectList(db.TEACHER, "ID", "FirstName");
-            return View();
+            ViewBag.SubjectTypeID = new SelectList(db.SUBJECT_TYPE_DICT, "ID", "Description");
+            ViewBag.StudiesTypeID = new SelectList(db.STUDIES_TYPE_DICT, "ID", "Description");
+
+            return View(new SUBJECT_ASSIGNMENT());
         }
 
         // POST: Teacher/Create
@@ -72,18 +74,24 @@ namespace MyHours.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "Hours,TeacherID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
+        public ActionResult Create([Bind(Include = "ID,TeacherID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID,SubjectTypeID, StudiesTypeID, Semester, Hours")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
         {
             if (ModelState.IsValid)
             {
+                string id = getCurrentUserId();
+                var teacherId = db.USER.Where(x => x.AspNetUserID == id).FirstOrDefault().TeacherID;
+
+                sUBJECT_ASSIGNMENT.TeacherID = teacherId.Value;
                 db.SUBJECT_ASSIGNMENT.Add(sUBJECT_ASSIGNMENT);
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
 
             ViewBag.StudentGroupID = new SelectList(db.STUDENT_GROUP, "ID", "Name", sUBJECT_ASSIGNMENT.StudentGroupID);
-            ViewBag.SubjectID = new SelectList(db.SUBJECT, "ID", "SubjectCode", sUBJECT_ASSIGNMENT.SubjectID);
-            ViewBag.TeacherID = new SelectList(db.TEACHER, "ID", "FirstName", sUBJECT_ASSIGNMENT.TeacherID);
+            ViewBag.SubjectID = new SelectList(db.SUBJECT, "ID", "Name", sUBJECT_ASSIGNMENT.SubjectID);
+            ViewBag.SubjectTypeID = new SelectList(db.SUBJECT_TYPE_DICT, "ID", "Description",sUBJECT_ASSIGNMENT.SubjectTypeID);
+            ViewBag.StudiesTypeID = new SelectList(db.STUDIES_TYPE_DICT, "ID", "Description", sUBJECT_ASSIGNMENT.StudiesTypeID);
+
             return View(sUBJECT_ASSIGNMENT);
         }
 
