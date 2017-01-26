@@ -39,6 +39,7 @@ namespace MyHours.Models
         public virtual DbSet<STUDIES_TYPE_DICT> STUDIES_TYPE_DICT { get; set; }
         public virtual DbSet<SUBJECT> SUBJECT { get; set; }
         public virtual DbSet<SUBJECT_ASSIGNMENT> SUBJECT_ASSIGNMENT { get; set; }
+        public virtual DbSet<SUBJECT_ASSIGNMENT_TEMP> SUBJECT_ASSIGNMENT_TEMP { get; set; }
         public virtual DbSet<SUBJECT_TYPE_DICT> SUBJECT_TYPE_DICT { get; set; }
         public virtual DbSet<sysdiagrams> sysdiagrams { get; set; }
         public virtual DbSet<TEACHER> TEACHER { get; set; }

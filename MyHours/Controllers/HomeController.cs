@@ -13,6 +13,7 @@ namespace MyHours.Controllers
     {
         public ActionResult Index()
         {
+            DataBaseRequestOccured = false;
             return View();
         }
 

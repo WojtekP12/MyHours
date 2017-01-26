@@ -43,12 +43,34 @@ namespace MyHours
                 sqlDep.OnChange -= SqlDep_OnChange;
 
                 //from here we will send notification message to client
-                var notificationHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
-                notificationHub.Clients.All.notify("added");
-
+                NotifyClients(e.Info);
 
                 //re-register notification
                 RegisterNotification(1);
+            }
+        }
+
+        private void NotifyClients(SqlNotificationInfo info)
+        {
+            var notificationHub = GlobalHost.ConnectionManager.GetHubContext<NotificationHub>();
+
+            switch (info)
+            {
+                case SqlNotificationInfo.Insert:
+                    {
+                        notificationHub.Clients.All.notify("added");
+                        break;
+                    }
+                case SqlNotificationInfo.Delete:
+                    {
+                        notificationHub.Clients.All.notify("deleted");
+                        break;
+                    }
+                default:
+                    {
+                        notificationHub.Clients.All.notify("other");
+                        break;
+                    }
             }
         }
 

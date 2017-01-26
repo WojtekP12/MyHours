@@ -19,6 +19,7 @@ namespace MyHours.Models
         {
             this.FACULTY_ASSIGNMENT = new HashSet<FACULTY_ASSIGNMENT>();
             this.SUBJECT_ASSIGNMENT = new HashSet<SUBJECT_ASSIGNMENT>();
+            this.SUBJECT_ASSIGNMENT_TEMP = new HashSet<SUBJECT_ASSIGNMENT_TEMP>();
         }
     
         public int ID { get; set; }
@@ -29,5 +30,7 @@ namespace MyHours.Models
         public virtual ICollection<FACULTY_ASSIGNMENT> FACULTY_ASSIGNMENT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SUBJECT_ASSIGNMENT> SUBJECT_ASSIGNMENT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SUBJECT_ASSIGNMENT_TEMP> SUBJECT_ASSIGNMENT_TEMP { get; set; }
     }
 }

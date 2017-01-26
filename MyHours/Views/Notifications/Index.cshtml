@@ -1,0 +1,55 @@
+﻿@model IEnumerable<MyHours.Models.USER_NOTIFICATION>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Notifications</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Sender
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT_ASSIGNMENT_TEMP.SUBJECT.Name)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.USER.FirstName) @Html.DisplayFor(modelItem => item.USER.SecondName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Name)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Description)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Date)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.SUBJECT_ASSIGNMENT_TEMP.SUBJECT.Name)
+        </td>
+        <td>
+            <a href="@Url.Action("Accept","Notifications", new { id=item.ID })" class="btn btn-default"><i class="fa fa-check" style="color:darkseagreen"><font face="Arial"></font></i></a>
+            <a href="@Url.Action("Delete","Notifications", new { id=item.ID })" class="btn btn-default"><i class="fa fa-times" style="color:red"><font face="Arial"></font></i></a>
+            <a href="@Url.Action("Details","Notifications", new { id=item.ID })" class="btn btn-default"><i class="fa fa-bars"><font face="Arial"> Details</font></i></a>
+        </td>
+    </tr>
+}
+
+</table>

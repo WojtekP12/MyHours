@@ -78,12 +78,44 @@ namespace MyHours.Controllers
         {
             if (ModelState.IsValid)
             {
-                string id = getCurrentUserId();
-                var teacherId = db.USER.Where(x => x.AspNetUserID == id).FirstOrDefault().TeacherID;
 
-                sUBJECT_ASSIGNMENT.TeacherID = teacherId.Value;
-                db.SUBJECT_ASSIGNMENT.Add(sUBJECT_ASSIGNMENT);
+                SUBJECT_ASSIGNMENT_TEMP subjectAssignmentTemp = new SUBJECT_ASSIGNMENT_TEMP();
+
+                string id = getCurrentUserId();
+                var user = db.USER.Where(x => x.AspNetUserID == id).FirstOrDefault();
+                var teacherId = user.TeacherID;
+
+                subjectAssignmentTemp.TeacherID = teacherId.Value;
+
+                //sUBJECT_ASSIGNMENT.TeacherID = teacherId.Value;
+                subjectAssignmentTemp.Hours = sUBJECT_ASSIGNMENT.Hours;
+                subjectAssignmentTemp.IsSubstitute = sUBJECT_ASSIGNMENT.IsSubstitute;
+                subjectAssignmentTemp.IsSubstituteDescription = sUBJECT_ASSIGNMENT.IsSubstituteDescription;
+                subjectAssignmentTemp.ProxyID = sUBJECT_ASSIGNMENT.ProxyID;
+                subjectAssignmentTemp.Semester = sUBJECT_ASSIGNMENT.Semester;
+                subjectAssignmentTemp.StudentGroupID = sUBJECT_ASSIGNMENT.StudentGroupID;
+                subjectAssignmentTemp.StudiesTypeID = sUBJECT_ASSIGNMENT.StudiesTypeID;
+                subjectAssignmentTemp.SubjectID = sUBJECT_ASSIGNMENT.SubjectID;
+                subjectAssignmentTemp.SubjectTypeID = sUBJECT_ASSIGNMENT.SubjectTypeID;
+
+                db.SUBJECT_ASSIGNMENT_TEMP.Add(subjectAssignmentTemp);
+                //db.SUBJECT_ASSIGNMENT.Add(sUBJECT_ASSIGNMENT);
                 db.SaveChanges();
+
+                var adminID = db.USER.Where(x => x.UserTypeID == 2).FirstOrDefault().ID;
+
+                USER_NOTIFICATION noti = new USER_NOTIFICATION();
+                noti.Date = DateTime.Now;
+                noti.Name = "Subject Added";
+                noti.Description = db.SUBJECT.Where(x=>x.ID == subjectAssignmentTemp.SubjectID).FirstOrDefault().Name + "added by" + user.Name;
+                noti.SenderID = user.ID;
+                noti.UserID = adminID;
+                noti.StatusID = 1;
+                noti.SubjectAssignmentID = subjectAssignmentTemp.ID;
+
+                db.USER_NOTIFICATION.Add(noti);
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
 

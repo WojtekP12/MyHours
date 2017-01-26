@@ -123,27 +123,26 @@
     <EntitySetMapping Name="SUBJECT">
       <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT">
         <MappingFragment StoreEntitySet="SUBJECT">
-          <ScalarProperty Name="DipHours" ColumnName="DipHours" />
-          <ScalarProperty Name="ExcHours" ColumnName="ExcHours" />
-          <ScalarProperty Name="PrjHours" ColumnName="PrjHours" />
-          <ScalarProperty Name="SemHours" ColumnName="SemHours" />
-          <ScalarProperty Name="LecHours" ColumnName="LecHours" />
-          <ScalarProperty Name="LabHours" ColumnName="LabHours" />
-          <ScalarProperty Name="UsedHours" ColumnName="UsedHours" />
-          <ScalarProperty Name="AssignedHours" ColumnName="AssignedHours" />
-          <ScalarProperty Name="NumberOfGroups" ColumnName="NumberOfGroups" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="SubjectCode" ColumnName="SubjectCode" />
           <ScalarProperty Name="Name" ColumnName="Name" />
           <ScalarProperty Name="Language" ColumnName="Language" />
           <ScalarProperty Name="SpecialityID" ColumnName="SpecialityID" />
+          <ScalarProperty Name="NumberOfGroups" ColumnName="NumberOfGroups" />
+          <ScalarProperty Name="AssignedHours" ColumnName="AssignedHours" />
+          <ScalarProperty Name="UsedHours" ColumnName="UsedHours" />
+          <ScalarProperty Name="LabHours" ColumnName="LabHours" />
+          <ScalarProperty Name="LecHours" ColumnName="LecHours" />
+          <ScalarProperty Name="SemHours" ColumnName="SemHours" />
+          <ScalarProperty Name="PrjHours" ColumnName="PrjHours" />
+          <ScalarProperty Name="ExcHours" ColumnName="ExcHours" />
+          <ScalarProperty Name="DipHours" ColumnName="DipHours" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
     <EntitySetMapping Name="SUBJECT_ASSIGNMENT">
       <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT">
         <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT">
-          <ScalarProperty Name="ProxyID" ColumnName="ProxyID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Hours" ColumnName="Hours" />
           <ScalarProperty Name="Semester" ColumnName="Semester" />
@@ -154,6 +153,24 @@
           <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
           <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
           <ScalarProperty Name="StudiesTypeID" ColumnName="StudiesTypeID" />
+          <ScalarProperty Name="ProxyID" ColumnName="ProxyID" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="SUBJECT_ASSIGNMENT_TEMP">
+      <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT_TEMP">
+        <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT_TEMP">
+          <ScalarProperty Name="ID" ColumnName="ID" />
+          <ScalarProperty Name="Hours" ColumnName="Hours" />
+          <ScalarProperty Name="Semester" ColumnName="Semester" />
+          <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
+          <ScalarProperty Name="IsSubstitute" ColumnName="IsSubstitute" />
+          <ScalarProperty Name="IsSubstituteDescription" ColumnName="IsSubstituteDescription" />
+          <ScalarProperty Name="StudentGroupID" ColumnName="StudentGroupID" />
+          <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
+          <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
+          <ScalarProperty Name="StudiesTypeID" ColumnName="StudiesTypeID" />
+          <ScalarProperty Name="ProxyID" ColumnName="ProxyID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -205,7 +222,6 @@
     <EntitySetMapping Name="USER_NOTIFICATION">
       <EntityTypeMapping TypeName="TAM_DBModel.USER_NOTIFICATION">
         <MappingFragment StoreEntitySet="USER_NOTIFICATION">
-          <ScalarProperty Name="SubjectAssignmentID" ColumnName="SubjectAssignmentID" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="SenderID" ColumnName="SenderID" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />
@@ -213,6 +229,7 @@
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="StatusID" ColumnName="StatusID" />
           <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="SubjectAssignmentID" ColumnName="SubjectAssignmentID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -233,22 +250,5 @@
         <ScalarProperty Name="Id" ColumnName="UserId" />
       </EndProperty>
     </AssociationSetMapping>
-    <EntitySetMapping Name="SUBJECT_ASSIGNMENT_TEMP">
-      <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT_TEMP">
-        <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT_TEMP">
-          <ScalarProperty Name="ProxyID" ColumnName="ProxyID" />
-          <ScalarProperty Name="StudiesTypeID" ColumnName="StudiesTypeID" />
-          <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
-          <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
-          <ScalarProperty Name="StudentGroupID" ColumnName="StudentGroupID" />
-          <ScalarProperty Name="IsSubstituteDescription" ColumnName="IsSubstituteDescription" />
-          <ScalarProperty Name="IsSubstitute" ColumnName="IsSubstitute" />
-          <ScalarProperty Name="TeacherID" ColumnName="TeacherID" />
-          <ScalarProperty Name="Semester" ColumnName="Semester" />
-          <ScalarProperty Name="Hours" ColumnName="Hours" />
-          <ScalarProperty Name="ID" ColumnName="ID" />
-        </MappingFragment>
-      </EntityTypeMapping>
-    </EntitySetMapping>
   </EntityContainerMapping>
 </Mapping>

@@ -219,6 +219,7 @@
     <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ManageController.cs" />
+    <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
@@ -226,81 +227,84 @@
     <Compile Include="GlobalUserData.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\AspNetRoles.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserClaims.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUserLogins.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\AspNetUsers.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FACULTY.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\FACULTY_ASSIGNMENT.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\MAJOR.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\ManageViewModels.cs" />
-    <Compile Include="Models\MyHoursDBDataModel.Context.cs">
+    <Compile Include="Models\MyHoursDBEntityDataModel.Context.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MyHoursDBDataModel.Context.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.Context.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MyHoursDBDataModel.cs">
+    <Compile Include="Models\MyHoursDBEntityDataModel.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
-    <Compile Include="Models\MyHoursDBDataModel.Designer.cs">
+    <Compile Include="Models\MyHoursDBEntityDataModel.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
-      <DependentUpon>MyHoursDBDataModel.edmx</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.edmx</DependentUpon>
     </Compile>
     <Compile Include="Models\NOTIFICATION_STATUS.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SPECIALITY.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SPECIALITY_MAJOR_ASSIGNMENT.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STUDENT_GROUP.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\STUDIES_TYPE_DICT.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SUBJECT.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SUBJECT_ASSIGNMENT.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
+    </Compile>
+    <Compile Include="Models\SUBJECT_ASSIGNMENT_TEMP.cs">
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\SUBJECT_TYPE_DICT.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\sysdiagrams.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\TEACHER.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\USER.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\USER_NOTIFICATION.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="Models\USER_TYPE.cs">
-      <DependentUpon>MyHoursDBDataModel.tt</DependentUpon>
+      <DependentUpon>MyHoursDBEntityDataModel.tt</DependentUpon>
     </Compile>
     <Compile Include="NotificationComponent.cs" />
     <Compile Include="NotificationHub.cs" />
@@ -319,15 +323,15 @@
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
-    <Content Include="Models\MyHoursDBDataModel.Context.tt">
+    <Content Include="Models\MyHoursDBEntityDataModel.Context.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MyHoursDBDataModel.edmx</DependentUpon>
-      <LastGenOutput>MyHoursDBDataModel.Context.cs</LastGenOutput>
+      <DependentUpon>MyHoursDBEntityDataModel.edmx</DependentUpon>
+      <LastGenOutput>MyHoursDBEntityDataModel.Context.cs</LastGenOutput>
     </Content>
-    <Content Include="Models\MyHoursDBDataModel.tt">
+    <Content Include="Models\MyHoursDBEntityDataModel.tt">
       <Generator>TextTemplatingFileGenerator</Generator>
-      <DependentUpon>MyHoursDBDataModel.edmx</DependentUpon>
-      <LastGenOutput>MyHoursDBDataModel.cs</LastGenOutput>
+      <DependentUpon>MyHoursDBEntityDataModel.edmx</DependentUpon>
+      <LastGenOutput>MyHoursDBEntityDataModel.cs</LastGenOutput>
     </Content>
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
@@ -338,12 +342,12 @@
     <Content Include="Content\fonts\fontawesome-webfont.woff" />
     <Content Include="Content\fonts\fontawesome-webfont.ttf" />
     <Content Include="Content\fonts\fontawesome-webfont.eot" />
-    <EntityDeploy Include="Models\MyHoursDBDataModel.edmx">
+    <EntityDeploy Include="Models\MyHoursDBEntityDataModel.edmx">
       <Generator>EntityModelCodeGenerator</Generator>
-      <LastGenOutput>MyHoursDBDataModel.Designer.cs</LastGenOutput>
+      <LastGenOutput>MyHoursDBEntityDataModel.Designer.cs</LastGenOutput>
     </EntityDeploy>
-    <Content Include="Models\MyHoursDBDataModel.edmx.diagram">
-      <DependentUpon>MyHoursDBDataModel.edmx</DependentUpon>
+    <Content Include="Models\MyHoursDBEntityDataModel.edmx.diagram">
+      <DependentUpon>MyHoursDBEntityDataModel.edmx</DependentUpon>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
@@ -404,6 +408,11 @@
     <Content Include="Views\Administrator\Delete.cshtml" />
     <Content Include="Views\Administrator\Edit.cshtml" />
     <Content Include="Views\Administrator\Index.cshtml" />
+    <Content Include="Views\Notifications\Delete.cshtml" />
+    <Content Include="Views\Notifications\Details.cshtml" />
+    <Content Include="Views\Notifications\Edit.cshtml" />
+    <Content Include="Views\Notifications\Index.cshtml" />
+    <Content Include="Views\Notifications\Accept.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

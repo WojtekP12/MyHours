@@ -21,5 +21,10 @@ namespace MyHours.Models
         public string Description { get; set; }
         public int StatusID { get; set; }
         public System.DateTime Date { get; set; }
+        public int SubjectAssignmentID { get; set; }
+    
+        public virtual NOTIFICATION_STATUS NOTIFICATION_STATUS { get; set; }
+        public virtual SUBJECT_ASSIGNMENT_TEMP SUBJECT_ASSIGNMENT_TEMP { get; set; }
+        public virtual USER USER { get; set; }
     }
 }

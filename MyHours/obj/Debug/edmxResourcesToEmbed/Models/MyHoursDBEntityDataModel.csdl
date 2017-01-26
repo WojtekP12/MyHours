@@ -90,6 +90,7 @@
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
+    <NavigationProperty Name="USER_NOTIFICATION" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_NOTIFICATION_STATUS" FromRole="NOTIFICATION_STATUS" ToRole="USER_NOTIFICATION" />
   </EntityType>
   <EntityType Name="SPECIALITY">
     <Key>
@@ -120,7 +121,7 @@
     <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="FACULTY_ASSIGNMENT" Relationship="Self.FK_FACULTY_ASSIGNMENT_STUDENT_GROUP" FromRole="STUDENT_GROUP" ToRole="FACULTY_ASSIGNMENT" />
     <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP" FromRole="STUDENT_GROUP" ToRole="SUBJECT_ASSIGNMENT" />
-    <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_STUDENT_GROUP" FromRole="STUDENT_GROUP" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
+    <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_STUDENT_GROUP" FromRole="STUDENT_GROUP" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
   </EntityType>
   <EntityType Name="STUDIES_TYPE_DICT">
     <Key>
@@ -130,7 +131,7 @@
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" FromRole="STUDIES_TYPE_DICT" ToRole="SUBJECT_ASSIGNMENT" />
-    <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_STUDIES_TYPE_DICT" FromRole="STUDIES_TYPE_DICT" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
+    <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_STUDIES_TYPE_DICT" FromRole="STUDIES_TYPE_DICT" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
   </EntityType>
   <EntityType Name="SUBJECT">
     <Key>
@@ -141,8 +142,6 @@
     <Property Name="Name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Language" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="SpecialityID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="SPECIALITY" Relationship="Self.FK_SUBJECT_SPECIALITY" FromRole="SUBJECT" ToRole="SPECIALITY" />
-    <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT" FromRole="SUBJECT" ToRole="SUBJECT_ASSIGNMENT" />
     <Property Name="NumberOfGroups" Type="Int32" Nullable="false" />
     <Property Name="AssignedHours" Type="Int32" Nullable="false" />
     <Property Name="UsedHours" Type="Int32" Nullable="false" />
@@ -152,7 +151,9 @@
     <Property Name="PrjHours" Type="Int32" Nullable="false" />
     <Property Name="ExcHours" Type="Int32" Nullable="false" />
     <Property Name="DipHours" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT" FromRole="SUBJECT" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
+    <NavigationProperty Name="SPECIALITY" Relationship="Self.FK_SUBJECT_SPECIALITY" FromRole="SUBJECT" ToRole="SPECIALITY" />
+    <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT" FromRole="SUBJECT" ToRole="SUBJECT_ASSIGNMENT" />
+    <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT" FromRole="SUBJECT" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
   </EntityType>
   <EntityType Name="SUBJECT_ASSIGNMENT">
     <Key>
@@ -168,13 +169,34 @@
     <Property Name="SubjectID" Type="Int32" Nullable="false" />
     <Property Name="SubjectTypeID" Type="Int32" Nullable="false" />
     <Property Name="StudiesTypeID" Type="Int32" Nullable="false" />
+    <Property Name="ProxyID" Type="Int32" />
     <NavigationProperty Name="STUDENT_GROUP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP" FromRole="SUBJECT_ASSIGNMENT" ToRole="STUDENT_GROUP" />
     <NavigationProperty Name="STUDIES_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="STUDIES_TYPE_DICT" />
     <NavigationProperty Name="SUBJECT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT" />
     <NavigationProperty Name="SUBJECT_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT_TYPE_DICT" />
     <NavigationProperty Name="TEACHER" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEACHER" FromRole="SUBJECT_ASSIGNMENT" ToRole="TEACHER" />
+  </EntityType>
+  <EntityType Name="SUBJECT_ASSIGNMENT_TEMP">
+    <Key>
+      <PropertyRef Name="ID" />
+    </Key>
+    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="Hours" Type="Int32" Nullable="false" />
+    <Property Name="Semester" Type="Int32" Nullable="false" />
+    <Property Name="TeacherID" Type="Int32" Nullable="false" />
+    <Property Name="IsSubstitute" Type="Boolean" Nullable="false" />
+    <Property Name="IsSubstituteDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+    <Property Name="StudentGroupID" Type="Int32" Nullable="false" />
+    <Property Name="SubjectID" Type="Int32" Nullable="false" />
+    <Property Name="SubjectTypeID" Type="Int32" Nullable="false" />
+    <Property Name="StudiesTypeID" Type="Int32" Nullable="false" />
     <Property Name="ProxyID" Type="Int32" />
-    <NavigationProperty Name="USER_NOTIFICATION" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT" FromRole="SUBJECT_ASSIGNMENT" ToRole="USER_NOTIFICATION" />
+    <NavigationProperty Name="STUDENT_GROUP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_STUDENT_GROUP" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="STUDENT_GROUP" />
+    <NavigationProperty Name="STUDIES_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_STUDIES_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="STUDIES_TYPE_DICT" />
+    <NavigationProperty Name="SUBJECT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="SUBJECT" />
+    <NavigationProperty Name="SUBJECT_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="SUBJECT_TYPE_DICT" />
+    <NavigationProperty Name="TEACHER" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="TEACHER" />
+    <NavigationProperty Name="USER_NOTIFICATION" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="USER_NOTIFICATION" />
   </EntityType>
   <EntityType Name="SUBJECT_TYPE_DICT">
     <Key>
@@ -184,7 +206,7 @@
     <Property Name="Name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
     <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" FromRole="SUBJECT_TYPE_DICT" ToRole="SUBJECT_ASSIGNMENT" />
-    <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT" FromRole="SUBJECT_TYPE_DICT" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
+    <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT" FromRole="SUBJECT_TYPE_DICT" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
   </EntityType>
   <EntityType Name="sysdiagrams">
     <Key>
@@ -207,8 +229,8 @@
     <Property Name="AssignedHours" Type="Int32" Nullable="false" />
     <NavigationProperty Name="FACULTY_ASSIGNMENT" Relationship="Self.FK_FACULTY_ASSIGNMENT_TEACHER" FromRole="TEACHER" ToRole="FACULTY_ASSIGNMENT" />
     <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEACHER" FromRole="TEACHER" ToRole="SUBJECT_ASSIGNMENT" />
+    <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER" FromRole="TEACHER" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
     <NavigationProperty Name="USER" Relationship="Self.FK_USER_TEACHER" FromRole="TEACHER" ToRole="USER" />
-    <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER" FromRole="TEACHER" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
   </EntityType>
   <EntityType Name="USER">
     <Key>
@@ -225,6 +247,7 @@
     <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_USER_AspNetUsers" FromRole="USER" ToRole="AspNetUsers" />
     <NavigationProperty Name="TEACHER" Relationship="Self.FK_USER_TEACHER" FromRole="USER" ToRole="TEACHER" />
     <NavigationProperty Name="USER_TYPE" Relationship="Self.FK_USER_USER_TYPE" FromRole="USER" ToRole="USER_TYPE" />
+    <NavigationProperty Name="USER_NOTIFICATION" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_USER" FromRole="USER" ToRole="USER_NOTIFICATION" />
   </EntityType>
   <EntityType Name="USER_NOTIFICATION">
     <Key>
@@ -238,7 +261,9 @@
     <Property Name="StatusID" Type="Int32" Nullable="false" />
     <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
     <Property Name="SubjectAssignmentID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT" FromRole="USER_NOTIFICATION" ToRole="SUBJECT_ASSIGNMENT" />
+    <NavigationProperty Name="NOTIFICATION_STATUS" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_NOTIFICATION_STATUS" FromRole="USER_NOTIFICATION" ToRole="NOTIFICATION_STATUS" />
+    <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1" FromRole="USER_NOTIFICATION" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
+    <NavigationProperty Name="USER" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_USER" FromRole="USER_NOTIFICATION" ToRole="USER" />
   </EntityType>
   <EntityType Name="USER_TYPE">
     <Key>
@@ -385,6 +410,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SUBJECT_ASSIGNMENT_TEMP_STUDENT_GROUP">
+    <End Role="STUDENT_GROUP" Type="Self.STUDENT_GROUP" Multiplicity="1" />
+    <End Role="SUBJECT_ASSIGNMENT_TEMP" Type="Self.SUBJECT_ASSIGNMENT_TEMP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STUDENT_GROUP">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SUBJECT_ASSIGNMENT_TEMP">
+        <PropertyRef Name="StudentGroupID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
     <End Role="STUDIES_TYPE_DICT" Type="Self.STUDIES_TYPE_DICT" Multiplicity="1" />
     <End Role="SUBJECT_ASSIGNMENT" Type="Self.SUBJECT_ASSIGNMENT" Multiplicity="*" />
@@ -397,6 +434,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_SUBJECT_ASSIGNMENT_TEMP_STUDIES_TYPE_DICT">
+    <End Role="STUDIES_TYPE_DICT" Type="Self.STUDIES_TYPE_DICT" Multiplicity="1" />
+    <End Role="SUBJECT_ASSIGNMENT_TEMP" Type="Self.SUBJECT_ASSIGNMENT_TEMP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="STUDIES_TYPE_DICT">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SUBJECT_ASSIGNMENT_TEMP">
+        <PropertyRef Name="StudiesTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SUBJECT_ASSIGNMENT_SUBJECT">
     <End Role="SUBJECT" Type="Self.SUBJECT" Multiplicity="1" />
     <End Role="SUBJECT_ASSIGNMENT" Type="Self.SUBJECT_ASSIGNMENT" Multiplicity="*" />
@@ -405,6 +454,18 @@
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="SUBJECT_ASSIGNMENT">
+        <PropertyRef Name="SubjectID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT">
+    <End Role="SUBJECT" Type="Self.SUBJECT" Multiplicity="1" />
+    <End Role="SUBJECT_ASSIGNMENT_TEMP" Type="Self.SUBJECT_ASSIGNMENT_TEMP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SUBJECT_ASSIGNMENT_TEMP">
         <PropertyRef Name="SubjectID" />
       </Dependent>
     </ReferentialConstraint>
@@ -429,6 +490,30 @@
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="SUBJECT_ASSIGNMENT">
+        <PropertyRef Name="TeacherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT">
+    <End Role="SUBJECT_TYPE_DICT" Type="Self.SUBJECT_TYPE_DICT" Multiplicity="1" />
+    <End Role="SUBJECT_ASSIGNMENT_TEMP" Type="Self.SUBJECT_ASSIGNMENT_TEMP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT_TYPE_DICT">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SUBJECT_ASSIGNMENT_TEMP">
+        <PropertyRef Name="SubjectTypeID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER">
+    <End Role="TEACHER" Type="Self.TEACHER" Multiplicity="1" />
+    <End Role="SUBJECT_ASSIGNMENT_TEMP" Type="Self.SUBJECT_ASSIGNMENT_TEMP" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="TEACHER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="SUBJECT_ASSIGNMENT_TEMP">
         <PropertyRef Name="TeacherID" />
       </Dependent>
     </ReferentialConstraint>
@@ -476,6 +561,7 @@
     <EntitySet Name="STUDIES_TYPE_DICT" EntityType="Self.STUDIES_TYPE_DICT" />
     <EntitySet Name="SUBJECT" EntityType="Self.SUBJECT" />
     <EntitySet Name="SUBJECT_ASSIGNMENT" EntityType="Self.SUBJECT_ASSIGNMENT" />
+    <EntitySet Name="SUBJECT_ASSIGNMENT_TEMP" EntityType="Self.SUBJECT_ASSIGNMENT_TEMP" />
     <EntitySet Name="SUBJECT_TYPE_DICT" EntityType="Self.SUBJECT_TYPE_DICT" />
     <EntitySet Name="sysdiagrams" EntityType="Self.sysdiagrams" />
     <EntitySet Name="TEACHER" EntityType="Self.TEACHER" />
@@ -526,13 +612,25 @@
       <End Role="STUDENT_GROUP" EntitySet="STUDENT_GROUP" />
       <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
     </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_TEMP_STUDENT_GROUP" Association="Self.FK_SUBJECT_ASSIGNMENT_TEMP_STUDENT_GROUP">
+      <End Role="STUDENT_GROUP" EntitySet="STUDENT_GROUP" />
+      <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
+    </AssociationSet>
     <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" Association="Self.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT">
       <End Role="STUDIES_TYPE_DICT" EntitySet="STUDIES_TYPE_DICT" />
       <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
     </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_TEMP_STUDIES_TYPE_DICT" Association="Self.FK_SUBJECT_ASSIGNMENT_TEMP_STUDIES_TYPE_DICT">
+      <End Role="STUDIES_TYPE_DICT" EntitySet="STUDIES_TYPE_DICT" />
+      <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
+    </AssociationSet>
     <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_SUBJECT" Association="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT">
       <End Role="SUBJECT" EntitySet="SUBJECT" />
       <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT" Association="Self.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT">
+      <End Role="SUBJECT" EntitySet="SUBJECT" />
+      <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
     </AssociationSet>
     <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" Association="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT">
       <End Role="SUBJECT_TYPE_DICT" EntitySet="SUBJECT_TYPE_DICT" />
@@ -541,6 +639,14 @@
     <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_TEACHER" Association="Self.FK_SUBJECT_ASSIGNMENT_TEACHER">
       <End Role="TEACHER" EntitySet="TEACHER" />
       <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT" Association="Self.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT">
+      <End Role="SUBJECT_TYPE_DICT" EntitySet="SUBJECT_TYPE_DICT" />
+      <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
+    </AssociationSet>
+    <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER" Association="Self.FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER">
+      <End Role="TEACHER" EntitySet="TEACHER" />
+      <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
     </AssociationSet>
     <AssociationSet Name="FK_USER_TEACHER" Association="Self.FK_USER_TEACHER">
       <End Role="TEACHER" EntitySet="TEACHER" />
@@ -554,66 +660,36 @@
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
     </AssociationSet>
-    <EntitySet Name="SUBJECT_ASSIGNMENT_TEMP" EntityType="TAM_DBModel.SUBJECT_ASSIGNMENT_TEMP" />
-    <AssociationSet Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT" Association="TAM_DBModel.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT">
-      <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
+    <AssociationSet Name="FK_USER_NOTIFICATION_NOTIFICATION_STATUS" Association="TAM_DBModel.FK_USER_NOTIFICATION_NOTIFICATION_STATUS">
+      <End Role="NOTIFICATION_STATUS" EntitySet="NOTIFICATION_STATUS" />
       <End Role="USER_NOTIFICATION" EntitySet="USER_NOTIFICATION" />
     </AssociationSet>
-    <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_TEMP_STUDENT_GROUP" Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_STUDENT_GROUP">
-      <End Role="STUDENT_GROUP" EntitySet="STUDENT_GROUP" />
+    <AssociationSet Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1" Association="TAM_DBModel.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1">
       <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
+      <End Role="USER_NOTIFICATION" EntitySet="USER_NOTIFICATION" />
     </AssociationSet>
-    <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_TEMP_STUDIES_TYPE_DICT" Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_STUDIES_TYPE_DICT">
-      <End Role="STUDIES_TYPE_DICT" EntitySet="STUDIES_TYPE_DICT" />
-      <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT" Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT">
-      <End Role="SUBJECT" EntitySet="SUBJECT" />
-      <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT" Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT">
-      <End Role="SUBJECT_TYPE_DICT" EntitySet="SUBJECT_TYPE_DICT" />
-      <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
-    </AssociationSet>
-    <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER" Association="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER">
-      <End Role="TEACHER" EntitySet="TEACHER" />
-      <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
+    <AssociationSet Name="FK_USER_NOTIFICATION_USER" Association="TAM_DBModel.FK_USER_NOTIFICATION_USER">
+      <End Role="USER" EntitySet="USER" />
+      <End Role="USER_NOTIFICATION" EntitySet="USER_NOTIFICATION" />
     </AssociationSet>
   </EntityContainer>
-  <EntityType Name="SUBJECT_ASSIGNMENT_TEMP">
-    <Key>
-      <PropertyRef Name="ID" />
-      <PropertyRef Name="Hours" />
-      <PropertyRef Name="Semester" />
-      <PropertyRef Name="TeacherID" />
-      <PropertyRef Name="IsSubstitute" />
-      <PropertyRef Name="StudentGroupID" />
-      <PropertyRef Name="SubjectID" />
-      <PropertyRef Name="SubjectTypeID" />
-      <PropertyRef Name="StudiesTypeID" />
-    </Key>
-    <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
-    <Property Name="Hours" Type="Int32" Nullable="false" />
-    <Property Name="Semester" Type="Int32" Nullable="false" />
-    <Property Name="TeacherID" Type="Int32" Nullable="false" />
-    <Property Name="IsSubstitute" Type="Boolean" Nullable="false" />
-    <Property Name="IsSubstituteDescription" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
-    <Property Name="StudentGroupID" Type="Int32" Nullable="false" />
-    <Property Name="SubjectID" Type="Int32" Nullable="false" />
-    <Property Name="SubjectTypeID" Type="Int32" Nullable="false" />
-    <Property Name="StudiesTypeID" Type="Int32" Nullable="false" />
-    <Property Name="ProxyID" Type="Int32" />
-    <NavigationProperty Name="STUDENT_GROUP" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_STUDENT_GROUP" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="STUDENT_GROUP" />
-    <NavigationProperty Name="STUDIES_TYPE_DICT" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_STUDIES_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="STUDIES_TYPE_DICT" />
-    <NavigationProperty Name="SUBJECT" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="SUBJECT" />
-    <NavigationProperty Name="SUBJECT_TYPE_DICT" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="SUBJECT_TYPE_DICT" />
-    <NavigationProperty Name="TEACHER" Relationship="TAM_DBModel.FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="TEACHER" />
-  </EntityType>
-  <Association Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT">
-    <End Type="TAM_DBModel.SUBJECT_ASSIGNMENT" Role="SUBJECT_ASSIGNMENT" Multiplicity="1" />
+  <Association Name="FK_USER_NOTIFICATION_NOTIFICATION_STATUS">
+    <End Type="TAM_DBModel.NOTIFICATION_STATUS" Role="NOTIFICATION_STATUS" Multiplicity="1" />
     <End Type="TAM_DBModel.USER_NOTIFICATION" Role="USER_NOTIFICATION" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="SUBJECT_ASSIGNMENT">
+      <Principal Role="NOTIFICATION_STATUS">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="USER_NOTIFICATION">
+        <PropertyRef Name="StatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1">
+    <End Type="TAM_DBModel.SUBJECT_ASSIGNMENT_TEMP" Role="SUBJECT_ASSIGNMENT_TEMP" Multiplicity="1" />
+    <End Type="TAM_DBModel.USER_NOTIFICATION" Role="USER_NOTIFICATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT_ASSIGNMENT_TEMP">
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="USER_NOTIFICATION">
@@ -621,63 +697,15 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
-  <Association Name="FK_SUBJECT_ASSIGNMENT_TEMP_STUDENT_GROUP">
-    <End Type="TAM_DBModel.STUDENT_GROUP" Role="STUDENT_GROUP" Multiplicity="1" />
-    <End Type="TAM_DBModel.SUBJECT_ASSIGNMENT_TEMP" Role="SUBJECT_ASSIGNMENT_TEMP" Multiplicity="*" />
+  <Association Name="FK_USER_NOTIFICATION_USER">
+    <End Type="TAM_DBModel.USER" Role="USER" Multiplicity="1" />
+    <End Type="TAM_DBModel.USER_NOTIFICATION" Role="USER_NOTIFICATION" Multiplicity="*" />
     <ReferentialConstraint>
-      <Principal Role="STUDENT_GROUP">
+      <Principal Role="USER">
         <PropertyRef Name="ID" />
       </Principal>
-      <Dependent Role="SUBJECT_ASSIGNMENT_TEMP">
-        <PropertyRef Name="StudentGroupID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SUBJECT_ASSIGNMENT_TEMP_STUDIES_TYPE_DICT">
-    <End Type="TAM_DBModel.STUDIES_TYPE_DICT" Role="STUDIES_TYPE_DICT" Multiplicity="1" />
-    <End Type="TAM_DBModel.SUBJECT_ASSIGNMENT_TEMP" Role="SUBJECT_ASSIGNMENT_TEMP" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="STUDIES_TYPE_DICT">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="SUBJECT_ASSIGNMENT_TEMP">
-        <PropertyRef Name="StudiesTypeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT">
-    <End Type="TAM_DBModel.SUBJECT" Role="SUBJECT" Multiplicity="1" />
-    <End Type="TAM_DBModel.SUBJECT_ASSIGNMENT_TEMP" Role="SUBJECT_ASSIGNMENT_TEMP" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SUBJECT">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="SUBJECT_ASSIGNMENT_TEMP">
-        <PropertyRef Name="SubjectID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT">
-    <End Type="TAM_DBModel.SUBJECT_TYPE_DICT" Role="SUBJECT_TYPE_DICT" Multiplicity="1" />
-    <End Type="TAM_DBModel.SUBJECT_ASSIGNMENT_TEMP" Role="SUBJECT_ASSIGNMENT_TEMP" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SUBJECT_TYPE_DICT">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="SUBJECT_ASSIGNMENT_TEMP">
-        <PropertyRef Name="SubjectTypeID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER">
-    <End Type="TAM_DBModel.TEACHER" Role="TEACHER" Multiplicity="1" />
-    <End Type="TAM_DBModel.SUBJECT_ASSIGNMENT_TEMP" Role="SUBJECT_ASSIGNMENT_TEMP" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="TEACHER">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="SUBJECT_ASSIGNMENT_TEMP">
-        <PropertyRef Name="TeacherID" />
+      <Dependent Role="USER_NOTIFICATION">
+        <PropertyRef Name="SenderID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>

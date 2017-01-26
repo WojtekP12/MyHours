@@ -10,7 +10,7 @@ namespace MyHours.Controllers
 {
     public class BaseController : Controller
     {
-        private static bool DataBaseRequestOccured { get; set; }
+        protected static bool DataBaseRequestOccured { get; set; }
         protected TAM_DBEntities db;
         public BaseController()
         {
@@ -22,11 +22,17 @@ namespace MyHours.Controllers
         {
             if (User != null && DataBaseRequestOccured!=true)
             {
-                string id = GetCurrentUserId();
-                var userId = db.USER.Where(x => x.AspNetUserID == id).FirstOrDefault().ID;
-                GlobalUserData.NotificationCount = db.USER_NOTIFICATION.Where(x => x.UserID == userId).Count();
+                var userId = GetUserID();
+                GlobalUserData.NotificationCount = db.USER_NOTIFICATION.Where(x => x.UserID == userId && x.StatusID==1).Count();
                 DataBaseRequestOccured = true;
             }
+        }
+
+        protected int GetUserID()
+        {
+            string id = GetCurrentUserId();
+            var userId = db.USER.Where(x => x.AspNetUserID == id).FirstOrDefault().ID;
+            return userId;
         }
 
         private string GetCurrentUserId()

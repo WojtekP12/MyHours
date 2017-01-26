@@ -18,6 +18,7 @@ namespace MyHours.Models
         public SUBJECT()
         {
             this.SUBJECT_ASSIGNMENT = new HashSet<SUBJECT_ASSIGNMENT>();
+            this.SUBJECT_ASSIGNMENT_TEMP = new HashSet<SUBJECT_ASSIGNMENT_TEMP>();
         }
     
         public int ID { get; set; }
@@ -25,9 +26,20 @@ namespace MyHours.Models
         public string Name { get; set; }
         public string Language { get; set; }
         public int SpecialityID { get; set; }
+        public int NumberOfGroups { get; set; }
+        public int AssignedHours { get; set; }
+        public int UsedHours { get; set; }
+        public int LabHours { get; set; }
+        public int LecHours { get; set; }
+        public int SemHours { get; set; }
+        public int PrjHours { get; set; }
+        public int ExcHours { get; set; }
+        public int DipHours { get; set; }
     
         public virtual SPECIALITY SPECIALITY { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<SUBJECT_ASSIGNMENT> SUBJECT_ASSIGNMENT { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<SUBJECT_ASSIGNMENT_TEMP> SUBJECT_ASSIGNMENT_TEMP { get; set; }
     }
 }

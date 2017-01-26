@@ -12,18 +12,31 @@ namespace MyHours.Models
     using System;
     using System.Collections.Generic;
     
-    public partial class NOTIFICATION_STATUS
+    public partial class SUBJECT_ASSIGNMENT_TEMP
     {
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
-        public NOTIFICATION_STATUS()
+        public SUBJECT_ASSIGNMENT_TEMP()
         {
             this.USER_NOTIFICATION = new HashSet<USER_NOTIFICATION>();
         }
     
         public int ID { get; set; }
-        public string Name { get; set; }
-        public string Description { get; set; }
+        public int Hours { get; set; }
+        public int Semester { get; set; }
+        public int TeacherID { get; set; }
+        public bool IsSubstitute { get; set; }
+        public string IsSubstituteDescription { get; set; }
+        public int StudentGroupID { get; set; }
+        public int SubjectID { get; set; }
+        public int SubjectTypeID { get; set; }
+        public int StudiesTypeID { get; set; }
+        public Nullable<int> ProxyID { get; set; }
     
+        public virtual STUDENT_GROUP STUDENT_GROUP { get; set; }
+        public virtual STUDIES_TYPE_DICT STUDIES_TYPE_DICT { get; set; }
+        public virtual SUBJECT SUBJECT { get; set; }
+        public virtual SUBJECT_TYPE_DICT SUBJECT_TYPE_DICT { get; set; }
+        public virtual TEACHER TEACHER { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USER_NOTIFICATION> USER_NOTIFICATION { get; set; }
     }
