@@ -15,29 +15,26 @@ namespace MyHours.Controllers
     [Authorize(Roles = "Teacher, Administrator")]
     public class TeacherController : BaseController
     {
-        private TAM_DBEntities db = new TAM_DBEntities();
         // GET: Teacher
         public ActionResult Index()
         {
             string id = getCurrentUserId();
             int totalTime;
-            int usedTime;
-            int freeTime;
+            int overTime;
+            int numberOfSubjects;
 
             var sUBJECT_ASSIGNMENT = db.SUBJECT_ASSIGNMENT.Include(s => s.STUDENT_GROUP).Include(s => s.SUBJECT).Include(s => s.TEACHER).Include(s=>s.SUBJECT_TYPE_DICT).Include(s=>s.STUDIES_TYPE_DICT);
             var teacherId = db.USER.Where(x => x.AspNetUserID == id).FirstOrDefault().TeacherID;
 
             totalTime = db.TEACHER.Where(x => x.ID == teacherId).FirstOrDefault().AssignedHours;
-            usedTime = sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherId).Sum(x => x.Hours);
-            freeTime = totalTime - usedTime;
-            if(freeTime<0)
-            {
-                freeTime = 0;
-            }
+            overTime = sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherId).Sum(x => x.Hours) - totalTime;
+            overTime = overTime < 0 ? 0 : overTime;
+
+            numberOfSubjects = db.SUBJECT_ASSIGNMENT.Where(x=>x.TeacherID == teacherId).Count();
 
             ViewBag.TotalTime = totalTime;
-            ViewBag.UsedTime = usedTime;
-            ViewBag.FreeTime = freeTime;
+            ViewBag.OverTime = overTime;
+            ViewBag.NumberOfSubjects = numberOfSubjects;
 
             return View(sUBJECT_ASSIGNMENT.Where(x=>x.TeacherID== teacherId).ToList());
         }
@@ -106,12 +103,12 @@ namespace MyHours.Controllers
 
                 USER_NOTIFICATION noti = new USER_NOTIFICATION();
                 noti.Date = DateTime.Now;
-                noti.Name = "Subject Added";
-                noti.Description = db.SUBJECT.Where(x=>x.ID == subjectAssignmentTemp.SubjectID).FirstOrDefault().Name + "added by" + user.Name;
+                noti.Name = "added";
+                noti.Description = db.SUBJECT.Where(x=>x.ID == subjectAssignmentTemp.SubjectID).FirstOrDefault().Name + " added by " + user.Name;
                 noti.SenderID = user.ID;
                 noti.UserID = adminID;
                 noti.StatusID = 1;
-                noti.SubjectAssignmentID = subjectAssignmentTemp.ID;
+                noti.SubjectAssignmentTempID = subjectAssignmentTemp.ID;
 
                 db.USER_NOTIFICATION.Add(noti);
                 db.SaveChanges();
@@ -130,11 +127,26 @@ namespace MyHours.Controllers
         // GET: Teacher/Edit/5
         public ActionResult Edit(int? id)
         {
+            int assignedHours;
+            int usedHours;
+            int freeHours;
+
             if (id == null)
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
             SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT = db.SUBJECT_ASSIGNMENT.Find(id);
+
+            var subject = db.SUBJECT.Find(sUBJECT_ASSIGNMENT.SubjectID);
+
+            assignedHours = subject.AssignedHours;
+            usedHours = subject.UsedHours;
+            freeHours = (assignedHours - usedHours) < 0 ? 0 : (assignedHours - usedHours);
+
+            ViewBag.AssignedHours = assignedHours;
+            ViewBag.UsedHours = usedHours;
+            ViewBag.FreeHours = freeHours;
+
             if (sUBJECT_ASSIGNMENT == null)
             {
                 return HttpNotFound();
@@ -144,6 +156,9 @@ namespace MyHours.Controllers
             ViewBag.TeacherID = new SelectList(db.TEACHER, "ID", "FirstName", sUBJECT_ASSIGNMENT.TeacherID);
             ViewBag.SubjectTypeID = new SelectList(db.SUBJECT_TYPE_DICT, "ID", "Description", sUBJECT_ASSIGNMENT.SubjectTypeID);
             ViewBag.StudiesTypeID = new SelectList(db.STUDIES_TYPE_DICT, "ID", "Description", sUBJECT_ASSIGNMENT.StudiesTypeID);
+
+
+
             return View(sUBJECT_ASSIGNMENT);
         }
 
@@ -156,8 +171,43 @@ namespace MyHours.Controllers
         {
             if (ModelState.IsValid)
             {
-                db.Entry(sUBJECT_ASSIGNMENT).State = EntityState.Modified;
+                SUBJECT_ASSIGNMENT_TEMP subjectAssignmentTemp = new SUBJECT_ASSIGNMENT_TEMP();
+
+                string id = getCurrentUserId();
+                var user = db.USER.Where(x => x.AspNetUserID == id).FirstOrDefault();
+                var teacherId = user.TeacherID;
+
+                subjectAssignmentTemp.TeacherID = teacherId.Value;
+
+                subjectAssignmentTemp.Hours = sUBJECT_ASSIGNMENT.Hours;
+                subjectAssignmentTemp.IsSubstitute = sUBJECT_ASSIGNMENT.IsSubstitute;
+                subjectAssignmentTemp.IsSubstituteDescription = sUBJECT_ASSIGNMENT.IsSubstituteDescription;
+                subjectAssignmentTemp.ProxyID = sUBJECT_ASSIGNMENT.ProxyID;
+                subjectAssignmentTemp.Semester = sUBJECT_ASSIGNMENT.Semester;
+                subjectAssignmentTemp.StudentGroupID = sUBJECT_ASSIGNMENT.StudentGroupID;
+                subjectAssignmentTemp.StudiesTypeID = sUBJECT_ASSIGNMENT.StudiesTypeID;
+                subjectAssignmentTemp.SubjectID = sUBJECT_ASSIGNMENT.SubjectID;
+                subjectAssignmentTemp.SubjectTypeID = sUBJECT_ASSIGNMENT.SubjectTypeID;
+
+                db.SUBJECT_ASSIGNMENT_TEMP.Add(subjectAssignmentTemp);
+
                 db.SaveChanges();
+
+                var adminID = db.USER.Where(x => x.UserTypeID == 2).FirstOrDefault().ID;
+
+                USER_NOTIFICATION noti = new USER_NOTIFICATION();
+                noti.Date = DateTime.Now;
+                noti.Name = "modified";
+                noti.Description = db.SUBJECT.Where(x => x.ID == subjectAssignmentTemp.SubjectID).FirstOrDefault().Name + " modified by " + user.Name;
+                noti.SenderID = user.ID;
+                noti.UserID = adminID;
+                noti.StatusID = 1;
+                noti.SubjectAssignmentTempID = subjectAssignmentTemp.ID;
+                noti.SubjectAssignmentID = sUBJECT_ASSIGNMENT.ID;
+
+                db.USER_NOTIFICATION.Add(noti);
+                db.SaveChanges();
+
                 return RedirectToAction("Index");
             }
             ViewBag.StudentGroupID = new SelectList(db.STUDENT_GROUP, "ID", "Name", sUBJECT_ASSIGNMENT.StudentGroupID);
@@ -188,9 +238,31 @@ namespace MyHours.Controllers
         [ValidateAntiForgeryToken]
         public ActionResult DeleteConfirmed(int id)
         {
+            string userId = getCurrentUserId();
+            var user = db.USER.Where(x => x.AspNetUserID == userId).FirstOrDefault();
+            var teacherId = user.TeacherID;
+            var adminID = db.USER.Where(x => x.UserTypeID == 2).FirstOrDefault().ID;
+
+            
             SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT = db.SUBJECT_ASSIGNMENT.Find(id);
-            db.SUBJECT_ASSIGNMENT.Remove(sUBJECT_ASSIGNMENT);
-            db.SaveChanges();
+
+            USER_NOTIFICATION temp = db.USER_NOTIFICATION.Where(x => x.SubjectAssignmentID == sUBJECT_ASSIGNMENT.ID && x.Name.Contains("deleted")).FirstOrDefault();
+
+            if(temp==null)
+            {
+                USER_NOTIFICATION noti = new USER_NOTIFICATION();
+                noti.Date = DateTime.Now;
+                noti.Name = "deleted";
+                noti.Description = db.SUBJECT.Where(x => x.ID == sUBJECT_ASSIGNMENT.SubjectID).FirstOrDefault().Name + " deleted by " + user.Name;
+                noti.SenderID = user.ID;
+                noti.UserID = adminID;
+                noti.StatusID = 1;
+                noti.SubjectAssignmentID = sUBJECT_ASSIGNMENT.ID;
+
+                db.USER_NOTIFICATION.Add(noti);
+                db.SaveChanges();
+            }
+            
             return RedirectToAction("Index");
         }
 

@@ -221,6 +221,7 @@
     <Compile Include="Controllers\ManageController.cs" />
     <Compile Include="Controllers\NotificationsController.cs" />
     <Compile Include="Controllers\TeacherController.cs" />
+    <Compile Include="Controllers\TeacherNotificationController.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -410,9 +411,14 @@
     <Content Include="Views\Administrator\Index.cshtml" />
     <Content Include="Views\Notifications\Delete.cshtml" />
     <Content Include="Views\Notifications\Details.cshtml" />
-    <Content Include="Views\Notifications\Edit.cshtml" />
     <Content Include="Views\Notifications\Index.cshtml" />
     <Content Include="Views\Notifications\Accept.cshtml" />
+    <Content Include="Views\Administrator\EditSubject.cshtml" />
+    <Content Include="Views\Administrator\DeleteSubject.cshtml" />
+    <Content Include="Views\Administrator\CreateSubject.cshtml" />
+    <Content Include="Views\TeacherNotification\Delete.cshtml" />
+    <Content Include="Views\TeacherNotification\Details.cshtml" />
+    <Content Include="Views\TeacherNotification\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Code\" />

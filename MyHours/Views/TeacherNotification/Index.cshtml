@@ -1,0 +1,67 @@
+﻿@model IEnumerable<MyHours.Models.USER_NOTIFICATION>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Notifications</h2>
+
+<table class="table">
+    <tr>
+        <th>
+            Status
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Name)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Date)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.SUBJECT_ASSIGNMENT_TEMP.SUBJECT.Name)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model)
+    {
+        <tr>
+            <td>
+                @if (item.NOTIFICATION_STATUS.Description == "New")
+                {
+                    <font color="blue"><b>@Html.DisplayFor(modelItem => item.NOTIFICATION_STATUS.Description)</b></font>
+                }
+                else if (item.NOTIFICATION_STATUS.Description == "Accepted")
+                {
+                    <font color="green"><b>@Html.DisplayFor(modelItem => item.NOTIFICATION_STATUS.Description)</b></font>
+                }
+                else
+                {
+                    <font color="red"><b>@Html.DisplayFor(modelItem => item.NOTIFICATION_STATUS.Description)</b></font>
+                }
+
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Name)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Date)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.SUBJECT_ASSIGNMENT_TEMP.SUBJECT.Name)
+            </td>
+            <td>
+                <a href="@Url.Action("Delete","TeacherNotification", new { id=item.ID })" class="btn btn-default"><i class="fa fa-times" style="color:red"><font face="Arial"></font></i></a>
+                <a href="@Url.Action("Details","TeacherNotification", new { id=item.ID })" class="btn btn-default"><i class="fa fa-bars"><font face="Arial"> Details</font></i></a>
+            </td>
+        </tr>
+    }
+
+</table>

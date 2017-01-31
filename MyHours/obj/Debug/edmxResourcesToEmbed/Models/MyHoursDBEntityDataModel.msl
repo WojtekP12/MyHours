@@ -229,6 +229,7 @@
           <ScalarProperty Name="Description" ColumnName="Description" />
           <ScalarProperty Name="StatusID" ColumnName="StatusID" />
           <ScalarProperty Name="Date" ColumnName="Date" />
+          <ScalarProperty Name="SubjectAssignmentTempID" ColumnName="SubjectAssignmentTempID" />
           <ScalarProperty Name="SubjectAssignmentID" ColumnName="SubjectAssignmentID" />
         </MappingFragment>
       </EntityTypeMapping>

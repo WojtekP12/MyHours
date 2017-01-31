@@ -15,16 +15,18 @@ namespace MyHours.Controllers
         public BaseController()
         {
             db = new TAM_DBEntities();
-            var u = User;
         }
 
         protected void GetUserNotificationCountFromDataBase()
         {
-            if (User != null && DataBaseRequestOccured!=true)
+            if (User != null/* && DataBaseRequestOccured!=true*/)
             {
                 var userId = GetUserID();
-                GlobalUserData.NotificationCount = db.USER_NOTIFICATION.Where(x => x.UserID == userId && x.StatusID==1).Count();
-                DataBaseRequestOccured = true;
+                var notificationCount = db.USER_NOTIFICATION.Where(x => x.UserID == userId && x.StatusID==1).Count();
+                var teacherNotificationCount = db.USER_NOTIFICATION.Where(x => x.SenderID == userId).Count();
+                Session["NotificationCount"] = notificationCount;
+                Session["TeacherNotificationCount"] = teacherNotificationCount;
+                //DataBaseRequestOccured = true;
             }
         }
 
@@ -41,10 +43,7 @@ namespace MyHours.Controllers
             var claimsIdentity = User.Identity as ClaimsIdentity;
             if (claimsIdentity != null)
             {
-                // the principal identity is a claims identity.
-                // now we need to find the NameIdentifier claim
-                var userIdClaim = claimsIdentity.Claims
-                    .FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
+                var userIdClaim = claimsIdentity.Claims.FirstOrDefault(x => x.Type == ClaimTypes.NameIdentifier);
 
                 if (userIdClaim != null)
                 {
@@ -58,13 +57,13 @@ namespace MyHours.Controllers
         {
             base.OnActionExecuting(filterContext);
             GetUserNotificationCountFromDataBase();
-            ViewBag.NotificationCount = GlobalUserData.NotificationCount;
         }
 
         [HttpPost]
         public ActionResult SetNotificationCount(int value)
         {
-            GlobalUserData.NotificationCount = value;
+            Session["NotificationCount"] = value;
+            Session["TeacherNotificationCount"] = value;
             return null;
         }
     }

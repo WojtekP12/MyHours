@@ -41,17 +41,35 @@
                     }
                     @if (User.Identity.IsAuthenticated)
                     {
-                        <li>
-                            @if (ViewBag.NotificationsCount != 0)
-                            {
-                                <a href="@Url.Action("Index","Notifications",routeValues: null)"><i class="fa fa-bell" style="font-size:20px; margin-top:1px"><span class="count">@ViewBag.NotificationCount</span></i></a>
-                            }
-                            else
-                            {
-                                <a href="@Url.Action("Index","Notifications",routeValues: null)"><i class="fa fa-bell" style="font-size:20px; margin-top:1px"><span class="count">&nbsp;</span></i></a>
-                            }
+                        if (User.IsInRole("Administrator"))
+                        {
+                            <li>
+                                @if (ViewBag.NotificationsCount != 0)
+                                {
+                                    <a href="@Url.Action("Index","Notifications",routeValues: null)"><i class="fa fa-bell" style="font-size:20px; margin-top:1px"><span class="count">@Session["NotificationCount"]</span></i></a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Index","Notifications",routeValues: null)"><i class="fa fa-bell" style="font-size:20px; margin-top:1px"><span class="count">&nbsp;</span></i></a>
+                                }
 
-                        </li>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                @if (ViewBag.NotificationsCount != 0)
+                                {
+                                    <a href="@Url.Action("Index","TeacherNotification",routeValues: null)"><i class="fa fa-bell" style="font-size:20px; margin-top:1px"><span class="count">@Session["TeacherNotificationCount"]</span></i></a>
+                                }
+                                else
+                                {
+                                    <a href="@Url.Action("Index","TeacherNotification",routeValues: null)"><i class="fa fa-bell" style="font-size:20px; margin-top:1px"><span class="count">&nbsp;</span></i></a>
+                                }
+
+                            </li>
+                        }
+
                     }
                     
                 </ul>
@@ -226,6 +244,10 @@
                 else if (message && message.toLowerCase() == "deleted")
                 {
                     decreaseNotificationCount();
+                }
+                else
+                {
+                    increaseNotificationCount();
                 }
             }
 

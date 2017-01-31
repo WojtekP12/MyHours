@@ -28,7 +28,7 @@ namespace MyHours
             NotificationComponent NC = new NotificationComponent();
             var currentTime = DateTime.Now;
             HttpContext.Current.Session["LastUpdated"] = currentTime;
-            NC.RegisterNotification(1);
+            NC.RegisterNotification();
         }
 
         protected void Application_End()

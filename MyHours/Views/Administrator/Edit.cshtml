@@ -14,8 +14,8 @@
 <table class="hours">
     <tr>
         <th class="hours">Total Time</th>
-        <th class="hours">Used Time</th>
-        <th class="hours">Free Time</th>
+        <th class="hours">Over Time</th>
+        <th class="hours">Subjects</th>
     </tr>
     <tr>
         <td class="hours">
@@ -26,30 +26,26 @@
 
         <td class="hours">
             @{
-                if (ViewBag.UsedTime == ViewBag.TotalTime)
+                if (ViewBag.OverTime == 0)
                 {
-                    <font color="blue"><b>@ViewBag.UsedTime</b></font>
+                    <font color="blue"><b>@ViewBag.OverTime</b></font>
                 }
-                else if (ViewBag.UsedTime > ViewBag.TotalTime)
+                else if (ViewBag.OverTime > 0)
                 {
-                    <font color="red"><b>@ViewBag.UsedTime</b></font>
-                }
-                else
-                {
-                    <font color="green"><b>@ViewBag.UsedTime</b></font>
+                    <font color="red"><b>@ViewBag.OverTime</b></font>
                 }
             }
         </td>
 
         <td class="hours">
             @{
-                if (ViewBag.FreeTime > 0)
+                if (ViewBag.NumberOfSubjects != 0)
                 {
-                    <font color="green"><b>@ViewBag.FreeTime</b></font>
+                    <font color="green"><b>@ViewBag.NumberOfSubjects</b></font>
                 }
                 else
                 {
-                    <font color="red"><b>@ViewBag.FreeTime</b></font>
+                    <font color="red"><b>@ViewBag.NumberOfSubjects</b></font>
                 }
             }
         </td>
@@ -133,10 +129,10 @@
                 @Html.DisplayFor(modelItem => item.SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
             </td>
             <td>
-                <p><a href="@Url.Action("Edit","Teacher",new { id=item.ID })" class="btn btn-default">Edit</a></p>
+                <p><a href="@Url.Action("EditSubject","Administrator",new { id=item.ID })" class="btn btn-default">Edit</a></p>
             </td>
             <td>
-                <p><a href="@Url.Action("Delete","Teacher",new { id=item.ID })" class="btn btn-default">Delete</a></p>
+                <p><a href="@Url.Action("DeleteSubject","Administrator",new { id=item.ID })" class="btn btn-default">Delete</a></p>
             </td>
         </tr>
     }
@@ -144,5 +140,5 @@
 </table>
 
 <p>
-    <a href="@Url.Action("Create","Teacher")" class="btn btn-primary btn-lg">Add &#43;</a>
+    <a href="@Url.Action("CreateSubject","Administrator", new { id = Model.FirstOrDefault().TeacherID })" class="btn btn-primary btn-lg">Add &#43;</a>
 </p>

@@ -12,14 +12,13 @@ namespace MyHours.Controllers
 {
     public class NotificationsController : BaseController
     {
-        private TAM_DBEntities db = new TAM_DBEntities();
 
         // GET: Notifications
         public ActionResult Index()
         {
             var uSER_NOTIFICATION = db.USER_NOTIFICATION.Include(u => u.SUBJECT_ASSIGNMENT_TEMP).Include(u=>u.SUBJECT_ASSIGNMENT_TEMP.SUBJECT).Include(u=>u.USER);
             var userId = GetUserID();
-            return View(uSER_NOTIFICATION.Where(x=>x.UserID == userId).ToList());
+            return View(uSER_NOTIFICATION.Where(x=>x.UserID == userId && x.StatusID == 1).ToList());
         }
 
         // GET: Notifications/Details/5
@@ -32,41 +31,8 @@ namespace MyHours.Controllers
             USER_NOTIFICATION uSER_NOTIFICATION = db.USER_NOTIFICATION.Find(id);
             if (uSER_NOTIFICATION == null)
             {
-                return HttpNotFound();
+                RedirectToAction("Index");
             }
-            return View(uSER_NOTIFICATION);
-        }
-
-        // GET: Notifications/Edit/5
-        public ActionResult Edit(int? id)
-        {
-            if (id == null)
-            {
-                return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
-            }
-            USER_NOTIFICATION uSER_NOTIFICATION = db.USER_NOTIFICATION.Find(id);
-            if (uSER_NOTIFICATION == null)
-            {
-                return HttpNotFound();
-            }
-            ViewBag.SubjectAssignmentID = new SelectList(db.SUBJECT_ASSIGNMENT, "ID", "IsSubstituteDescription", uSER_NOTIFICATION.SubjectAssignmentID);
-            return View(uSER_NOTIFICATION);
-        }
-
-        // POST: Notifications/Edit/5
-        // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
-        // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,SenderID,UserID,Name,Description,StatusID,Date,SubjectAssignmentID")] USER_NOTIFICATION uSER_NOTIFICATION)
-        {
-            if (ModelState.IsValid)
-            {
-                db.Entry(uSER_NOTIFICATION).State = EntityState.Modified;
-                db.SaveChanges();
-                return RedirectToAction("Index");
-            }
-            ViewBag.SubjectAssignmentID = new SelectList(db.SUBJECT_ASSIGNMENT, "ID", "IsSubstituteDescription", uSER_NOTIFICATION.SubjectAssignmentID);
             return View(uSER_NOTIFICATION);
         }
 
@@ -80,7 +46,7 @@ namespace MyHours.Controllers
             USER_NOTIFICATION uSER_NOTIFICATION = db.USER_NOTIFICATION.Find(id);
             if (uSER_NOTIFICATION == null)
             {
-                return HttpNotFound();
+                RedirectToAction("Index");
             }
             return View(uSER_NOTIFICATION);
         }
@@ -91,10 +57,18 @@ namespace MyHours.Controllers
         public ActionResult DeleteConfirmed(int id)
         {
             USER_NOTIFICATION uSER_NOTIFICATION = db.USER_NOTIFICATION.Find(id);
-            SUBJECT_ASSIGNMENT_TEMP subject = db.SUBJECT_ASSIGNMENT_TEMP.Find(uSER_NOTIFICATION.SubjectAssignmentID);
+            if(uSER_NOTIFICATION == null)
+            {
+                RedirectToAction("Index");
+            }
 
-            db.SUBJECT_ASSIGNMENT_TEMP.Remove(subject);
-            db.USER_NOTIFICATION.Remove(uSER_NOTIFICATION);
+            if(uSER_NOTIFICATION.Name == "added")
+            {
+                SUBJECT_ASSIGNMENT_TEMP subject = db.SUBJECT_ASSIGNMENT_TEMP.Find(uSER_NOTIFICATION.SubjectAssignmentTempID);
+                db.SUBJECT_ASSIGNMENT_TEMP.Remove(subject);
+            }
+
+            uSER_NOTIFICATION.StatusID = 2;
             db.SaveChanges();
 
             return RedirectToAction("Index");
@@ -110,7 +84,7 @@ namespace MyHours.Controllers
             USER_NOTIFICATION uSER_NOTIFICATION = db.USER_NOTIFICATION.Find(id);
             if (uSER_NOTIFICATION == null)
             {
-                return HttpNotFound();
+                RedirectToAction("Index");
             }
             return View(uSER_NOTIFICATION);
         }
@@ -121,24 +95,69 @@ namespace MyHours.Controllers
         public ActionResult AcceptConfirmed(int id)
         {
             USER_NOTIFICATION uSER_NOTIFICATION = db.USER_NOTIFICATION.Find(id);
-            SUBJECT_ASSIGNMENT_TEMP subject = db.SUBJECT_ASSIGNMENT_TEMP.Find(uSER_NOTIFICATION.SubjectAssignmentID);
-            SUBJECT_ASSIGNMENT resultSubject = new SUBJECT_ASSIGNMENT
-            {
-                Hours = subject.Hours,
-                IsSubstitute = subject.IsSubstitute,
-                IsSubstituteDescription = subject.IsSubstituteDescription,
-                ProxyID = subject.ProxyID,
-                Semester = subject.Semester,
-                StudentGroupID = subject.StudentGroupID,
-                StudiesTypeID = subject.StudiesTypeID,
-                SubjectID = subject.SubjectID,
-                SubjectTypeID = subject.SubjectTypeID,
-                TeacherID = subject.TeacherID
-            };
 
-            db.SUBJECT_ASSIGNMENT.Add(resultSubject);
-            db.SUBJECT_ASSIGNMENT_TEMP.Remove(subject);
-            db.USER_NOTIFICATION.Remove(uSER_NOTIFICATION);
+            if (uSER_NOTIFICATION == null)
+            {
+                RedirectToAction("Index");
+            }
+
+            if (uSER_NOTIFICATION.Name.Contains("added"))
+            {
+                SUBJECT_ASSIGNMENT_TEMP subject = db.SUBJECT_ASSIGNMENT_TEMP.Find(uSER_NOTIFICATION.SubjectAssignmentTempID);
+                SUBJECT_ASSIGNMENT resultSubject = new SUBJECT_ASSIGNMENT
+                {
+                    Hours = subject.Hours,
+                    IsSubstitute = subject.IsSubstitute,
+                    IsSubstituteDescription = subject.IsSubstituteDescription,
+                    ProxyID = subject.ProxyID,
+                    Semester = subject.Semester,
+                    StudentGroupID = subject.StudentGroupID,
+                    StudiesTypeID = subject.StudiesTypeID,
+                    SubjectID = subject.SubjectID,
+                    SubjectTypeID = subject.SubjectTypeID,
+                    TeacherID = subject.TeacherID
+                };
+
+                var s = db.SUBJECT.Find(resultSubject.SubjectID);
+                s.UsedHours += resultSubject.Hours;
+
+                db.SUBJECT_ASSIGNMENT.Add(resultSubject);
+                db.SUBJECT_ASSIGNMENT_TEMP.Remove(subject);
+            }
+            else if(uSER_NOTIFICATION.Name.Contains("deleted"))
+            {
+                var subject = db.SUBJECT_ASSIGNMENT.Find(uSER_NOTIFICATION.SubjectAssignmentID);
+                var s = subject.SUBJECT;
+                s.UsedHours -= subject.Hours;
+
+                db.SUBJECT_ASSIGNMENT.Remove(subject);
+            }
+            else if(uSER_NOTIFICATION.Name.Contains("modified"))
+            {
+                SUBJECT_ASSIGNMENT_TEMP subject_temp = uSER_NOTIFICATION.SUBJECT_ASSIGNMENT_TEMP;
+                SUBJECT_ASSIGNMENT subject = db.SUBJECT_ASSIGNMENT.Find(uSER_NOTIFICATION.SubjectAssignmentID);
+
+                int hours = subject_temp.Hours - subject.Hours;
+                var s = db.SUBJECT.Find(subject_temp.SubjectID);
+                s.UsedHours += hours;
+
+                subject.Hours = subject_temp.Hours;
+                subject.IsSubstitute = subject_temp.IsSubstitute;
+                subject.IsSubstituteDescription = subject_temp.IsSubstituteDescription;
+                subject.ProxyID = subject_temp.ProxyID;
+                subject.Semester = subject_temp.Semester;
+                subject.StudentGroupID = subject_temp.StudentGroupID;
+                subject.StudiesTypeID = subject_temp.StudiesTypeID;
+                subject.SubjectID = subject_temp.SubjectID;
+                subject.SubjectTypeID = subject_temp.SubjectTypeID;
+                subject.TeacherID = subject_temp.TeacherID;
+
+                db.SaveChanges();
+
+                db.SUBJECT_ASSIGNMENT_TEMP.Remove(subject_temp);
+            }
+
+            uSER_NOTIFICATION.StatusID = 3;
             db.SaveChanges();
 
             return RedirectToAction("Index");

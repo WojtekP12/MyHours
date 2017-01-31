@@ -220,7 +220,8 @@
     <Property Name="Description" Type="nchar" MaxLength="500" Nullable="false" />
     <Property Name="StatusID" Type="int" Nullable="false" />
     <Property Name="Date" Type="date" Nullable="false" />
-    <Property Name="SubjectAssignmentID" Type="int" Nullable="false" />
+    <Property Name="SubjectAssignmentTempID" Type="int" />
+    <Property Name="SubjectAssignmentID" Type="int" />
   </EntityType>
   <EntityType Name="USER_TYPE">
     <Key>
@@ -515,10 +516,22 @@
     </ReferentialConstraint>
   </Association>
   <Association Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT">
-    <End Role="SUBJECT_ASSIGNMENT_TEMP" Type="Self.SUBJECT_ASSIGNMENT_TEMP" Multiplicity="1" />
+    <End Role="SUBJECT_ASSIGNMENT_TEMP" Type="Self.SUBJECT_ASSIGNMENT_TEMP" Multiplicity="0..1" />
     <End Role="USER_NOTIFICATION" Type="Self.USER_NOTIFICATION" Multiplicity="*" />
     <ReferentialConstraint>
       <Principal Role="SUBJECT_ASSIGNMENT_TEMP">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="USER_NOTIFICATION">
+        <PropertyRef Name="SubjectAssignmentTempID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1">
+    <End Role="SUBJECT_ASSIGNMENT" Type="Self.SUBJECT_ASSIGNMENT" Multiplicity="0..1" />
+    <End Role="USER_NOTIFICATION" Type="Self.USER_NOTIFICATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT_ASSIGNMENT">
         <PropertyRef Name="ID" />
       </Principal>
       <Dependent Role="USER_NOTIFICATION">
@@ -679,6 +692,10 @@
     </AssociationSet>
     <AssociationSet Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT" Association="Self.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT">
       <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
+      <End Role="USER_NOTIFICATION" EntitySet="USER_NOTIFICATION" />
+    </AssociationSet>
+    <AssociationSet Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1" Association="Self.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1">
+      <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
       <End Role="USER_NOTIFICATION" EntitySet="USER_NOTIFICATION" />
     </AssociationSet>
     <AssociationSet Name="FK_USER_NOTIFICATION_USER" Association="Self.FK_USER_NOTIFICATION_USER">

@@ -90,7 +90,7 @@
     <Property Name="ID" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
     <Property Name="Name" Type="String" MaxLength="20" FixedLength="false" Unicode="false" Nullable="false" />
     <Property Name="Description" Type="String" MaxLength="50" FixedLength="false" Unicode="false" Nullable="false" />
-    <NavigationProperty Name="USER_NOTIFICATION" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_NOTIFICATION_STATUS" FromRole="NOTIFICATION_STATUS" ToRole="USER_NOTIFICATION" />
+    <NavigationProperty Name="USER_NOTIFICATION" Relationship="Self.FK_USER_NOTIFICATION_NOTIFICATION_STATUS" FromRole="NOTIFICATION_STATUS" ToRole="USER_NOTIFICATION" />
   </EntityType>
   <EntityType Name="SPECIALITY">
     <Key>
@@ -175,6 +175,7 @@
     <NavigationProperty Name="SUBJECT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT" />
     <NavigationProperty Name="SUBJECT_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT_TYPE_DICT" />
     <NavigationProperty Name="TEACHER" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEACHER" FromRole="SUBJECT_ASSIGNMENT" ToRole="TEACHER" />
+    <NavigationProperty Name="USER_NOTIFICATION" Relationship="Self.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1" FromRole="SUBJECT_ASSIGNMENT" ToRole="USER_NOTIFICATION" />
   </EntityType>
   <EntityType Name="SUBJECT_ASSIGNMENT_TEMP">
     <Key>
@@ -196,7 +197,7 @@
     <NavigationProperty Name="SUBJECT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="SUBJECT" />
     <NavigationProperty Name="SUBJECT_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="SUBJECT_TYPE_DICT" />
     <NavigationProperty Name="TEACHER" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="TEACHER" />
-    <NavigationProperty Name="USER_NOTIFICATION" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="USER_NOTIFICATION" />
+    <NavigationProperty Name="USER_NOTIFICATION" Relationship="Self.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="USER_NOTIFICATION" />
   </EntityType>
   <EntityType Name="SUBJECT_TYPE_DICT">
     <Key>
@@ -246,8 +247,8 @@
     <Property Name="AspNetUserID" Type="String" MaxLength="128" FixedLength="false" Unicode="true" Nullable="false" />
     <NavigationProperty Name="AspNetUsers" Relationship="Self.FK_USER_AspNetUsers" FromRole="USER" ToRole="AspNetUsers" />
     <NavigationProperty Name="TEACHER" Relationship="Self.FK_USER_TEACHER" FromRole="USER" ToRole="TEACHER" />
+    <NavigationProperty Name="USER_NOTIFICATION" Relationship="Self.FK_USER_NOTIFICATION_USER" FromRole="USER" ToRole="USER_NOTIFICATION" />
     <NavigationProperty Name="USER_TYPE" Relationship="Self.FK_USER_USER_TYPE" FromRole="USER" ToRole="USER_TYPE" />
-    <NavigationProperty Name="USER_NOTIFICATION" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_USER" FromRole="USER" ToRole="USER_NOTIFICATION" />
   </EntityType>
   <EntityType Name="USER_NOTIFICATION">
     <Key>
@@ -260,10 +261,12 @@
     <Property Name="Description" Type="String" MaxLength="500" FixedLength="true" Unicode="true" Nullable="false" />
     <Property Name="StatusID" Type="Int32" Nullable="false" />
     <Property Name="Date" Type="DateTime" Nullable="false" Precision="0" />
-    <Property Name="SubjectAssignmentID" Type="Int32" Nullable="false" />
-    <NavigationProperty Name="NOTIFICATION_STATUS" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_NOTIFICATION_STATUS" FromRole="USER_NOTIFICATION" ToRole="NOTIFICATION_STATUS" />
-    <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1" FromRole="USER_NOTIFICATION" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
-    <NavigationProperty Name="USER" Relationship="TAM_DBModel.FK_USER_NOTIFICATION_USER" FromRole="USER_NOTIFICATION" ToRole="USER" />
+    <Property Name="SubjectAssignmentTempID" Type="Int32" />
+    <Property Name="SubjectAssignmentID" Type="Int32" />
+    <NavigationProperty Name="NOTIFICATION_STATUS" Relationship="Self.FK_USER_NOTIFICATION_NOTIFICATION_STATUS" FromRole="USER_NOTIFICATION" ToRole="NOTIFICATION_STATUS" />
+    <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1" FromRole="USER_NOTIFICATION" ToRole="SUBJECT_ASSIGNMENT" />
+    <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="Self.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT" FromRole="USER_NOTIFICATION" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
+    <NavigationProperty Name="USER" Relationship="Self.FK_USER_NOTIFICATION_USER" FromRole="USER_NOTIFICATION" ToRole="USER" />
   </EntityType>
   <EntityType Name="USER_TYPE">
     <Key>
@@ -386,6 +389,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_USER_NOTIFICATION_NOTIFICATION_STATUS">
+    <End Role="NOTIFICATION_STATUS" Type="Self.NOTIFICATION_STATUS" Multiplicity="1" />
+    <End Role="USER_NOTIFICATION" Type="Self.USER_NOTIFICATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="NOTIFICATION_STATUS">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="USER_NOTIFICATION">
+        <PropertyRef Name="StatusID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SUBJECT_SPECIALITY">
     <End Role="SPECIALITY" Type="Self.SPECIALITY" Multiplicity="1" />
     <End Role="SUBJECT" Type="Self.SUBJECT" Multiplicity="*" />
@@ -494,6 +509,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1">
+    <End Role="SUBJECT_ASSIGNMENT" Type="Self.SUBJECT_ASSIGNMENT" Multiplicity="0..1" />
+    <End Role="USER_NOTIFICATION" Type="Self.USER_NOTIFICATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT_ASSIGNMENT">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="USER_NOTIFICATION">
+        <PropertyRef Name="SubjectAssignmentID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT">
     <End Role="SUBJECT_TYPE_DICT" Type="Self.SUBJECT_TYPE_DICT" Multiplicity="1" />
     <End Role="SUBJECT_ASSIGNMENT_TEMP" Type="Self.SUBJECT_ASSIGNMENT_TEMP" Multiplicity="*" />
@@ -518,6 +545,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT">
+    <End Role="SUBJECT_ASSIGNMENT_TEMP" Type="Self.SUBJECT_ASSIGNMENT_TEMP" Multiplicity="0..1" />
+    <End Role="USER_NOTIFICATION" Type="Self.USER_NOTIFICATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="SUBJECT_ASSIGNMENT_TEMP">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="USER_NOTIFICATION">
+        <PropertyRef Name="SubjectAssignmentTempID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_USER_TEACHER">
     <End Role="TEACHER" Type="Self.TEACHER" Multiplicity="0..1" />
     <End Role="USER" Type="Self.USER" Multiplicity="*" />
@@ -527,6 +566,18 @@
       </Principal>
       <Dependent Role="USER">
         <PropertyRef Name="TeacherID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK_USER_NOTIFICATION_USER">
+    <End Role="USER" Type="Self.USER" Multiplicity="1" />
+    <End Role="USER_NOTIFICATION" Type="Self.USER_NOTIFICATION" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="USER">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="USER_NOTIFICATION">
+        <PropertyRef Name="SenderID" />
       </Dependent>
     </ReferentialConstraint>
   </Association>
@@ -604,6 +655,10 @@
       <End Role="MAJOR" EntitySet="MAJOR" />
       <End Role="SPECIALITY_MAJOR_ASSIGNMENT" EntitySet="SPECIALITY_MAJOR_ASSIGNMENT" />
     </AssociationSet>
+    <AssociationSet Name="FK_USER_NOTIFICATION_NOTIFICATION_STATUS" Association="Self.FK_USER_NOTIFICATION_NOTIFICATION_STATUS">
+      <End Role="NOTIFICATION_STATUS" EntitySet="NOTIFICATION_STATUS" />
+      <End Role="USER_NOTIFICATION" EntitySet="USER_NOTIFICATION" />
+    </AssociationSet>
     <AssociationSet Name="FK_SUBJECT_SPECIALITY" Association="Self.FK_SUBJECT_SPECIALITY">
       <End Role="SPECIALITY" EntitySet="SPECIALITY" />
       <End Role="SUBJECT" EntitySet="SUBJECT" />
@@ -640,6 +695,10 @@
       <End Role="TEACHER" EntitySet="TEACHER" />
       <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
     </AssociationSet>
+    <AssociationSet Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1" Association="Self.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1">
+      <End Role="SUBJECT_ASSIGNMENT" EntitySet="SUBJECT_ASSIGNMENT" />
+      <End Role="USER_NOTIFICATION" EntitySet="USER_NOTIFICATION" />
+    </AssociationSet>
     <AssociationSet Name="FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT" Association="Self.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT">
       <End Role="SUBJECT_TYPE_DICT" EntitySet="SUBJECT_TYPE_DICT" />
       <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
@@ -648,9 +707,17 @@
       <End Role="TEACHER" EntitySet="TEACHER" />
       <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
     </AssociationSet>
+    <AssociationSet Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT" Association="Self.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT">
+      <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
+      <End Role="USER_NOTIFICATION" EntitySet="USER_NOTIFICATION" />
+    </AssociationSet>
     <AssociationSet Name="FK_USER_TEACHER" Association="Self.FK_USER_TEACHER">
       <End Role="TEACHER" EntitySet="TEACHER" />
       <End Role="USER" EntitySet="USER" />
+    </AssociationSet>
+    <AssociationSet Name="FK_USER_NOTIFICATION_USER" Association="Self.FK_USER_NOTIFICATION_USER">
+      <End Role="USER" EntitySet="USER" />
+      <End Role="USER_NOTIFICATION" EntitySet="USER_NOTIFICATION" />
     </AssociationSet>
     <AssociationSet Name="FK_USER_USER_TYPE" Association="Self.FK_USER_USER_TYPE">
       <End Role="USER_TYPE" EntitySet="USER_TYPE" />
@@ -660,53 +727,5 @@
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
     </AssociationSet>
-    <AssociationSet Name="FK_USER_NOTIFICATION_NOTIFICATION_STATUS" Association="TAM_DBModel.FK_USER_NOTIFICATION_NOTIFICATION_STATUS">
-      <End Role="NOTIFICATION_STATUS" EntitySet="NOTIFICATION_STATUS" />
-      <End Role="USER_NOTIFICATION" EntitySet="USER_NOTIFICATION" />
-    </AssociationSet>
-    <AssociationSet Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1" Association="TAM_DBModel.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1">
-      <End Role="SUBJECT_ASSIGNMENT_TEMP" EntitySet="SUBJECT_ASSIGNMENT_TEMP" />
-      <End Role="USER_NOTIFICATION" EntitySet="USER_NOTIFICATION" />
-    </AssociationSet>
-    <AssociationSet Name="FK_USER_NOTIFICATION_USER" Association="TAM_DBModel.FK_USER_NOTIFICATION_USER">
-      <End Role="USER" EntitySet="USER" />
-      <End Role="USER_NOTIFICATION" EntitySet="USER_NOTIFICATION" />
-    </AssociationSet>
   </EntityContainer>
-  <Association Name="FK_USER_NOTIFICATION_NOTIFICATION_STATUS">
-    <End Type="TAM_DBModel.NOTIFICATION_STATUS" Role="NOTIFICATION_STATUS" Multiplicity="1" />
-    <End Type="TAM_DBModel.USER_NOTIFICATION" Role="USER_NOTIFICATION" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="NOTIFICATION_STATUS">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="USER_NOTIFICATION">
-        <PropertyRef Name="StatusID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1">
-    <End Type="TAM_DBModel.SUBJECT_ASSIGNMENT_TEMP" Role="SUBJECT_ASSIGNMENT_TEMP" Multiplicity="1" />
-    <End Type="TAM_DBModel.USER_NOTIFICATION" Role="USER_NOTIFICATION" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="SUBJECT_ASSIGNMENT_TEMP">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="USER_NOTIFICATION">
-        <PropertyRef Name="SubjectAssignmentID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
-  <Association Name="FK_USER_NOTIFICATION_USER">
-    <End Type="TAM_DBModel.USER" Role="USER" Multiplicity="1" />
-    <End Type="TAM_DBModel.USER_NOTIFICATION" Role="USER_NOTIFICATION" Multiplicity="*" />
-    <ReferentialConstraint>
-      <Principal Role="USER">
-        <PropertyRef Name="ID" />
-      </Principal>
-      <Dependent Role="USER_NOTIFICATION">
-        <PropertyRef Name="SenderID" />
-      </Dependent>
-    </ReferentialConstraint>
-  </Association>
 </Schema>

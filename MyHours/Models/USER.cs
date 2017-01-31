@@ -31,8 +31,8 @@ namespace MyHours.Models
     
         public virtual AspNetUsers AspNetUsers { get; set; }
         public virtual TEACHER TEACHER { get; set; }
-        public virtual USER_TYPE USER_TYPE { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USER_NOTIFICATION> USER_NOTIFICATION { get; set; }
+        public virtual USER_TYPE USER_TYPE { get; set; }
     }
 }

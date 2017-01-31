@@ -43,15 +43,31 @@
             @Html.DisplayFor(model => model.Date)
         </dd>
 
-        @if (Model.SUBJECT_ASSIGNMENT_TEMP.IsSubstitute)
+        @if (Model.Name == "deleted")
         {
-            <dt>
-                @Html.DisplayNameFor(model => model.SUBJECT_ASSIGNMENT_TEMP.IsSubstituteDescription)
-            </dt>
+            if (Model.SUBJECT_ASSIGNMENT_TEMP.IsSubstitute)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.SUBJECT_ASSIGNMENT_TEMP.IsSubstituteDescription)
+                </dt>
 
-            <dd>
-                @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.IsSubstituteDescription)
-            </dd>
+                <dd>
+                    @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.IsSubstituteDescription)
+                </dd>
+            }
+        }
+        else
+        {
+            if (Model.SUBJECT_ASSIGNMENT.IsSubstitute)
+            {
+                <dt>
+                    @Html.DisplayNameFor(model => model.SUBJECT_ASSIGNMENT.IsSubstituteDescription)
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.IsSubstituteDescription)
+                </dd>
+            }
         }
         
 

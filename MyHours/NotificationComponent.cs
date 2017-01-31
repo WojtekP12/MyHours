@@ -11,7 +11,7 @@ namespace MyHours
 {
     public class NotificationComponent
     {
-        public void RegisterNotification(int userID)
+        public void RegisterNotification()
         {
             string conStr = ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString;
             string sqlCommand = @"SELECT [SenderID],[UserID],[Name],[Description],[StatusID],[Date] from [dbo].[USER_NOTIFICATION]"; //where [UserID] = @userID";
@@ -46,7 +46,7 @@ namespace MyHours
                 NotifyClients(e.Info);
 
                 //re-register notification
-                RegisterNotification(1);
+                RegisterNotification();
             }
         }
 

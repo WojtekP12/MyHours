@@ -14,6 +14,12 @@ namespace MyHours.Models
     
     public partial class SUBJECT_ASSIGNMENT
     {
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2214:DoNotCallOverridableMethodsInConstructors")]
+        public SUBJECT_ASSIGNMENT()
+        {
+            this.USER_NOTIFICATION = new HashSet<USER_NOTIFICATION>();
+        }
+    
         public int ID { get; set; }
         public int Hours { get; set; }
         public int Semester { get; set; }
@@ -31,5 +37,7 @@ namespace MyHours.Models
         public virtual SUBJECT SUBJECT { get; set; }
         public virtual SUBJECT_TYPE_DICT SUBJECT_TYPE_DICT { get; set; }
         public virtual TEACHER TEACHER { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<USER_NOTIFICATION> USER_NOTIFICATION { get; set; }
     }
 }
