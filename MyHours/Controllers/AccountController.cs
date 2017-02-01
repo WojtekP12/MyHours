@@ -172,7 +172,7 @@ namespace MyHours.Controllers
                         userManager.AddToRole(aspUser.Id, userType);
                         if(userType == "Teacher")
                         {
-                            var teacher = new TEACHER { FirstName = model.FirstName, SecondName = model.SecondName, TeacherStatus = model.Status, AssignedHours = model.AssignedHours };
+                            var teacher = new TEACHER { FirstName = model.FirstName, SecondName = model.SecondName, TeacherStatus = model.Status, AssignedHours = model.AssignedHours, FullName = model.Status + " " + model.FirstName + " " +model.SecondName };
                             db.TEACHER.Add(teacher);
                             db.SaveChanges();
 

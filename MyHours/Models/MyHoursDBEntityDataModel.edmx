@@ -4,7 +4,7 @@
   <edmx:Runtime>
     <!-- SSDL content -->
     <edmx:StorageModels>
-      <Schema Namespace="TAM_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+    <Schema Namespace="TAM_DBModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
         <EntityType Name="AspNetRoles">
           <Key>
             <PropertyRef Name="Id" />
@@ -156,6 +156,7 @@
           <Property Name="SubjectTypeID" Type="int" Nullable="false" />
           <Property Name="StudiesTypeID" Type="int" Nullable="false" />
           <Property Name="ProxyID" Type="int" />
+          <Property Name="ReplacedName" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="SUBJECT_ASSIGNMENT_TEMP">
           <Key>
@@ -172,6 +173,7 @@
           <Property Name="SubjectTypeID" Type="int" Nullable="false" />
           <Property Name="StudiesTypeID" Type="int" Nullable="false" />
           <Property Name="ProxyID" Type="int" />
+          <Property Name="ReplacedName" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="SUBJECT_TYPE_DICT">
           <Key>
@@ -200,6 +202,7 @@
           <Property Name="SecondName" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="TeacherStatus" Type="varchar" MaxLength="50" Nullable="false" />
           <Property Name="AssignedHours" Type="int" Nullable="false" />
+          <Property Name="FullName" Type="varchar" MaxLength="5000" />
         </EntityType>
         <EntityType Name="USER">
           <Key>
@@ -716,8 +719,7 @@
             <End Role="USER" EntitySet="USER" />
           </AssociationSet>
         </EntityContainer>
-      </Schema>
-    </edmx:StorageModels>
+      </Schema></edmx:StorageModels>
     <!-- CSDL content -->
     <edmx:ConceptualModels>
       <Schema Namespace="TAM_DBModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
@@ -897,6 +899,7 @@
           <NavigationProperty Name="SUBJECT_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT_TYPE_DICT" />
           <NavigationProperty Name="TEACHER" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEACHER" FromRole="SUBJECT_ASSIGNMENT" ToRole="TEACHER" />
           <NavigationProperty Name="USER_NOTIFICATION" Relationship="Self.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1" FromRole="SUBJECT_ASSIGNMENT" ToRole="USER_NOTIFICATION" />
+          <Property Name="ReplacedName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SUBJECT_ASSIGNMENT_TEMP">
           <Key>
@@ -919,6 +922,7 @@
           <NavigationProperty Name="SUBJECT_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="SUBJECT_TYPE_DICT" />
           <NavigationProperty Name="TEACHER" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="TEACHER" />
           <NavigationProperty Name="USER_NOTIFICATION" Relationship="Self.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="USER_NOTIFICATION" />
+          <Property Name="ReplacedName" Type="String" MaxLength="1000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="SUBJECT_TYPE_DICT">
           <Key>
@@ -953,6 +957,7 @@
           <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEACHER" FromRole="TEACHER" ToRole="SUBJECT_ASSIGNMENT" />
           <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER" FromRole="TEACHER" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
           <NavigationProperty Name="USER" Relationship="Self.FK_USER_TEACHER" FromRole="TEACHER" ToRole="USER" />
+          <Property Name="FullName" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
         </EntityType>
         <EntityType Name="USER">
           <Key>
@@ -1597,6 +1602,7 @@
           <EntitySetMapping Name="SUBJECT_ASSIGNMENT">
             <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT">
               <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT">
+                <ScalarProperty Name="ReplacedName" ColumnName="ReplacedName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Hours" ColumnName="Hours" />
                 <ScalarProperty Name="Semester" ColumnName="Semester" />
@@ -1614,6 +1620,7 @@
           <EntitySetMapping Name="SUBJECT_ASSIGNMENT_TEMP">
             <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT_TEMP">
               <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT_TEMP">
+                <ScalarProperty Name="ReplacedName" ColumnName="ReplacedName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="Hours" ColumnName="Hours" />
                 <ScalarProperty Name="Semester" ColumnName="Semester" />
@@ -1651,6 +1658,7 @@
           <EntitySetMapping Name="TEACHER">
             <EntityTypeMapping TypeName="TAM_DBModel.TEACHER">
               <MappingFragment StoreEntitySet="TEACHER">
+                <ScalarProperty Name="FullName" ColumnName="FullName" />
                 <ScalarProperty Name="ID" ColumnName="ID" />
                 <ScalarProperty Name="FirstName" ColumnName="FirstName" />
                 <ScalarProperty Name="SecondName" ColumnName="SecondName" />

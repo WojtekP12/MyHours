@@ -39,6 +39,17 @@ namespace MyHours.Controllers
             return View(sUBJECT_ASSIGNMENT.Where(x=>x.TeacherID== teacherId).ToList());
         }
 
+        [HttpPost]
+        public JsonResult Index(string Prefix)
+        {
+            var list = db.TEACHER.ToList();
+            //Searching records from list using LINQ query  
+            var TeacherName = (from N in list
+                       where N.FullName.Contains(Prefix)
+                            select new { N.FullName });
+            return Json(TeacherName, JsonRequestBehavior.AllowGet);
+        }
+
         // GET: Teacher/Details/5
         public ActionResult Details(int? id)
         {
@@ -59,7 +70,7 @@ namespace MyHours.Controllers
         {
             ViewBag.StudentGroupID = new SelectList(db.STUDENT_GROUP, "ID", "Name");
             ViewBag.SubjectID = new SelectList(db.SUBJECT, "ID", "Name");
-            ViewBag.TeacherID = new SelectList(db.TEACHER, "ID", "FirstName");
+            ViewBag.TeacherID = new SelectList(db.TEACHER, "ID", "FullName");
             ViewBag.SubjectTypeID = new SelectList(db.SUBJECT_TYPE_DICT, "ID", "Description");
             ViewBag.StudiesTypeID = new SelectList(db.STUDIES_TYPE_DICT, "ID", "Description");
 
@@ -71,7 +82,7 @@ namespace MyHours.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "ID,TeacherID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID,SubjectTypeID, StudiesTypeID, Semester, Hours")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
+        public ActionResult Create([Bind(Include = "ID,TeacherID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID,SubjectTypeID, StudiesTypeID, Semester, Hours, ReplacedName")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
         {
             if (ModelState.IsValid)
             {
@@ -94,6 +105,7 @@ namespace MyHours.Controllers
                 subjectAssignmentTemp.StudiesTypeID = sUBJECT_ASSIGNMENT.StudiesTypeID;
                 subjectAssignmentTemp.SubjectID = sUBJECT_ASSIGNMENT.SubjectID;
                 subjectAssignmentTemp.SubjectTypeID = sUBJECT_ASSIGNMENT.SubjectTypeID;
+                subjectAssignmentTemp.ReplacedName = sUBJECT_ASSIGNMENT.ReplacedName;
 
                 db.SUBJECT_ASSIGNMENT_TEMP.Add(subjectAssignmentTemp);
                 //db.SUBJECT_ASSIGNMENT.Add(sUBJECT_ASSIGNMENT);
@@ -104,7 +116,14 @@ namespace MyHours.Controllers
                 USER_NOTIFICATION noti = new USER_NOTIFICATION();
                 noti.Date = DateTime.Now;
                 noti.Name = "added";
-                noti.Description = db.SUBJECT.Where(x=>x.ID == subjectAssignmentTemp.SubjectID).FirstOrDefault().Name + " added by " + user.Name;
+                if(subjectAssignmentTemp.IsSubstitute == true)
+                {
+                    noti.Description = "substitution for "+subjectAssignmentTemp.ReplacedName + " added by " + user.Name;
+                }
+                else
+                {
+                    noti.Description = db.SUBJECT.Where(x => x.ID == subjectAssignmentTemp.SubjectID).FirstOrDefault().Name + " added by " + user.Name;
+                }
                 noti.SenderID = user.ID;
                 noti.UserID = adminID;
                 noti.StatusID = 1;
@@ -188,6 +207,7 @@ namespace MyHours.Controllers
                 subjectAssignmentTemp.StudiesTypeID = sUBJECT_ASSIGNMENT.StudiesTypeID;
                 subjectAssignmentTemp.SubjectID = sUBJECT_ASSIGNMENT.SubjectID;
                 subjectAssignmentTemp.SubjectTypeID = sUBJECT_ASSIGNMENT.SubjectTypeID;
+                subjectAssignmentTemp.ReplacedName = sUBJECT_ASSIGNMENT.ReplacedName;
 
                 db.SUBJECT_ASSIGNMENT_TEMP.Add(subjectAssignmentTemp);
 

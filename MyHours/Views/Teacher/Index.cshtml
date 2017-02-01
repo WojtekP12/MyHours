@@ -126,11 +126,11 @@
             @Html.DisplayFor(modelItem => item.SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
         </td>
         <td>
-            <p><a href="@Url.Action("Edit","Teacher",new { id=item.ID })" class="btn btn-default">Edit</a></p>
+            <p><a href="@Url.Action("Edit","Teacher",new { id=item.ID })" class="btn btn-default"><font face="Arial">Edit  </font><i class="fa fa-pencil"></i></a></p>
         </td>
         <td>
-            <p><a href="@Url.Action("Delete","Teacher",new { id=item.ID })" class="btn btn-default">Delete</a></p>
-        </td>
+    <p><a href="@Url.Action("Delete","Teacher",new { id=item.ID })" class="btn btn-default"><font face="Arial">Delete  </font><i class="fa fa-times"></i></a></p>
+    </td>
     </tr>
 }
 

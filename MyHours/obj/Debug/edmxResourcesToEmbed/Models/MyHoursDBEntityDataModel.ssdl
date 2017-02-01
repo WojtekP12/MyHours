@@ -151,6 +151,7 @@
     <Property Name="SubjectTypeID" Type="int" Nullable="false" />
     <Property Name="StudiesTypeID" Type="int" Nullable="false" />
     <Property Name="ProxyID" Type="int" />
+    <Property Name="ReplacedName" Type="varchar" MaxLength="1000" />
   </EntityType>
   <EntityType Name="SUBJECT_ASSIGNMENT_TEMP">
     <Key>
@@ -167,6 +168,7 @@
     <Property Name="SubjectTypeID" Type="int" Nullable="false" />
     <Property Name="StudiesTypeID" Type="int" Nullable="false" />
     <Property Name="ProxyID" Type="int" />
+    <Property Name="ReplacedName" Type="varchar" MaxLength="1000" />
   </EntityType>
   <EntityType Name="SUBJECT_TYPE_DICT">
     <Key>
@@ -195,6 +197,7 @@
     <Property Name="SecondName" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="TeacherStatus" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="AssignedHours" Type="int" Nullable="false" />
+    <Property Name="FullName" Type="varchar" MaxLength="5000" />
   </EntityType>
   <EntityType Name="USER">
     <Key>

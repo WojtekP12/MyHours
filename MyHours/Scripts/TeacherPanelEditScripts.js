@@ -11,4 +11,13 @@ isSubstituteCheckBox.onchange = function()
         $('#SubDescr').attr('disabled', 'disabled');
     }
 
+    if (this.childNodes[1].checked) {
+        
+        $('#SubPerson').attr("disabled", "disabled");
+    }
+    else {
+
+        $('#SubPerson').removeAttr("disabled");
+    }
+
 };

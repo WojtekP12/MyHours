@@ -115,7 +115,8 @@ namespace MyHours.Controllers
                     StudiesTypeID = subject.StudiesTypeID,
                     SubjectID = subject.SubjectID,
                     SubjectTypeID = subject.SubjectTypeID,
-                    TeacherID = subject.TeacherID
+                    TeacherID = subject.TeacherID,
+                    ReplacedName = subject.ReplacedName
                 };
 
                 var s = db.SUBJECT.Find(resultSubject.SubjectID);
@@ -151,6 +152,7 @@ namespace MyHours.Controllers
                 subject.SubjectID = subject_temp.SubjectID;
                 subject.SubjectTypeID = subject_temp.SubjectTypeID;
                 subject.TeacherID = subject_temp.TeacherID;
+                subject.ReplacedName = subject_temp.ReplacedName;
 
                 db.SaveChanges();
 

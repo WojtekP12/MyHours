@@ -143,6 +143,7 @@
     <EntitySetMapping Name="SUBJECT_ASSIGNMENT">
       <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT">
         <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT">
+          <ScalarProperty Name="ReplacedName" ColumnName="ReplacedName" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Hours" ColumnName="Hours" />
           <ScalarProperty Name="Semester" ColumnName="Semester" />
@@ -160,6 +161,7 @@
     <EntitySetMapping Name="SUBJECT_ASSIGNMENT_TEMP">
       <EntityTypeMapping TypeName="TAM_DBModel.SUBJECT_ASSIGNMENT_TEMP">
         <MappingFragment StoreEntitySet="SUBJECT_ASSIGNMENT_TEMP">
+          <ScalarProperty Name="ReplacedName" ColumnName="ReplacedName" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="Hours" ColumnName="Hours" />
           <ScalarProperty Name="Semester" ColumnName="Semester" />
@@ -197,6 +199,7 @@
     <EntitySetMapping Name="TEACHER">
       <EntityTypeMapping TypeName="TAM_DBModel.TEACHER">
         <MappingFragment StoreEntitySet="TEACHER">
+          <ScalarProperty Name="FullName" ColumnName="FullName" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
           <ScalarProperty Name="SecondName" ColumnName="SecondName" />

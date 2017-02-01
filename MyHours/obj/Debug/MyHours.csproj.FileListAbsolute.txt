@@ -160,7 +160,6 @@ C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\Microsoft.Owin.Security.OAut
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\Microsoft.Owin.Security.Google.xml
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\Microsoft.Owin.Security.Twitter.xml
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\Microsoft.Owin.Security.MicrosoftAccount.xml
-C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\obj\Debug\MyHours.csprojResolveAssemblyReference.cache
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\obj\Debug\MyHours.dll
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\obj\Debug\MyHours.pdb
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\WebActivatorEx.dll
@@ -168,3 +167,4 @@ C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\Microsoft.AspNet.SignalR.Cor
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\Microsoft.AspNet.SignalR.SystemWeb.dll
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\Microsoft.AspNet.SignalR.Core.xml
 C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\bin\Microsoft.AspNet.SignalR.SystemWeb.xml
+C:\Users\wojciech.pelka\Desktop\MyHours\MyHours\obj\Debug\MyHours.csprojResolveAssemblyReference.cache
