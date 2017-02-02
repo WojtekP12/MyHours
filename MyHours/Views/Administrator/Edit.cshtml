@@ -4,10 +4,9 @@
 @model IEnumerable<MyHours.Models.SUBJECT_ASSIGNMENT>
 
 @{
-    ViewBag.Title = "Edit";
+    ViewBag.Title = "Index";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
-
 <h2>@ViewBag.Teacher</h2>
 <p style="height:35px;"></p>
 
@@ -56,38 +55,38 @@
     <tr>
         <th class="tableContent">
             <div class="tableContent">
-                @Html.DisplayNameFor(model => model.SUBJECT.SubjectCode)
+                Code
             </div>
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SUBJECT.Name)
+            Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SUBJECT_TYPE_DICT.Name)
+            Type
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Hours)
+            Hours
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.STUDIES_TYPE_DICT.Name)
+            Studies
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Semester)
+            Semester
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SUBJECT.Language)
+            Language
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.STUDENT_GROUP.Name)
+            Group
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SUBJECT.SPECIALITY.Name)
+            Speciality
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SUBJECT.SPECIALITY.MAJOR.Name)
+            Major
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
+            Faculty
         </th>
         <th></th>
     </tr>
@@ -105,7 +104,14 @@
                 @Html.DisplayFor(modelItem => item.SUBJECT_TYPE_DICT.Name)
             </td>
             <td class="tableContent">
-                @Html.DisplayFor(modelItem => item.Hours)
+                @if (item.SUBJECT.UsedHours > item.SUBJECT.AssignedHours)
+                {
+                    <font color="red"><b>@Html.DisplayFor(modelItem => item.Hours)</b></font>
+                }
+                else
+                {
+                    @Html.DisplayFor(modelItem => item.Hours)
+                }
             </td>
             <td class="tableContent">
                 @Html.DisplayFor(modelItem => item.STUDIES_TYPE_DICT.Name)
@@ -129,10 +135,10 @@
                 @Html.DisplayFor(modelItem => item.SUBJECT.SPECIALITY.MAJOR.FACULTY.Name)
             </td>
             <td>
-                <p><a href="@Url.Action("EditSubject","Administrator",new { id=item.ID })" class="btn btn-default">Edit</a></p>
+                <p><a href="@Url.Action("EditSubject","Administrator",new { id=item.ID })" class="btn btn-default"><font face="Arial">Edit  </font><i class="fa fa-pencil"></i></a></p>
             </td>
             <td>
-                <p><a href="@Url.Action("DeleteSubject","Administrator",new { id=item.ID })" class="btn btn-default">Delete</a></p>
+                <p><a href="@Url.Action("DeleteSubject","Administrator",new { id=item.ID })" class="btn btn-default"><font face="Arial">Delete  </font><i class="fa fa-times"></i></a></p>
             </td>
         </tr>
     }
@@ -140,5 +146,5 @@
 </table>
 
 <p>
-    <a href="@Url.Action("CreateSubject","Administrator", new { id = Model.FirstOrDefault().TeacherID })" class="btn btn-primary btn-lg">Add &#43;</a>
+    <a href="@Url.Action("CreateSubject","Administrator", new { id = ViewBag.TeacherID })" class="btn btn-primary btn-lg">Add &#43;</a>
 </p>

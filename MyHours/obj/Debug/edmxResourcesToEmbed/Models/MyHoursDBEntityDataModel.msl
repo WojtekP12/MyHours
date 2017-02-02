@@ -199,6 +199,7 @@
     <EntitySetMapping Name="TEACHER">
       <EntityTypeMapping TypeName="TAM_DBModel.TEACHER">
         <MappingFragment StoreEntitySet="TEACHER">
+          <ScalarProperty Name="FacultyID" ColumnName="FacultyID" />
           <ScalarProperty Name="FullName" ColumnName="FullName" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="FirstName" ColumnName="FirstName" />
@@ -225,6 +226,7 @@
     <EntitySetMapping Name="USER_NOTIFICATION">
       <EntityTypeMapping TypeName="TAM_DBModel.USER_NOTIFICATION">
         <MappingFragment StoreEntitySet="USER_NOTIFICATION">
+          <ScalarProperty Name="SubjectName" ColumnName="SubjectName" />
           <ScalarProperty Name="ID" ColumnName="ID" />
           <ScalarProperty Name="SenderID" ColumnName="SenderID" />
           <ScalarProperty Name="UserID" ColumnName="UserID" />

@@ -18,6 +18,7 @@ namespace MyHours.Controllers
         {
             var userId = GetUserID();
             var uSER_NOTIFICATION = db.USER_NOTIFICATION.Include(u => u.SUBJECT_ASSIGNMENT_TEMP).Include(u => u.SUBJECT_ASSIGNMENT_TEMP.SUBJECT).Include(u => u.USER).Include(u=>u.NOTIFICATION_STATUS);
+
             return View(uSER_NOTIFICATION.Where(x=>x.SenderID == userId).ToList());
         }
 

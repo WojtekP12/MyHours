@@ -1,6 +1,48 @@
 ﻿@* STYLES *@
 <link href="~/Content/TeacherPage/TeacherIndexStyle.css" rel="stylesheet" />
 
+<style>
+.tooltip {
+    position: relative;
+    display: inline-block;
+    border-bottom: 1px dotted black;
+}
+
+.tooltip .tooltiptext {
+    visibility: hidden;
+    width: 120px;
+    background-color: #555;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%;
+    left: 50%;
+    margin-left: -60px;
+    opacity: 0;
+    transition: opacity 1s;
+}
+
+.tooltip .tooltiptext::after {
+    content: "";
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: #555 transparent transparent transparent;
+}
+
+.tooltip:hover .tooltiptext {
+    visibility: visible;
+    opacity: 1;
+}
+</style>
+
+
 @model IEnumerable<MyHours.Models.USER>
 
 @{
@@ -13,24 +55,28 @@
 <table class="table" align="center">
     <tr>
         <th>
-            @Html.DisplayNameFor(model => model.FirstName)
+            First Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SecondName)
+            Last Name
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TEACHER.TeacherStatus)
+            Ttitle
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.TEACHER.FACULTY_ASSIGNMENT.Where(x=>x.TeacherID == model.TEACHER.ID).FirstOrDefault().FACULTY.Name)
+            Faculty
         </th>
-        <th>Number of Subjects</th>
-        <th>Assigned Hours</th>
-        <th>Used Hours</th>
-        <th>Free Hours</th>
+        <th>
+            Phone
+        </th>
+        <th>
+            E-mail
+        </th>
+        <th>Status</th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model)
+{
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.FirstName)
@@ -42,59 +88,57 @@
             @Html.DisplayFor(modelItem => item.TEACHER.TeacherStatus)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TEACHER.FACULTY_ASSIGNMENT.Where(x => x.TeacherID == item.TEACHER.ID).FirstOrDefault().FACULTY.Name)
+            @Html.DisplayFor(modelItem => item.TEACHER.FACULTY.Name)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.TEACHER.SUBJECT_ASSIGNMENT.Count)
+            @Html.DisplayFor(modelItem => item.PhoneNumber)
         </td>
         <td>
-            @{
-                <font color="blue"><b>@item.TEACHER.AssignedHours</b></font>
-            }
-        </td>
-        <td>
-            @{
-                var t1 = item.TEACHER.SUBJECT_ASSIGNMENT.Sum(x => x.Hours);
-                if (t1 > item.TEACHER.AssignedHours)
-                {
-                    <font color="red"><b>@t1</b></font>
-                }
-                else if (t1 == item.TEACHER.AssignedHours)
-                {
-                    <font color="blue"><b>@t1</b></font>
-                }
-                else
-                {
-                    <font color="green"><b>@t1</b></font>
-                }
-
-            }
-    </td>
-
-        <td>
-            @{
-                var t = item.TEACHER.AssignedHours - item.TEACHER.SUBJECT_ASSIGNMENT.Sum(x => x.Hours);
-                if (t > 0)
-                {
-                    <font color="green"><b>@t</b></font>
-                }
-                else
-                {
-                    t = 0;
-                    <font color="red"><b>@t</b></font>
-                }
-            }
+            @Html.DisplayFor(modelItem => item.AspNetUsers.Email)
         </td>
 
+        @if (item.TEACHER.SUBJECT_ASSIGNMENT.Count != 0)
+        {
+            bool isValid = true;
+
+            foreach (var element in item.TEACHER.SUBJECT_ASSIGNMENT)
+            {
+                if (element.SUBJECT.UsedHours > element.SUBJECT.AssignedHours)
+                {
+                    isValid = false;
+                }
+            }
+
+            if (isValid == true)
+            {
+                <td>
+                    <font face="Arial" color="green"><i class="fa fa-check"></i></font>
+                </td>
+            }
+            else
+            {
+                <td title="Złe przypisanie godzin!">
+                    <font face="Arial" color="red"><i class="fa fa-times"></i></font>             
+                </td>
+            }
+        }
+        else
+        {
+            <td title="Brak przypisanych przedmiotów">
+                <font face="Arial" color="orange"><i class="fa fa-warning"></i></font>
+            </td>
+        }
+
+
         <td>
-            <p><a href="@Url.Action("Edit","Administrator",new { id=item.ID })" class="btn btn-default">Edit</a></p>
+            <p><a href="@Url.Action("Edit","Administrator",new { id=item.ID })" class="btn btn-default"><font face="Arial">Edit  </font><i class="fa fa-pencil"></i></a></p>
         </td>
         <td>
-            <p><a id="deleteButton" href="@Url.Action("Delete","Administrator",new { id=item.ID })" onclick = "return confirm('Are you sure you wish to delete this user?');" class="btn btn-default">Delete</a></p>
+            <p><a id="deleteButton" href="@Url.Action("Delete","Administrator",new { id=item.ID })" onclick = "return confirm('Are you sure you wish to delete this user?');" class="btn btn-default"><font face="Arial">Delete  </font><i class="fa fa-times"></i></a></p>
         </td>
-        <td>
+        @*<td>
             <p><a href="@Url.Action("Edit","Administrator",new { id=item.ID })" class="btn btn-default">Report</a></p>
-        </td>
+        </td>*@
     </tr>
 }
 
@@ -104,7 +148,7 @@
         <a href="@Url.Action("Register","Account")" class="btn btn-primary btn-lg">Add &#43;</a>
     </p>
 
-    <p>
+    @*<p>
         <a href="@Url.Action("Create","Teacher")" class="btn btn-primary btn-lg">General Report &#43;</a>
-    </p>
+    </p>*@
 </div>

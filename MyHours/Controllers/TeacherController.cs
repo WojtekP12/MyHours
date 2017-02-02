@@ -27,8 +27,17 @@ namespace MyHours.Controllers
             var teacherId = db.USER.Where(x => x.AspNetUserID == id).FirstOrDefault().TeacherID;
 
             totalTime = db.TEACHER.Where(x => x.ID == teacherId).FirstOrDefault().AssignedHours;
-            overTime = sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherId).Sum(x => x.Hours) - totalTime;
-            overTime = overTime < 0 ? 0 : overTime;
+
+            if(sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherId).Count()!=0)
+            {
+                overTime = sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherId).Sum(x => x.Hours) - totalTime;
+                overTime = overTime < 0 ? 0 : overTime;
+            }
+            else
+            {
+                overTime = 0;
+            }
+            
 
             numberOfSubjects = db.SUBJECT_ASSIGNMENT.Where(x=>x.TeacherID == teacherId).Count();
 
@@ -128,7 +137,7 @@ namespace MyHours.Controllers
                 noti.UserID = adminID;
                 noti.StatusID = 1;
                 noti.SubjectAssignmentTempID = subjectAssignmentTemp.ID;
-
+                noti.SubjectName = subjectAssignmentTemp.SUBJECT.Name;
                 db.USER_NOTIFICATION.Add(noti);
                 db.SaveChanges();
 
@@ -186,7 +195,7 @@ namespace MyHours.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Edit([Bind(Include = "ID,TeacherID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID,SubjectTypeID, StudiesTypeID, Semester, Hours")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
+        public ActionResult Edit([Bind(Include = "ID,TeacherID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID,SubjectTypeID, StudiesTypeID, Semester, Hours, ReplacedName")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
         {
             if (ModelState.IsValid)
             {
@@ -224,6 +233,7 @@ namespace MyHours.Controllers
                 noti.StatusID = 1;
                 noti.SubjectAssignmentTempID = subjectAssignmentTemp.ID;
                 noti.SubjectAssignmentID = sUBJECT_ASSIGNMENT.ID;
+                noti.SubjectName = sUBJECT_ASSIGNMENT.SUBJECT.Name;
 
                 db.USER_NOTIFICATION.Add(noti);
                 db.SaveChanges();
@@ -278,6 +288,7 @@ namespace MyHours.Controllers
                 noti.UserID = adminID;
                 noti.StatusID = 1;
                 noti.SubjectAssignmentID = sUBJECT_ASSIGNMENT.ID;
+                noti.SubjectName = sUBJECT_ASSIGNMENT.SUBJECT.Name;
 
                 db.USER_NOTIFICATION.Add(noti);
                 db.SaveChanges();

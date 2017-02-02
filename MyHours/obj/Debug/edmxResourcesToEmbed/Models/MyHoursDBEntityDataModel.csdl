@@ -59,6 +59,7 @@
     <Property Name="Description" Type="String" MaxLength="500" FixedLength="false" Unicode="false" Nullable="false" />
     <NavigationProperty Name="FACULTY_ASSIGNMENT" Relationship="Self.FK_FACULTY_ASSIGNMENT_FACULTY" FromRole="FACULTY" ToRole="FACULTY_ASSIGNMENT" />
     <NavigationProperty Name="MAJOR" Relationship="Self.FK_MAJOR_FACULTY" FromRole="FACULTY" ToRole="MAJOR" />
+    <NavigationProperty Name="TEACHER" Relationship="TAM_DBModel.FK_TEACHER_FACULTY" FromRole="FACULTY" ToRole="TEACHER" />
   </EntityType>
   <EntityType Name="FACULTY_ASSIGNMENT">
     <Key>
@@ -235,6 +236,8 @@
     <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_TEACHER" FromRole="TEACHER" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
     <NavigationProperty Name="USER" Relationship="Self.FK_USER_TEACHER" FromRole="TEACHER" ToRole="USER" />
     <Property Name="FullName" Type="String" MaxLength="5000" FixedLength="false" Unicode="false" />
+    <Property Name="FacultyID" Type="Int32" />
+    <NavigationProperty Name="FACULTY" Relationship="TAM_DBModel.FK_TEACHER_FACULTY" FromRole="TEACHER" ToRole="FACULTY" />
   </EntityType>
   <EntityType Name="USER">
     <Key>
@@ -270,6 +273,7 @@
     <NavigationProperty Name="SUBJECT_ASSIGNMENT" Relationship="Self.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT1" FromRole="USER_NOTIFICATION" ToRole="SUBJECT_ASSIGNMENT" />
     <NavigationProperty Name="SUBJECT_ASSIGNMENT_TEMP" Relationship="Self.FK_USER_NOTIFICATION_SUBJECT_ASSIGNMENT" FromRole="USER_NOTIFICATION" ToRole="SUBJECT_ASSIGNMENT_TEMP" />
     <NavigationProperty Name="USER" Relationship="Self.FK_USER_NOTIFICATION_USER" FromRole="USER_NOTIFICATION" ToRole="USER" />
+    <Property Name="SubjectName" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
   </EntityType>
   <EntityType Name="USER_TYPE">
     <Key>
@@ -730,5 +734,21 @@
       <End Role="AspNetRoles" EntitySet="AspNetRoles" />
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />
     </AssociationSet>
+    <AssociationSet Name="FK_TEACHER_FACULTY" Association="TAM_DBModel.FK_TEACHER_FACULTY">
+      <End Role="FACULTY" EntitySet="FACULTY" />
+      <End Role="TEACHER" EntitySet="TEACHER" />
+    </AssociationSet>
   </EntityContainer>
+  <Association Name="FK_TEACHER_FACULTY">
+    <End Type="TAM_DBModel.FACULTY" Role="FACULTY" Multiplicity="0..1" />
+    <End Type="TAM_DBModel.TEACHER" Role="TEACHER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FACULTY">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TEACHER">
+        <PropertyRef Name="FacultyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
 </Schema>

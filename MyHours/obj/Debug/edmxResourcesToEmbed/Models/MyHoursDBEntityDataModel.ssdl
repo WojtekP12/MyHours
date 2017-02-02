@@ -198,6 +198,7 @@
     <Property Name="TeacherStatus" Type="varchar" MaxLength="50" Nullable="false" />
     <Property Name="AssignedHours" Type="int" Nullable="false" />
     <Property Name="FullName" Type="varchar" MaxLength="5000" />
+    <Property Name="FacultyID" Type="int" />
   </EntityType>
   <EntityType Name="USER">
     <Key>
@@ -222,9 +223,10 @@
     <Property Name="Name" Type="nchar" MaxLength="200" Nullable="false" />
     <Property Name="Description" Type="nchar" MaxLength="500" Nullable="false" />
     <Property Name="StatusID" Type="int" Nullable="false" />
-    <Property Name="Date" Type="date" Nullable="false" />
+    <Property Name="Date" Type="smalldatetime" Nullable="false" />
     <Property Name="SubjectAssignmentTempID" Type="int" />
     <Property Name="SubjectAssignmentID" Type="int" />
+    <Property Name="SubjectName" Type="varchar" MaxLength="100" />
   </EntityType>
   <EntityType Name="USER_TYPE">
     <Key>
@@ -494,6 +496,18 @@
       </Dependent>
     </ReferentialConstraint>
   </Association>
+  <Association Name="FK_TEACHER_FACULTY">
+    <End Role="FACULTY" Type="Self.FACULTY" Multiplicity="0..1" />
+    <End Role="TEACHER" Type="Self.TEACHER" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="FACULTY">
+        <PropertyRef Name="ID" />
+      </Principal>
+      <Dependent Role="TEACHER">
+        <PropertyRef Name="FacultyID" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
   <Association Name="FK_USER_AspNetUsers">
     <End Role="AspNetUsers" Type="Self.AspNetUsers" Multiplicity="1" />
     <End Role="USER" Type="Self.USER" Multiplicity="*" />
@@ -684,6 +698,10 @@
     <AssociationSet Name="FK_SUBJECT_SPECIALITY" Association="Self.FK_SUBJECT_SPECIALITY">
       <End Role="SPECIALITY" EntitySet="SPECIALITY" />
       <End Role="SUBJECT" EntitySet="SUBJECT" />
+    </AssociationSet>
+    <AssociationSet Name="FK_TEACHER_FACULTY" Association="Self.FK_TEACHER_FACULTY">
+      <End Role="FACULTY" EntitySet="FACULTY" />
+      <End Role="TEACHER" EntitySet="TEACHER" />
     </AssociationSet>
     <AssociationSet Name="FK_USER_AspNetUsers" Association="Self.FK_USER_AspNetUsers">
       <End Role="AspNetUsers" EntitySet="AspNetUsers" />

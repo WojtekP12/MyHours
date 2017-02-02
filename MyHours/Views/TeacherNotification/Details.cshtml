@@ -7,77 +7,261 @@
 
 <h2>Details</h2>
 
-<div>
-    <h4>USER_NOTIFICATION</h4>
+@if (Model.Name.Contains("modified"))
+{
     <hr />
-    <dl class="dl-horizontal">
-        <dt>
-            @Html.DisplayNameFor(model => model.UserID)
-        </dt>
+    <table class="hours">
+        <tr>
+            <th style="font-size:large; text-decoration:underline">Original</th>
+            <th style="width:200px"></th>
+            <th style="font-size:large; text-decoration:underline">Modified</th>
+        </tr>
+        <tr>
+            <td>
+                <dl>
+                    <dt>
+                        Subject Type
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.UserID)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.SUBJECT_TYPE_DICT.Description)
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Name)
-        </dt>
+                    <dt>
+                        Hours
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Name)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.Hours)
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
+                    <dt>
+                        Studies
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.STUDIES_TYPE_DICT.Description)
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
-        </dt>
+                    <dt>
+                        Semester
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.Date)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.Semester)
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.NOTIFICATION_STATUS.Name)
-        </dt>
+                    <dt>
+                        Group
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.NOTIFICATION_STATUS.Name)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.STUDENT_GROUP.Name)
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SUBJECT_ASSIGNMENT.IsSubstituteDescription)
-        </dt>
+                    <dt>
+                        Is Substitute
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.IsSubstituteDescription)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.IsSubstitute)
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.SUBJECT_ASSIGNMENT_TEMP.IsSubstituteDescription)
-        </dt>
+                    <dt>
+                        Substitute Description
+                    </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.IsSubstituteDescription)
-        </dd>
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.IsSubstituteDescription)
+                    </dd>
 
-        <dt>
-            @Html.DisplayNameFor(model => model.USER.Name)
-        </dt>
+                </dl>
+            </td>
 
-        <dd>
-            @Html.DisplayFor(model => model.USER.Name)
-        </dd>
+            <td style="width:200px;"></td>
 
-    </dl>
-</div>
+            <td>
+                <dl>
+                    <dt>
+                        Subject Type
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.SUBJECT_TYPE_DICT.Description)
+                    </dd>
+
+                    <dt>
+                        Hours
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.Hours)
+                    </dd>
+
+                    <dt>
+                        Studies
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.STUDIES_TYPE_DICT.Description)
+                    </dd>
+
+                    <dt>
+                        Semester
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.Semester)
+                    </dd>
+
+                    <dt>
+                        Group
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.STUDENT_GROUP.Name)
+                    </dd>
+
+                    <dt>
+                        Is Substitute
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.IsSubstitute)
+                    </dd>
+
+                    <dt>
+                        Substitute Description
+                    </dt>
+
+                    <dd>
+                        @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.IsSubstituteDescription)
+                    </dd>
+
+                </dl>
+            </td>
+        </tr>
+    </table>
+        <hr />
+}
+else if (Model.Name.Contains("added"))
+{
+    <div>
+        <hr />
+        <dl>
+            <dt>
+                Subject Type
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.SUBJECT_TYPE_DICT.Description)
+            </dd>
+
+            <dt>
+                Hours
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.Hours)
+            </dd>
+
+            <dt>
+                Studies
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.STUDIES_TYPE_DICT.Description)
+            </dd>
+
+            <dt>
+                Semester
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.Semester)
+            </dd>
+
+            <dt>
+                Group
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.STUDENT_GROUP.Name)
+            </dd>
+            @if (Model.SUBJECT_ASSIGNMENT_TEMP.IsSubstitute)
+                {
+                <dt>
+                    Substitute Description
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.IsSubstituteDescription)
+                </dd>
+            }
+        </dl>
+    </div>
+    <hr />
+}
+else if (Model.Name.Contains("deleted"))
+{
+    <div>
+        <hr />
+        <dl>
+            <dt>
+                Subject Type
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.SUBJECT_TYPE_DICT.Description)
+            </dd>
+
+            <dt>
+                Hours
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.Hours)
+            </dd>
+
+            <dt>
+                Studies
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.STUDIES_TYPE_DICT.Description)
+            </dd>
+
+            <dt>
+                Semester
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.Semester)
+            </dd>
+
+            <dt>
+                Group
+            </dt>
+
+            <dd>
+                @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.STUDENT_GROUP.Name)
+            </dd>
+
+            @if (Model.SUBJECT_ASSIGNMENT.IsSubstitute)
+                {
+                <dt>
+                    Substitute Description
+                </dt>
+
+                <dd>
+                    @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.IsSubstituteDescription)
+                </dd>
+            }
+
+        </dl>
+    </div>
+    <hr />
+}
 <p>
-    @Html.ActionLink("Edit", "Edit", new { id = Model.ID }) |
-    @Html.ActionLink("Back to List", "Index")
+    <a href="@Url.Action("Index","TeacherNotification")" class="btn btn-primary btn-lg">Back <i class="fa fa-angle-double-left" style="color:white" /></a>
 </p>

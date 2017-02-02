@@ -19,6 +19,7 @@ namespace MyHours.Models
         {
             this.FACULTY_ASSIGNMENT = new HashSet<FACULTY_ASSIGNMENT>();
             this.MAJOR = new HashSet<MAJOR>();
+            this.TEACHER = new HashSet<TEACHER>();
         }
     
         public int ID { get; set; }
@@ -29,5 +30,7 @@ namespace MyHours.Models
         public virtual ICollection<FACULTY_ASSIGNMENT> FACULTY_ASSIGNMENT { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<MAJOR> MAJOR { get; set; }
+        [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
+        public virtual ICollection<TEACHER> TEACHER { get; set; }
     }
 }

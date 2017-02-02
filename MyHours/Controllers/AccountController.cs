@@ -172,7 +172,7 @@ namespace MyHours.Controllers
                         userManager.AddToRole(aspUser.Id, userType);
                         if(userType == "Teacher")
                         {
-                            var teacher = new TEACHER { FirstName = model.FirstName, SecondName = model.SecondName, TeacherStatus = model.Status, AssignedHours = model.AssignedHours, FullName = model.Status + " " + model.FirstName + " " +model.SecondName };
+                            var teacher = new TEACHER { FirstName = model.FirstName, SecondName = model.SecondName, TeacherStatus = model.Status, AssignedHours = model.AssignedHours, FullName = model.Status + " " + model.FirstName + " " +model.SecondName, FacultyID=model.FacultyID };
                             db.TEACHER.Add(teacher);
                             db.SaveChanges();
 
@@ -198,6 +198,7 @@ namespace MyHours.Controllers
                 }  
             }
 
+            ViewBag.FacultyID = new SelectList(db.FACULTY, "ID", "Name");
             ViewBag.UserTypeID = new SelectList(db.USER_TYPE, "ID", "Description");
 
             return View(model);

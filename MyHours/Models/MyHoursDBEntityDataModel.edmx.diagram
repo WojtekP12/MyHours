@@ -53,6 +53,7 @@
         <AssociationConnector Association="TAM_DBModel.FK_USER_NOTIFICATION_USER" ManuallyRouted="false" />
         <AssociationConnector Association="TAM_DBModel.FK_USER_USER_TYPE" ManuallyRouted="false" />
         <AssociationConnector Association="TAM_DBModel.AspNetUserRoles" ManuallyRouted="false" />
+        <AssociationConnector Association="TAM_DBModel.FK_TEACHER_FACULTY" />
       </Diagram>
     </edmx:Diagrams>
   </edmx:Designer>

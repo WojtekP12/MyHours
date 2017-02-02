@@ -13,16 +13,16 @@
             Status
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            Type
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            Description
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
+            Date
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SUBJECT_ASSIGNMENT_TEMP.SUBJECT.Name)
+           Subject
         </th>
         <th></th>
     </tr>
@@ -55,11 +55,11 @@
                 @Html.DisplayFor(modelItem => item.Date)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.SUBJECT_ASSIGNMENT_TEMP.SUBJECT.Name)
+                @Html.DisplayFor(modelItem => item.SubjectName)
             </td>
             <td>
                 <a href="@Url.Action("Delete","TeacherNotification", new { id=item.ID })" class="btn btn-default"><i class="fa fa-times" style="color:red"><font face="Arial"></font></i></a>
-                <a href="@Url.Action("Details","TeacherNotification", new { id=item.ID })" class="btn btn-default"><i class="fa fa-bars"><font face="Arial"> Details</font></i></a>
+                @*<a href="@Url.Action("Details","TeacherNotification", new { id=item.ID })" class="btn btn-default"><i class="fa fa-bars"><font face="Arial"> Details</font></i></a>*@
             </td>
         </tr>
     }

@@ -13,16 +13,16 @@
             Sender
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Name)
+            Type
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Description)
+            Description
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.Date)
+            Date
         </th>
         <th>
-            @Html.DisplayNameFor(model => model.SUBJECT_ASSIGNMENT_TEMP.SUBJECT.Name)
+            Subject
         </th>
         <th></th>
     </tr>
@@ -33,7 +33,19 @@
             @Html.DisplayFor(modelItem => item.USER.FirstName) @Html.DisplayFor(modelItem => item.USER.SecondName)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.Name)
+            @if(item.Name.Contains("added"))
+            {
+                <font color="green"><b>@Html.DisplayFor(modelItem => item.Name)</b></font>
+            }
+            else if (item.Name.Contains("deleted"))
+            {
+                <font color="red"><b>@Html.DisplayFor(modelItem => item.Name)</b></font>
+            }
+            else
+            {
+                <font color="blue"><b>@Html.DisplayFor(modelItem => item.Name)</b></font>
+            }
+
         </td>
         <td>
             @Html.DisplayFor(modelItem => item.Description)
@@ -42,7 +54,15 @@
             @Html.DisplayFor(modelItem => item.Date)
         </td>
         <td>
-            @Html.DisplayFor(modelItem => item.SUBJECT_ASSIGNMENT_TEMP.SUBJECT.Name)
+            @if (item.Name.Contains("added"))
+            {
+                @Html.DisplayFor(modelItem => item.SUBJECT_ASSIGNMENT_TEMP.SUBJECT.Name)
+            }
+            else
+            {
+                @Html.DisplayFor(modelItem => item.SUBJECT_ASSIGNMENT.SUBJECT.Name)
+            }
+            
         </td>
         <td>
             <a href="@Url.Action("Accept","Notifications", new { id=item.ID })" class="btn btn-default"><i class="fa fa-check" style="color:darkseagreen"><font face="Arial"></font></i></a>

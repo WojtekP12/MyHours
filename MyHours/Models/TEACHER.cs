@@ -29,6 +29,7 @@ namespace MyHours.Models
         public string TeacherStatus { get; set; }
         public int AssignedHours { get; set; }
         public string FullName { get; set; }
+        public Nullable<int> FacultyID { get; set; }
     
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<FACULTY_ASSIGNMENT> FACULTY_ASSIGNMENT { get; set; }
@@ -38,5 +39,6 @@ namespace MyHours.Models
         public virtual ICollection<SUBJECT_ASSIGNMENT_TEMP> SUBJECT_ASSIGNMENT_TEMP { get; set; }
         [System.Diagnostics.CodeAnalysis.SuppressMessage("Microsoft.Usage", "CA2227:CollectionPropertiesShouldBeReadOnly")]
         public virtual ICollection<USER> USER { get; set; }
+        public virtual FACULTY FACULTY { get; set; }
     }
 }

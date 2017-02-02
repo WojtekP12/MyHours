@@ -9,19 +9,18 @@
 
 <h3>Are you sure you want to delete this?</h3>
 <div>
-    <h4>USER_NOTIFICATION</h4>
     <hr />
     <dl class="dl-horizontal">
         <dt>
-            @Html.DisplayNameFor(model => model.UserID)
+            Subject
         </dt>
 
         <dd>
-            @Html.DisplayFor(model => model.UserID)
+            @Html.DisplayFor(model => model.SubjectName)
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Name)
+            Type
         </dt>
 
         <dd>
@@ -29,15 +28,7 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.Description)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.Description)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.Date)
+            Date
         </dt>
 
         <dd>
@@ -45,45 +36,39 @@
         </dd>
 
         <dt>
-            @Html.DisplayNameFor(model => model.NOTIFICATION_STATUS.Name)
+            Status
         </dt>
 
-        <dd>
-            @Html.DisplayFor(model => model.NOTIFICATION_STATUS.Name)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SUBJECT_ASSIGNMENT.IsSubstituteDescription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT.IsSubstituteDescription)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.SUBJECT_ASSIGNMENT_TEMP.IsSubstituteDescription)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.SUBJECT_ASSIGNMENT_TEMP.IsSubstituteDescription)
-        </dd>
-
-        <dt>
-            @Html.DisplayNameFor(model => model.USER.Name)
-        </dt>
-
-        <dd>
-            @Html.DisplayFor(model => model.USER.Name)
-        </dd>
+        @if (Model.NOTIFICATION_STATUS.Description == "New")
+        {
+            <dd>
+                <font color="blue"><b>@Html.DisplayFor(model => model.NOTIFICATION_STATUS.Description)</b></font>
+            </dd>
+        }
+        else if (Model.NOTIFICATION_STATUS.Description == "Accepted")
+        {
+            <dd>
+                <font color="green"><b>@Html.DisplayFor(model => model.NOTIFICATION_STATUS.Description)</b></font>
+            </dd>
+        }
+        else
+        {
+            <dd>
+                <font color="red"><b>@Html.DisplayFor(model => model.NOTIFICATION_STATUS.Description)</b></font>
+            </dd>
+        }
+        
 
     </dl>
 
-    @using (Html.BeginForm()) {
+    @using (Html.BeginForm())
+    {
         @Html.AntiForgeryToken()
 
-        <div class="form-actions no-color">
-            <input type="submit" value="Delete" class="btn btn-default" /> |
-            @Html.ActionLink("Back to List", "Index")
+        <div class="form-actions no-color" style="display:inline-block;">
+            <input type="submit" value="Delete" class="btn btn-default" />
+            <p style="width:50px;" />
+            <p><a href="@Url.Action("Index","TeacherNotification",null)" class="btn btn-default">No</a></p>
         </div>
     }
 </div>

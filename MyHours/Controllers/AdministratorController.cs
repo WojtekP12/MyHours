@@ -22,12 +22,15 @@ namespace MyHours.Controllers
         {
             var sUBJECT_ASSIGNMENT = db.SUBJECT_ASSIGNMENT.Include(s => s.STUDENT_GROUP).Include(s => s.SUBJECT).Include(s => s.TEACHER).GroupBy(s=>s.TeacherID).Select(s => s.FirstOrDefault());
 
-            var user = db.USER.Include(s => s.TEACHER);
+            var user = db.USER.Include(s => s.TEACHER).Where(x => x.UserTypeID == 1);
 
             var u = User.IsInRole("Administrator");
             var u2 = User.IsInRole("Teacher");
 
-            return View(user.Where(x=>x.UserTypeID==1).ToList());
+
+
+
+            return View(user.ToList());
         }
 
 
@@ -45,8 +48,15 @@ namespace MyHours.Controllers
             totalTime = db.TEACHER.Where(x => x.ID == teacherID).FirstOrDefault().AssignedHours;
             var subjectAssignment = sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherID).FirstOrDefault();
 
-            overTime = sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherID).Sum(x => x.Hours) - totalTime;
-            overTime = overTime < 0 ? 0 : overTime;
+            if(sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherID).Count()!=0)
+            {
+                overTime = sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherID).Sum(x => x.Hours) - totalTime;
+                overTime = overTime < 0 ? 0 : overTime;
+            }
+            else
+            {
+                overTime = 0;
+            }
 
             numberOfSubjects = sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherID).Count();
 
@@ -59,8 +69,11 @@ namespace MyHours.Controllers
             ViewBag.OverTime = overTime;
             ViewBag.NumberOfSubjects = numberOfSubjects;
             ViewBag.Teacher = db.TEACHER.Where(x => x.ID == teacherID).FirstOrDefault().TeacherStatus + " " + db.TEACHER.Where(x => x.ID == teacherID).FirstOrDefault().FirstName + " " + db.TEACHER.Where(x => x.ID == teacherID).FirstOrDefault().SecondName;
+            ViewBag.TeacherID = teacherID;
 
-            return View(sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherID).ToList());
+            var result = sUBJECT_ASSIGNMENT.Where(x => x.TeacherID == teacherID).ToList();
+
+            return View(result);
         }
 
         public ActionResult EditSubject(int? id)
@@ -85,6 +98,8 @@ namespace MyHours.Controllers
             ViewBag.UsedHours = usedHours;
             ViewBag.FreeHours = freeHours;
 
+            Session["ActualHours"] = sUBJECT_ASSIGNMENT.Hours;
+
             if (sUBJECT_ASSIGNMENT == null)
             {
                 return HttpNotFound();
@@ -103,11 +118,19 @@ namespace MyHours.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult EditSubject([Bind(Include = "ID,TeacherID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID,SubjectTypeID, StudiesTypeID, Semester, Hours")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
+        public ActionResult EditSubject([Bind(Include = "ID,TeacherID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID,SubjectTypeID, StudiesTypeID, Semester, Hours, ReplacedName")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
         {
+            var actualHours = (int)Session["ActualHours"];
+            var editedHours = sUBJECT_ASSIGNMENT.Hours;
+            var resultHours = editedHours - actualHours;
+
             if (ModelState.IsValid)
-            {
+            {      
                 db.Entry(sUBJECT_ASSIGNMENT).State = EntityState.Modified;
+                var subject = db.SUBJECT.Where(x => x.ID == sUBJECT_ASSIGNMENT.SubjectID).FirstOrDefault();
+
+                subject.UsedHours += resultHours;
+
                 db.SaveChanges();
                 return RedirectToAction("Index");
             }
@@ -207,6 +230,9 @@ namespace MyHours.Controllers
 
             if (sUBJECT_ASSIGNMENT != null)
             {
+                var subject = sUBJECT_ASSIGNMENT.SUBJECT;
+                subject.UsedHours -= sUBJECT_ASSIGNMENT.Hours;
+
                 db.SUBJECT_ASSIGNMENT.Remove(sUBJECT_ASSIGNMENT);
                 db.SaveChanges();
             }
@@ -231,12 +257,16 @@ namespace MyHours.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult CreateSubject([Bind(Include = "ID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID,SubjectTypeID, StudiesTypeID, Semester, Hours")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
+        public ActionResult CreateSubject([Bind(Include = "ID,IsSubstitute,IsSubstituteDescription,StudentGroupID,SubjectID,SubjectTypeID, StudiesTypeID, Semester, Hours, ReplacedName")] SUBJECT_ASSIGNMENT sUBJECT_ASSIGNMENT)
         {
             if (ModelState.IsValid)
             {
                 sUBJECT_ASSIGNMENT.TeacherID = (int)Session["TeacherID"];
                 db.SUBJECT_ASSIGNMENT.Add(sUBJECT_ASSIGNMENT);
+
+                var subject = db.SUBJECT.Where(x=>x.ID == sUBJECT_ASSIGNMENT.SubjectID).FirstOrDefault();
+                subject.UsedHours += sUBJECT_ASSIGNMENT.Hours;
+
                 db.SaveChanges();
 
                 return RedirectToAction("Index");

@@ -23,6 +23,7 @@ namespace MyHours.Models
         public System.DateTime Date { get; set; }
         public Nullable<int> SubjectAssignmentTempID { get; set; }
         public Nullable<int> SubjectAssignmentID { get; set; }
+        public string SubjectName { get; set; }
     
         public virtual NOTIFICATION_STATUS NOTIFICATION_STATUS { get; set; }
         public virtual SUBJECT_ASSIGNMENT SUBJECT_ASSIGNMENT { get; set; }
