@@ -31,7 +31,7 @@ namespace MyHours.Controllers
             USER_NOTIFICATION uSER_NOTIFICATION = db.USER_NOTIFICATION.Find(id);
             if (uSER_NOTIFICATION == null)
             {
-                RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             return View(uSER_NOTIFICATION);
         }
@@ -46,7 +46,7 @@ namespace MyHours.Controllers
             USER_NOTIFICATION uSER_NOTIFICATION = db.USER_NOTIFICATION.Find(id);
             if (uSER_NOTIFICATION == null)
             {
-                RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             return View(uSER_NOTIFICATION);
         }
@@ -59,7 +59,7 @@ namespace MyHours.Controllers
             USER_NOTIFICATION uSER_NOTIFICATION = db.USER_NOTIFICATION.Find(id);
             if(uSER_NOTIFICATION == null)
             {
-                RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             if(uSER_NOTIFICATION.Name == "added")
@@ -84,7 +84,7 @@ namespace MyHours.Controllers
             USER_NOTIFICATION uSER_NOTIFICATION = db.USER_NOTIFICATION.Find(id);
             if (uSER_NOTIFICATION == null)
             {
-                RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
             return View(uSER_NOTIFICATION);
         }
@@ -98,7 +98,7 @@ namespace MyHours.Controllers
 
             if (uSER_NOTIFICATION == null)
             {
-                RedirectToAction("Index");
+                return RedirectToAction("Index");
             }
 
             if (uSER_NOTIFICATION.Name.Contains("added"))
@@ -109,7 +109,6 @@ namespace MyHours.Controllers
                     Hours = subject.Hours,
                     IsSubstitute = subject.IsSubstitute,
                     IsSubstituteDescription = subject.IsSubstituteDescription,
-                    ProxyID = subject.ProxyID,
                     Semester = subject.Semester,
                     StudentGroupID = subject.StudentGroupID,
                     StudiesTypeID = subject.StudiesTypeID,
@@ -145,7 +144,6 @@ namespace MyHours.Controllers
                 subject.Hours = subject_temp.Hours;
                 subject.IsSubstitute = subject_temp.IsSubstitute;
                 subject.IsSubstituteDescription = subject_temp.IsSubstituteDescription;
-                subject.ProxyID = subject_temp.ProxyID;
                 subject.Semester = subject_temp.Semester;
                 subject.StudentGroupID = subject_temp.StudentGroupID;
                 subject.StudiesTypeID = subject_temp.StudiesTypeID;

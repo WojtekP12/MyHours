@@ -30,7 +30,6 @@ namespace MyHours.Models
         public int SubjectID { get; set; }
         public int SubjectTypeID { get; set; }
         public int StudiesTypeID { get; set; }
-        public Nullable<int> ProxyID { get; set; }
         public string ReplacedName { get; set; }
     
         public virtual STUDENT_GROUP STUDENT_GROUP { get; set; }

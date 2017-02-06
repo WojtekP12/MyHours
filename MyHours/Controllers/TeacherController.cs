@@ -108,7 +108,6 @@ namespace MyHours.Controllers
                 subjectAssignmentTemp.Hours = sUBJECT_ASSIGNMENT.Hours;
                 subjectAssignmentTemp.IsSubstitute = sUBJECT_ASSIGNMENT.IsSubstitute;
                 subjectAssignmentTemp.IsSubstituteDescription = sUBJECT_ASSIGNMENT.IsSubstituteDescription;
-                subjectAssignmentTemp.ProxyID = sUBJECT_ASSIGNMENT.ProxyID;
                 subjectAssignmentTemp.Semester = sUBJECT_ASSIGNMENT.Semester;
                 subjectAssignmentTemp.StudentGroupID = sUBJECT_ASSIGNMENT.StudentGroupID;
                 subjectAssignmentTemp.StudiesTypeID = sUBJECT_ASSIGNMENT.StudiesTypeID;
@@ -210,7 +209,6 @@ namespace MyHours.Controllers
                 subjectAssignmentTemp.Hours = sUBJECT_ASSIGNMENT.Hours;
                 subjectAssignmentTemp.IsSubstitute = sUBJECT_ASSIGNMENT.IsSubstitute;
                 subjectAssignmentTemp.IsSubstituteDescription = sUBJECT_ASSIGNMENT.IsSubstituteDescription;
-                subjectAssignmentTemp.ProxyID = sUBJECT_ASSIGNMENT.ProxyID;
                 subjectAssignmentTemp.Semester = sUBJECT_ASSIGNMENT.Semester;
                 subjectAssignmentTemp.StudentGroupID = sUBJECT_ASSIGNMENT.StudentGroupID;
                 subjectAssignmentTemp.StudiesTypeID = sUBJECT_ASSIGNMENT.StudiesTypeID;

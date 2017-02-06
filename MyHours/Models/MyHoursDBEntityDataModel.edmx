@@ -155,7 +155,6 @@
           <Property Name="SubjectID" Type="int" Nullable="false" />
           <Property Name="SubjectTypeID" Type="int" Nullable="false" />
           <Property Name="StudiesTypeID" Type="int" Nullable="false" />
-          <Property Name="ProxyID" Type="int" />
           <Property Name="ReplacedName" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="SUBJECT_ASSIGNMENT_TEMP">
@@ -172,7 +171,6 @@
           <Property Name="SubjectID" Type="int" Nullable="false" />
           <Property Name="SubjectTypeID" Type="int" Nullable="false" />
           <Property Name="StudiesTypeID" Type="int" Nullable="false" />
-          <Property Name="ProxyID" Type="int" />
           <Property Name="ReplacedName" Type="varchar" MaxLength="1000" />
         </EntityType>
         <EntityType Name="SUBJECT_TYPE_DICT">
@@ -911,7 +909,6 @@
           <Property Name="SubjectID" Type="Int32" Nullable="false" />
           <Property Name="SubjectTypeID" Type="Int32" Nullable="false" />
           <Property Name="StudiesTypeID" Type="Int32" Nullable="false" />
-          <Property Name="ProxyID" Type="Int32" />
           <NavigationProperty Name="STUDENT_GROUP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDENT_GROUP" FromRole="SUBJECT_ASSIGNMENT" ToRole="STUDENT_GROUP" />
           <NavigationProperty Name="STUDIES_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_STUDIES_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT" ToRole="STUDIES_TYPE_DICT" />
           <NavigationProperty Name="SUBJECT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_SUBJECT" FromRole="SUBJECT_ASSIGNMENT" ToRole="SUBJECT" />
@@ -934,7 +931,6 @@
           <Property Name="SubjectID" Type="Int32" Nullable="false" />
           <Property Name="SubjectTypeID" Type="Int32" Nullable="false" />
           <Property Name="StudiesTypeID" Type="Int32" Nullable="false" />
-          <Property Name="ProxyID" Type="Int32" />
           <NavigationProperty Name="STUDENT_GROUP" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_STUDENT_GROUP" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="STUDENT_GROUP" />
           <NavigationProperty Name="STUDIES_TYPE_DICT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_STUDIES_TYPE_DICT" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="STUDIES_TYPE_DICT" />
           <NavigationProperty Name="SUBJECT" Relationship="Self.FK_SUBJECT_ASSIGNMENT_TEMP_SUBJECT" FromRole="SUBJECT_ASSIGNMENT_TEMP" ToRole="SUBJECT" />
@@ -1651,7 +1647,6 @@
                 <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
                 <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
                 <ScalarProperty Name="StudiesTypeID" ColumnName="StudiesTypeID" />
-                <ScalarProperty Name="ProxyID" ColumnName="ProxyID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>
@@ -1669,7 +1664,6 @@
                 <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
                 <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
                 <ScalarProperty Name="StudiesTypeID" ColumnName="StudiesTypeID" />
-                <ScalarProperty Name="ProxyID" ColumnName="ProxyID" />
               </MappingFragment>
             </EntityTypeMapping>
           </EntitySetMapping>

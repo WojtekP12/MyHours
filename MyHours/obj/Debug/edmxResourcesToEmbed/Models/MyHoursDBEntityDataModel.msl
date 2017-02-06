@@ -154,7 +154,6 @@
           <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
           <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
           <ScalarProperty Name="StudiesTypeID" ColumnName="StudiesTypeID" />
-          <ScalarProperty Name="ProxyID" ColumnName="ProxyID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
@@ -172,7 +171,6 @@
           <ScalarProperty Name="SubjectID" ColumnName="SubjectID" />
           <ScalarProperty Name="SubjectTypeID" ColumnName="SubjectTypeID" />
           <ScalarProperty Name="StudiesTypeID" ColumnName="StudiesTypeID" />
-          <ScalarProperty Name="ProxyID" ColumnName="ProxyID" />
         </MappingFragment>
       </EntityTypeMapping>
     </EntitySetMapping>
